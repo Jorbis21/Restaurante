@@ -14,8 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 
-import Restaurante.view.Cliente.EmplTableModel;
+import Restaurante.view.Empleado.EmplTableModel;
 
 public class GuiEmpleado extends JDialog{
 	private static final long serialVersionUID = 1L;
@@ -43,30 +44,27 @@ public class GuiEmpleado extends JDialog{
 		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainPanel.add(x);
 		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
-
-		//BUTTONS
-		JPanel opt = new JPanel(new FlowLayout());
-		JButton ok = new JButton("OK");
+		
+		add(mainPanel);
+	    setVisible(false); 
+	    pack();
+	}
+	public void toolbart() {
+		JToolBar toolBar = new JToolBar();
+		JButton ok = new JButton("Vista Encargado");
 		ok.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_status = 1;
 				setVisible(false);
 			}
 		});
-		JButton cancel = new JButton("Cancel");
+		JButton cancel = new JButton("Vista cocina");
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				_status = 0;
 				setVisible(false);
 			}
 		});
-		opt.add(ok);
-		opt.add(cancel);
-		mainPanel.add(opt);
-		
-		add(mainPanel);
-	    setVisible(false); 
-	    pack();
 	}
 	public int open() {
         pack();

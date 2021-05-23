@@ -1,4 +1,4 @@
-package Restaurante.view.Cliente;
+package Restaurante.view.Empleado;
 
 import java.util.ArrayList;
 import java.util.List;

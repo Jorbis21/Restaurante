@@ -16,6 +16,9 @@ public class MainGui extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JButton Clientes, ComidaYBebida, Empleados, Almacen;
 	private GuiEmpleado tablaEmpl;
+	private GuiCliente tablaCli;
+	private GuiComidaYBebida tablaCYB;
+	private GuiAlmacen tablaAlm;
 	public MainGui() {
 		super("Restaurante");
 		initGUI();
@@ -52,10 +55,36 @@ public class MainGui extends JFrame{
 		
 	}
 	private void gestionClientes() {
-		
+		if(tablaCli == null) {
+			tablaCli = new GuiCliente((Frame) SwingUtilities.getWindowAncestor(this));
+		}
+		int status = tablaCli.open();
+		if(status == 1) {
+			try {
+				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
+				//_ctrl.setForceLaws(obj);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
 	}
 	private void gestionComidaYBebida() {
-		
+		if(tablaCYB == null) {
+			tablaCYB = new GuiComidaYBebida((Frame) SwingUtilities.getWindowAncestor(this));
+		}
+		int status = tablaCYB.open();
+		if(status == 1) {
+			try {
+				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
+				//_ctrl.setForceLaws(obj);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
 	}
 	private void gestionEmpleados() {
 		if(tablaEmpl == null) {
@@ -74,7 +103,20 @@ public class MainGui extends JFrame{
 		}
 	}
 	private void gestionAlmacen() {
-	
+		if(tablaAlm == null) {
+			tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this));
+		}
+		int status = tablaAlm.open();
+		if(status == 1) {
+			try {
+				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
+				//_ctrl.setForceLaws(obj);
+			}
+			catch(Exception e) {
+				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			
+		}
 	}
 
 }

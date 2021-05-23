@@ -1,9 +1,9 @@
-package Restaurante.view.Cliente;
+package Restaurante.view.Empleado;
 
-public class EmpleadosTable {
+public class EncargadoTableModel {
 	String Nombre, id, Salario,FechaPago;
 	
-	public EmpleadosTable(String n, String i, String s, String f) {
+	public EncargadoTableModel(String n, String i, String s, String f) {
 		Nombre = n;
 		id = i;
 		Salario = s;
