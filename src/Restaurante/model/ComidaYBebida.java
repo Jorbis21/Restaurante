@@ -1,5 +1,7 @@
 package Restaurante.model;
 
+import org.json.JSONObject;
+
 public class ComidaYBebida {
 	private String Nombre, Desc;
 	private int Cantidad;
@@ -33,5 +35,19 @@ public class ComidaYBebida {
 	}
 	public void setComida(boolean _c){
 		Comida = _c;
+	}
+	public JSONObject getData() {
+		JSONObject data = new JSONObject();
+		data.put("Name", Nombre);
+		data.put("Amount", Cantidad);
+		if(Comida)
+			data.put("Food", "Bebida");
+		else
+			data.put("Food", "Comida");
+		data.put("Desc", Desc);
+		return data;
+	}
+	public String toString() {
+		return getData().toString();
 	}
 }

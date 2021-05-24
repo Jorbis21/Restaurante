@@ -1,5 +1,7 @@
 package Restaurante.model;
 
+import org.json.JSONObject;
+
 public class Almacen {
 	private String Tipo;//verdura, carne, pescado
 	private String Nombre;
@@ -26,5 +28,15 @@ public class Almacen {
 	}
 	public void setTipo(String t){
 		Tipo = t;
+	}
+	public JSONObject getData() {
+		JSONObject data = new JSONObject();
+		data.put("Name", Nombre);
+		data.put("Type", Tipo);
+		data.put("Amount", Cantidad);
+		return data;
+	}
+	public String toString() {
+		return getData().toString();
 	}
 }
