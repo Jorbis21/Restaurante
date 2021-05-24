@@ -1,7 +1,6 @@
 package Restaurante.view;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,12 +9,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JToolBar;
 
+import Restaurante.view.Empleado.CocineroTableModel;
 import Restaurante.view.Empleado.EmplTableModel;
 
 public class GuiEmpleado extends JDialog{
@@ -23,6 +22,8 @@ public class GuiEmpleado extends JDialog{
 	private int _status;;
 	private JTable _table;
 	private EmplTableModel tableModel;
+	private CocineroTableModel CociTableModel;
+	private JPanel mainPanel;
 	
 	public GuiEmpleado(Frame frame) {
 		super(frame, true);
@@ -31,40 +32,105 @@ public class GuiEmpleado extends JDialog{
 	}
 	private void initGUI() {
 		_status = 0;
-		setTitle("Force Laws Selection");
-		JPanel mainPanel = new JPanel();
+		
+		setTitle("Empleado");
+		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		//HELP
-		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");
-		help.setAlignmentX(CENTER_ALIGNMENT);
-		mainPanel.add(help);
-		//TABLE
+		tablaEmpl(false);
+		
+	}
+	
+	private void tablaEmpl(boolean a) {
+		if(a) {
+			mainPanel.removeAll();
+		}
+		JToolBar toolBar = new JToolBar();
+		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(toolBar);
 		tableModel = new EmplTableModel();
 		_table = new JTable(tableModel);
 		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainPanel.add(x);
 		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
-		
 		add(mainPanel);
-	    setVisible(false); 
-	    pack();
-	}
-	public void toolbart() {
-		JToolBar toolBar = new JToolBar();
-		JButton ok = new JButton("Vista Encargado");
-		ok.addActionListener(new ActionListener() {
+		
+		JButton Ve = new JButton("Vista Encargado");
+		Ve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				_status = 1;
 				setVisible(false);
 			}
 		});
-		JButton cancel = new JButton("Vista cocina");
-		cancel.addActionListener(new ActionListener() {
+		JButton Vc = new JButton("Vista Cocina");
+		Vc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
-				_status = 0;
+				tablaCoci();
+			}
+		});
+		toolBar.add(Ve);
+		toolBar.add(Vc);
+		
+	    pack();
+	}
+	private void tablaCoci() {
+		mainPanel.removeAll();
+		JToolBar toolBar = new JToolBar();
+		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(toolBar);
+		CociTableModel = new CocineroTableModel();
+		_table = new JTable(CociTableModel);
+		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mainPanel.add(x);
+		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
+		add(mainPanel);
+		
+		JButton Ve = new JButton("Vista Encargado");
+		Ve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				_status = 1;
 				setVisible(false);
 			}
 		});
+		JButton Vc = new JButton("Vista Empleados");
+		Vc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				tablaEmpl(true);
+			}
+		});
+		toolBar.add(Ve);
+		toolBar.add(Vc);
+		
+	    pack();
+	}
+	private void tablaEncargado() {
+		mainPanel.removeAll();
+		JToolBar toolBar = new JToolBar();
+		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(toolBar);
+		CociTableModel = new CocineroTableModel();
+		_table = new JTable(CociTableModel);
+		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mainPanel.add(x);
+		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
+		add(mainPanel);
+		
+		JButton Ve = new JButton("Vista Encargado");
+		Ve.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				_status = 1;
+				setVisible(false);
+			}
+		});
+		JButton Vc = new JButton("Vista Empleados");
+		Vc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				tablaEmpl(true);
+			}
+		});
+		toolBar.add(Ve);
+		toolBar.add(Vc);
+		
+	    pack();
 	}
 	public int open() {
         pack();

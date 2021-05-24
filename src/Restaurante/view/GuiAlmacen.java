@@ -30,11 +30,11 @@ public class GuiAlmacen extends JDialog{
 	}
 	private void initGUI() {
 		_status = 0;
-		setTitle("Force Laws Selection");
+		setTitle("Almacen");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		//HELP
-		JLabel help = new JLabel("<html><p>Select a force law and provide values for the parametes in the <b>Value column</b> (default values are used for parametes with no value).</p></html>");
+		JLabel help = new JLabel("");
 		help.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(help);
 		//TABLE
