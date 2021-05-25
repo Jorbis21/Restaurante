@@ -118,20 +118,6 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	}
 
 	@Override
-	public void onRemove(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(CYB);
-	}
-
-	@Override
-	public void onModified(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(CYB);
-	}
-
-	@Override
 	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
 			List<ComidaYBebida> CYB, List<Cocinero> coci) {
 		// TODO Auto-generated method stub

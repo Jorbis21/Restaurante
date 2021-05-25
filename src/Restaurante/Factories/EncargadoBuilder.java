@@ -8,9 +8,12 @@ import Restaurante.model.Empleado;
 import Restaurante.model.Encargado;
 
 public class EncargadoBuilder extends Builder<Encargado>{
-	private Factory<Empleado> liste;
+	private Factory<Empleado> liste ;
 	public EncargadoBuilder() {
-		super("Empleado", "Datos del Empleado");
+		super("Encargado", "Datos del Encargado");
+		ArrayList<Builder<Empleado>> EmplBuilder = new ArrayList<>();
+		EmplBuilder.add(new EmpleadoBuilder());
+		liste = new BuilderBasedFactory<Empleado>(EmplBuilder);
 	}
 
 	@Override

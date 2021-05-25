@@ -34,10 +34,10 @@ public class Restaurante {
 	private int NumMesas, NumEmpleados, AforoMax;
 	private static ArrayList<Cliente> ListCliente;
 	private static ArrayList<ComidaYBebida> ListCYB;
-	private ArrayList<Empleado> ListEmpleado;
-	private ArrayList<Cocinero> ListCocinero;
-	private ArrayList<Encargado> ListEncargado;
+	private static ArrayList<Cocinero> ListCocinero;
+	private static ArrayList<Encargado> ListEncargado;
 	private static ArrayList<Almacen> ListAlmacen;
+	private ArrayList<Empleado> ListEmpleado;
 	private List<ResObserver> ResObsL;
 	private static Factory<Cliente> factoryCli;
 	private static Factory<Almacen> factoryAlm;
@@ -55,10 +55,10 @@ public class Restaurante {
 		ResObsL = new ArrayList<ResObserver>();
 		ListCliente = new ArrayList<Cliente>();
 		ListCYB = new ArrayList<ComidaYBebida>();
-		ListEmpleado = new ArrayList<Empleado>();
 		ListAlmacen = new ArrayList<Almacen>();
 		ListCocinero = new ArrayList<Cocinero>();
 		ListEncargado = new ArrayList<Encargado>();
+		ListEncargado.add(new Encargado("Admin", -21, 0, "nunca", 2001, null));
 		ArrayList<Builder<Cliente>> ClienteBuilder = new ArrayList<>();
 		ClienteBuilder.add(new ClienteBuilder());
 		factoryCli = new BuilderBasedFactory<Cliente>(ClienteBuilder);
@@ -125,6 +125,11 @@ public class Restaurante {
 		j.put("Cliente", array);
 		return j;	
 	}
+	public void tablaEnc(ArrayList<Empleado> x) {
+		for (ResObserver s : ResObsL) {
+			s.onAdd(ListAlmacen,ListCliente,x,ListEncargado,ListCYB,ListCocinero);
+		}
+	}
 	public void resetAlm() {
 		ListAlmacen = new ArrayList<Almacen>();
 		for (ResObserver s : ResObsL) {
@@ -166,6 +171,42 @@ public class Restaurante {
 			ListCYB.add(c);
 		}
 	}
+	
+	
+	
+	public void loadCoci(InputStream in) {
+		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+		JSONArray coc = jsonInput.getJSONArray("Cocinero");
+		for (int i = 0; i < coc.length(); i++) {
+			Cocinero c = factoryCoci.createInstance(coc.getJSONObject(i));
+			ListCocinero.add(c);
+		}
+	}
+	public void resetCoci() {
+		ListCocinero = new ArrayList<Cocinero>();
+		for (ResObserver s : ResObsL) {
+			s.onAdd(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
+		}
+	}
+	public void resetEnc() {
+		ListEncargado = new ArrayList<Encargado>();
+		for (ResObserver s : ResObsL) {
+			s.onAdd(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
+		}
+	}
+	public void loadEnc(InputStream in) {
+		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+		JSONArray enc = jsonInput.getJSONArray("Encargado");
+		for (int i = 0; i < enc.length(); i++) {
+			Encargado e = factoryEnc.createInstance(enc.getJSONObject(i));
+			ListEncargado.add(e);
+			ListEmpleado.add(e);
+			for(Empleado x:ListEncargado.get(i).getLista()) {
+				ListEmpleado.add(x);
+			}
+		}
+			
+	}
 	public static JSONObject chargeCYB() {
 		JSONObject j = new JSONObject();
 		JSONObject x = new JSONObject();
@@ -179,53 +220,28 @@ public class Restaurante {
 		j.put("CYB", array);
 		return j;
 	}
-	public void loadEmpl(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray emp = jsonInput.getJSONArray("Empleado");
-		for (int i = 0; i < emp.length(); i++) {
-			Empleado e = factoryEmpl.createInstance(emp.getJSONObject(i));
-			ListEmpleado.add(e);
-		}
-	}
-	public JSONObject chargeEmpl() {
+	public static JSONObject chargeCoci() {
 		JSONObject j = new JSONObject();
-		JSONArray array = new JSONArray();
-		for(Empleado b : ListEmpleado) {
-			array.put(b.getData());
-		}
-		j.put("Empleado", array);
-		return j;	
-	}
-	public void loadCoci(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray coc = jsonInput.getJSONArray("Cocinero");
-		for (int i = 0; i < coc.length(); i++) {
-			Cocinero c = factoryCoci.createInstance(coc.getJSONObject(i));
-			ListCocinero.add(c);
-		}
-	}
-	public JSONObject chargeCoci() {
-		JSONObject j = new JSONObject();
+		JSONObject x = new JSONObject();
 		JSONArray array = new JSONArray();
 		for(Cocinero b : ListCocinero) {
-			array.put(b.getData());
+			x.put("type", "Cocinero");
+			x.put("data",b.getData());
+			array.put(x);
+			x = new JSONObject();
 		}
 		j.put("Cocinero", array);
 		return j;	
 	}
-	public void loadEnc(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray enc = jsonInput.getJSONArray("Encargado");
-		for (int i = 0; i < enc.length(); i++) {
-			Encargado e = factoryEnc.createInstance(enc.getJSONObject(i));
-			ListEncargado.add(e);
-		}
-	}
-	public JSONObject chargeEnc() {
+	public static JSONObject chargeEnc() {
 		JSONObject j = new JSONObject();
+		JSONObject x = new JSONObject();
 		JSONArray array = new JSONArray();
 		for(Encargado b : ListEncargado) {
-			array.put(b.getData());
+			x.put("type", "Encargado");
+			x.put("data", b.getData());
+			array.put(x);
+			x = new JSONObject();
 		}
 		j.put("Encargado", array);
 		return j;	
@@ -273,6 +289,35 @@ public class Restaurante {
 			s.onAdd(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
 		}
 	}
+	public void setEnc(JSONArray info,int i) {
+		ArrayList<Empleado> x = new ArrayList<Empleado>();
+		for(Object obj : info) {
+			Empleado cl = factoryEmpl.createInstance((JSONObject) obj);
+			if (cl == null) {
+				throw new IllegalArgumentException();
+			}
+			x.add(cl);
+		}
+		ListEncargado.get(i).setLista(x);
+		for (ResObserver s : ResObsL) {
+			s.onAdd(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
+		}
+	}
+	public void setCoci(JSONArray info) {
+		ArrayList<Cocinero> x = new ArrayList<Cocinero>();
+		for(Object obj : info) {
+			Cocinero cl = factoryCoci.createInstance((JSONObject) obj);
+			if (cl == null) {
+				throw new IllegalArgumentException();
+			}
+			x.add(cl);
+		}
+		ListCocinero= new ArrayList<Cocinero>();
+		ListCocinero = x;
+		for (ResObserver s : ResObsL) {
+			s.onAdd(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
+		}
+	}
 	public void setAlm(JSONArray info) {
 		ArrayList<Almacen> x = new ArrayList<Almacen>();
 		for(Object obj : info) {
@@ -309,6 +354,9 @@ public class Restaurante {
 	public ArrayList<Almacen> getListAlmacen(){
 		return ListAlmacen;
 	}
+	public ArrayList<Encargado> getListEncargado(){
+		return ListEncargado;
+	}
 	public void setNumMesas(int m) {
 		NumMesas = m;
 	}
@@ -336,6 +384,16 @@ public class Restaurante {
 		}
 		ResObsL.add(o);
 		o.onRegister(ListAlmacen,ListCliente,ListEmpleado,ListEncargado,ListCYB,ListCocinero);
+	}
+	public static void closeEnc(FileOutputStream a) {
+		OutputStream os =a;
+		PrintStream p = new PrintStream(os);
+		p.println(chargeEnc());
+	}
+	public static void closeCoci(FileOutputStream a) {
+		OutputStream os =a;
+		PrintStream p = new PrintStream(os);
+		p.println(chargeCoci());
 	}
 }
 

@@ -9,6 +9,12 @@ public class EmpleadosTable {
 		Salario = s;
 		FechaPago = f;
 	}
+	public EmpleadosTable() {
+		Nombre = "";
+		id = "";
+		Salario = "";
+		FechaPago = "";
+	}
 	public void setNombre(String n) {
 		Nombre = n;
 	}

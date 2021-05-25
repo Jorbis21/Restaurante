@@ -7,6 +7,11 @@ public class CocineroTable extends EmpleadosTable{
 		Tipo = t;
 		Especialidad = e;
 	}
+	public CocineroTable() {
+		super();
+		Tipo = "";
+		Especialidad = "";
+	}
 	public String getTipo() {
 		return Tipo;
 	}
