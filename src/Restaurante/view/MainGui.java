@@ -84,17 +84,8 @@ public class MainGui extends JFrame{
 	}
 	private void gestionEmpleados() {
 		tablaEmpl = new GuiEmpleado((Frame) SwingUtilities.getWindowAncestor(this),res);
-		int status = tablaEmpl.open();
-		if(status == 1) {
-			try {
-				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
-				//_ctrl.setForceLaws(obj);
-			}
-			catch(Exception e) {
-				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
+		tablaEmpl.open();
+		
 	}
 	private void gestionAlmacen() {
 		tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this),res);
