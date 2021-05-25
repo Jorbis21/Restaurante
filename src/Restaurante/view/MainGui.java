@@ -1,3 +1,6 @@
+/**
+ * MainGui
+ */
 package Restaurante.view;
 
 import java.awt.Dimension;
@@ -15,6 +18,9 @@ import Restaurante.control.Restaurante;
 
 
 public class MainGui extends JFrame{
+	//-----------------------------
+	//Atributos
+	//-----------------------------
 	private static final long serialVersionUID = 1L;
 	private JButton Clientes, ComidaYBebida, Empleados, Almacen;
 	private GuiEmpleado tablaEmpl;
@@ -22,11 +28,21 @@ public class MainGui extends JFrame{
 	private GuiComidaYBebida tablaCYB;
 	private GuiAlmacen tablaAlm;
 	private Restaurante res;
+	//-----------------------------
+	//Metodos
+	//-----------------------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public MainGui(Restaurante res) {
 		super("Restaurante");
 		this.res = res;
 		initGUI();
 	}
+	/**
+	 * Inicia el JFrame de la aplicacion
+	 */
 	private void initGUI() {;
 		this.setLayout(new GridLayout(2,2));
 		this.setPreferredSize(new Dimension(500,350));
@@ -56,6 +72,9 @@ public class MainGui extends JFrame{
 		this.setVisible(true);
 		
 	}
+	/**
+	 * Inicia la GUICliente
+	 */
 	private void gestionClientes() {
 		tablaCli = new GuiCliente((Frame) SwingUtilities.getWindowAncestor(this), res);
 		int status = tablaCli.open();
@@ -69,6 +88,9 @@ public class MainGui extends JFrame{
 			
 		}
 	}
+	/**
+	 * Inicia la GUIComidaYBebida
+	 */
 	private void gestionComidaYBebida() {
 		tablaCYB = new GuiComidaYBebida((Frame) SwingUtilities.getWindowAncestor(this),res);
 		int status = tablaCYB.open();
@@ -82,11 +104,17 @@ public class MainGui extends JFrame{
 			
 		}
 	}
+	/**
+	 * Inicia la GUIEmpleados
+	 */
 	private void gestionEmpleados() {
 		tablaEmpl = new GuiEmpleado((Frame) SwingUtilities.getWindowAncestor(this),res);
 		tablaEmpl.open();
 		
 	}
+	/**
+	 * Inicia la GUIAlmacen
+	 */
 	private void gestionAlmacen() {
 		tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this),res);
 		int status = tablaAlm.open();

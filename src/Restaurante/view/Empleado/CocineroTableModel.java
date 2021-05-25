@@ -1,3 +1,6 @@
+/**
+ * Modelo de la tabla Cocinero
+ */
 package Restaurante.view.Empleado;
 
 import java.util.ArrayList;
@@ -17,36 +20,62 @@ import Restaurante.model.ResObserver;
 
 
 public class CocineroTableModel extends AbstractTableModel implements ResObserver{
+	//-----------------
+	//Atributos
+	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad"};
 	private List<CocineroTable> row;
-	
+	//-----------------
+	//Metodos
+	//-----------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public CocineroTableModel(Restaurante res){
 		row = new ArrayList<CocineroTable>();
 		res.addObserver(this);
 	}
-	
+	/**
+	 * Aniade fila
+	 */
 	public void addCoci() {
 		row.add(new CocineroTable());
 		fireTableStructureChanged();
 	}
+	/**
+	 * Quita fila
+	 */
 	public void RemoveCoci() {
 		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
+	/**
+	 * Devuelve Num filas
+	 */
 	@Override
 	public int getRowCount() {
 		return row.size();
 	}
+	/**
+	 * Devuelve Num Columnas
+	 */
 	@Override
 	public int getColumnCount() {
 		return col.length;
 	}
+	/**
+	 * Devuelve nombre columna 
+	 */
 	@Override
 	public String getColumnName(int column) {
 		return col[column];
 	}
+	/**
+	 * Pone un valor en la tabla
+	 */
 	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		CocineroTable ct = row.get(rowIndex);
 		switch(columnIndex) {
@@ -70,11 +99,23 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 			break;
 		}
     }
-	
+	/**
+	 * Indica si la tabla es editable
+	 * @param b
+	 */
+	public void setEdit(boolean b) {
+		edit = b;
+	}
+	/**
+	 * La tabla es editable
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
 		return edit;
 	}
+	/**
+	 * Devuelve el valor de una posicion indicada
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
 		CocineroTable ct = row.get(rowIndex);
@@ -100,9 +141,16 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 		}
 		return s;
 	}
+	/**
+	 * Limpia la tabla
+	 */
 	public void clear() {
 		row.clear();
 	}
+	/**
+	 * Actualiza los datos atraves de los observadores
+	 * @param emp
+	 */
 	private void act(List<Cocinero> coc) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -135,8 +183,5 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 		act(coci);
 	}
 
-	public void setEdit(boolean b) {
-		edit = b;
-		
-	}
+	
 }

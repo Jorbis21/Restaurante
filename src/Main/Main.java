@@ -1,3 +1,6 @@
+/*Clase Main, en esta clasese inicializa el restaurante
+ * y se lanza la interfaz
+ */
 package Main;
 
 
@@ -10,7 +13,7 @@ import Restaurante.view.MainGui;
 
 public class Main {
 	
-	private static Restaurante res = new Restaurante(0, 0, 0);
+	private static Restaurante res = new Restaurante();
 	
 	
 	

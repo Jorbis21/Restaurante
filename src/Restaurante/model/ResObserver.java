@@ -1,3 +1,6 @@
+/**
+ * Interfaz de los observadores
+ */
 package Restaurante.model;
 import java.util.List;
 public interface ResObserver {

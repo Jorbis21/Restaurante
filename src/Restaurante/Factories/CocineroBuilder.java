@@ -1,3 +1,6 @@
+/**
+ * Constructor de cocinero desde archivos JSON
+ */
 package Restaurante.Factories;
 
 import org.json.JSONObject;
@@ -6,10 +9,18 @@ import Restaurante.model.Cocinero;
 
 
 public class CocineroBuilder extends Builder<Cocinero>{
+	//----------------------
+	//Metodos
+	//----------------------
+	/**
+	 * Constructor
+	 */
 	public CocineroBuilder() {
 		super("Cocinero", "Datos del Cocinero");
 	}
-
+	/**
+	 * Da valor al objeto
+	 */
 	@Override
 	protected Cocinero createTheInstance(JSONObject data) {
 		String n = data.getString("Name");
@@ -20,6 +31,9 @@ public class CocineroBuilder extends Builder<Cocinero>{
 		String e = data.getString("Specialty");
 		return new Cocinero(n,i,s,f,t,e);
 	}
+	/**
+	 * Crea los datos
+	 */
 	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		data.put("Name", "Nombre del empleado");

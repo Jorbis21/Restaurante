@@ -1,3 +1,6 @@
+/**
+ * Modelo de la tabla ComidaYBebida
+ */
 package Restaurante.view.ComidaYBebida;
 
 import java.util.ArrayList;
@@ -16,36 +19,61 @@ import Restaurante.model.Encargado;
 import Restaurante.model.ResObserver;
 
 public class CYBTableModel extends AbstractTableModel implements ResObserver{
+	//-----------------
+	//Atributos
+	//-----------------
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Cantidad","Comida", "Descripcion"};
 	private List<CYBTable> row;
-	
+	//-----------------
+	//Metodos
+	//-----------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public CYBTableModel(Restaurante res){
 		row = new ArrayList<CYBTable>();
 		res.addObserver(this);
 	}
-	
-	
+	/**
+	 * Aniade fila
+	 */
 	public void addCYB() {
 		row.add(new CYBTable());
 		fireTableStructureChanged();
 	}
+	/**
+	 * Quita fila
+	 */
 	public void RemoveCYB() {
 		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
+	/**
+	 * Devuelve Num filas
+	 */
 	@Override
 	public int getRowCount() {
 		return row.size();
 	}
+	/**
+	 * Devuelve Num Columnas
+	 */
 	@Override
 	public int getColumnCount() {
 		return col.length;
 	}
+	/**
+	 * Devuelve nombre columna 
+	 */
 	@Override
 	public String getColumnName(int column) {
 		return col[column];
 	}
+	/**
+	 * Pone un valor en la tabla
+	 */
 	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		CYBTable ct = row.get(rowIndex);
 		switch(columnIndex) {
@@ -63,10 +91,16 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 			break;
 		}
     }
+	/**
+	 * La tabla es editable
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
-		return colIndex == 1 || colIndex== 0|| colIndex ==2 || colIndex ==3;
+		return true;
 	}
+	/**
+	 * Devuelve el valor de una posicion indicada
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
 		CYBTable ct = row.get(rowIndex);
@@ -87,9 +121,16 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 		}
 		return s;
 	}
+	/**
+	 * Limpia la tabla
+	 */
 	public void clear() {
 		row.clear();
 	}
+	/**
+	 * Actualiza los datos atraves de los observadores
+	 * @param cyb
+	 */
 	private void act(List<ComidaYBebida> cyb) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

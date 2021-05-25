@@ -1,3 +1,6 @@
+/**
+ * Modelo de la tabla Empleado
+ */
 package Restaurante.view.Empleado;
 
 import java.util.ArrayList;
@@ -17,36 +20,62 @@ import Restaurante.model.ResObserver;
 
 
 public class EmplTableModel extends AbstractTableModel implements ResObserver{
-
+	//-----------------
+	//Atributos
+	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago"};
 	private List<EmpleadosTable> row;
-	
+	//-----------------
+	//Metodos
+	//-----------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public EmplTableModel(Restaurante res){
 		row = new ArrayList<EmpleadosTable>();
 		res.addObserver(this);
 	}
+	/**
+	 * Aniade fila
+	 */
 	public void addEmpl() {
 		row.add(new EmpleadosTable());
 		fireTableStructureChanged();
 	}
+	/**
+	 * Quita fila
+	 */
 	public void RemoveEmpl() {
 		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
+	/**
+	 * Devuelve Num filas
+	 */
 	@Override
 	public int getRowCount() {
 		return row.size();
 	}
+	/**
+	 * Devuelve Num Columnas
+	 */
 	@Override
 	public int getColumnCount() {
 		return col.length;
 	}
+	/**
+	 * Devuelve nombre columna 
+	 */
 	@Override
 	public String getColumnName(int column) {
 		return col[column];
 	}
+	/**
+	 * Pone un valor en la tabla
+	 */
 	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		EmpleadosTable ct = row.get(rowIndex);
 		switch(columnIndex) {
@@ -65,14 +94,23 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 		}
     }
 
-	
+	/**
+	 * Indica si la tabla es editable
+	 * @param x
+	 */
 	public void setEdit(boolean x) {
 		edit = x;
 	}
+	/**
+	 * La tabla es editable
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
 		return edit;
 	}
+	/**
+	 * Devuelve el valor de una posicion indicada
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
 		EmpleadosTable et = row.get(rowIndex);
@@ -93,9 +131,16 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 		}
 		return s;
 	}
+	/**
+	 * Limpia la tabla
+	 */
 	public void clear() {
 		row.clear();
 	}
+	/**
+	 * Actualiza los datos atraves de los observadores
+	 * @param emp
+	 */
 	private void act(List<Empleado> emp) {
 		if(emp != null) {
 			SwingUtilities.invokeLater(new Runnable() {

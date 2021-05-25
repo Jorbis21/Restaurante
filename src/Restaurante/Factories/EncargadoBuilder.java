@@ -1,3 +1,6 @@
+/**
+ * Constructor de encargado desde archivos JSON
+ */
 package Restaurante.Factories;
 
 import java.util.ArrayList;
@@ -8,14 +11,25 @@ import Restaurante.model.Empleado;
 import Restaurante.model.Encargado;
 
 public class EncargadoBuilder extends Builder<Encargado>{
+	//----------------------
+	//Atributod
+	//----------------------
 	private Factory<Empleado> liste ;
+	//----------------------
+	//Metodos
+	//----------------------
+	/**
+	 * Constructor
+	 */
 	public EncargadoBuilder() {
 		super("Encargado", "Datos del Encargado");
 		ArrayList<Builder<Empleado>> EmplBuilder = new ArrayList<>();
 		EmplBuilder.add(new EmpleadoBuilder());
 		liste = new BuilderBasedFactory<Empleado>(EmplBuilder);
 	}
-
+	/**
+	 * Da valor al objeto
+	 */
 	@Override
 	protected Encargado createTheInstance(JSONObject data) {
 		String n = data.getString("Name");
@@ -29,6 +43,9 @@ public class EncargadoBuilder extends Builder<Encargado>{
 		}
 		return new Encargado(n,i,s,f,ie,x);
 	}
+	/**
+	 * Crea los datos
+	 */
 	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		data.put("Name", "Nombre del empleado");

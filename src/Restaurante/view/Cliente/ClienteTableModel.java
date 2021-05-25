@@ -1,3 +1,6 @@
+/**
+ * Modelo de la tabla Cliente
+ */
 package Restaurante.view.Cliente;
 
 import java.util.ArrayList;
@@ -17,36 +20,61 @@ import Restaurante.model.ResObserver;
 
 
 public class ClienteTableModel extends AbstractTableModel implements ResObserver{
+	//-----------------
+	//Atributos
+	//-----------------
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Cuenta","MetodoPago"};
 	private List<ClienteTable> row;
-	
+	//-----------------
+	//Metodos
+	//-----------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public ClienteTableModel(Restaurante res){
 		row = new ArrayList<ClienteTable>();
 		res.addObserver(this);
 	}
-	
-	
+	/**
+	 * Aniade fila
+	 */
 	public void addCli() {
 		row.add(new ClienteTable());
 		fireTableStructureChanged();
 	}
+	/**
+	 * Quita fila
+	 */
 	public void RemoveCli() {
 		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
+	/**
+	 * Devuelve Num filas
+	 */
 	@Override
 	public int getRowCount() {
 		return row.size();
 	}
+	/**
+	 * Devuelve Num Columnas
+	 */
 	@Override
 	public int getColumnCount() {
 		return col.length;
 	}
+	/**
+	 * Devuelve nombre columna 
+	 */
 	@Override
 	public String getColumnName(int column) {
 		return col[column];
 	}
+	/**
+	 * Pone un valor en la tabla
+	 */
 	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		ClienteTable ct = row.get(rowIndex);
 		switch(columnIndex) {
@@ -61,10 +89,16 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 			break;
 		}
     }
+	/**
+	 * La tabla es editable
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
-		return colIndex == 1 || colIndex== 0|| colIndex ==2;
+		return true;
 	}
+	/**
+	 * Devuelve el valor de una posicion indicada
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
 		ClienteTable ct = row.get(rowIndex);
@@ -82,10 +116,16 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 		}
 		return s;
 	}
+	/**
+	 * Limpia la tabla
+	 */
 	public void clear() {
 		row.clear();
 	}
-	
+	/**
+	 * Actualiza los datos atraves de los observadores
+	 * @param cli
+	 */
 	private void act(List<Cliente> cli) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {

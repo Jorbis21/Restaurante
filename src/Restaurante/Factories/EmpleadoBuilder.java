@@ -1,3 +1,6 @@
+/**
+ * Constructor de empleado desde archivos JSON
+ */
 package Restaurante.Factories;
 
 import org.json.JSONObject;
@@ -5,10 +8,18 @@ import org.json.JSONObject;
 import Restaurante.model.Empleado;
 
 public class EmpleadoBuilder extends Builder<Empleado>{
+	//----------------------
+	//Metodos
+	//----------------------
+	/**
+	 * Constructor
+	 */
 	public EmpleadoBuilder() {
 		super("Empleado", "Datos del Empleado");
 	}
-
+	/**
+	 * Da valor al objeto
+	 */
 	@Override
 	protected Empleado createTheInstance(JSONObject data) {
 		String n = data.getString("Name");
@@ -17,6 +28,9 @@ public class EmpleadoBuilder extends Builder<Empleado>{
 		String f = data.getString("Date");
 		return new Empleado(n,i,s,f);
 	}
+	/**
+	 * Crea los datos
+	 */
 	protected JSONObject createData() {
 		JSONObject data = new JSONObject();
 		data.put("Name", "Nombre del empleado");

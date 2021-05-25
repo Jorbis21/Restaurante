@@ -1,3 +1,6 @@
+/**
+ * Modelo de la tabla almacen
+ */
 package Restaurante.view.Almacen;
 
 import java.util.ArrayList;
@@ -17,43 +20,61 @@ import Restaurante.model.ResObserver;
 
 
 public class AlmTableModel extends AbstractTableModel implements ResObserver{
+	//-----------------
+	//Atributos
+	//-----------------
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Tipo","Cantidad"};
 	private List<AlmTable> row;
-	
+	//-----------------
+	//Metodos
+	//-----------------
+	/**
+	 * Constructor
+	 * @param res
+	 */
 	public AlmTableModel(Restaurante res){
 		row = new ArrayList<AlmTable>();
 		res.addObserver(this);
 	}
-	
-	public void update(String n, String t, String c) {
-		row.clear();
-		
-		AlmTable at = new AlmTable(n,t,c);
-		row.add(at);
-		
-		fireTableStructureChanged();
-	}
+	/**
+	 * Aniade fila
+	 */
 	public void addAlm() {
 		row.add(new AlmTable());
 		fireTableStructureChanged();
 	}
+	/**
+	 * Quita fila
+	 */
 	public void RemoveAlm() {
 		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
+	/**
+	 * Devuelve Num filas
+	 */
 	@Override
 	public int getRowCount() {
 		return row.size();
 	}
+	/**
+	 * Devuelve Num Columnas
+	 */
 	@Override
 	public int getColumnCount() {
 		return col.length;
 	}
 	@Override
+	/**
+	 * Devuelve nombre columna 
+	 */
 	public String getColumnName(int column) {
 		return col[column];
 	}
+	/**
+	 * Pone un valor en la tabla
+	 */
 	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		AlmTable ct = row.get(rowIndex);
 		switch(columnIndex) {
@@ -68,10 +89,16 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 			break;
 		}
     }
+	/**
+	 * La tabla es editable
+	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
-		return colIndex == 1 || colIndex== 0|| colIndex ==2;
+		return true;
 	}
+	/**
+	 * Devuelve el valor de una posicion indicada
+	 */
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
 		AlmTable at = row.get(rowIndex);
@@ -89,9 +116,16 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 		}
 		return s;
 	}
+	/**
+	 * Limpia la tabla
+	 */
 	public void clear() {
 		row.clear();
 	}
+	/**
+	 * Actualiza los datos atraves de los observadores
+	 * @param alm
+	 */
 	private void act(List<Almacen> alm) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -114,7 +148,6 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 		act(alm);
 		
 	}
-
 	@Override
 	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
 			List<ComidaYBebida> CYB, List<Cocinero> coci) {

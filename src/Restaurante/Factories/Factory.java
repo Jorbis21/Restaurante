@@ -1,3 +1,6 @@
+/**
+ * Interfaz de las factorias
+ */
 package Restaurante.Factories;
 
 import java.util.List;
