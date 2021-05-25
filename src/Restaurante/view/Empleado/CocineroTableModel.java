@@ -3,9 +3,19 @@ package Restaurante.view.Empleado;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
-public class CocineroTableModel extends AbstractTableModel{
+import Restaurante.model.Almacen;
+import Restaurante.model.Cliente;
+import Restaurante.model.Cocinero;
+import Restaurante.model.ComidaYBebida;
+import Restaurante.model.Empleado;
+import Restaurante.model.Encargado;
+import Restaurante.model.ResObserver;
+
+
+public class CocineroTableModel extends AbstractTableModel implements ResObserver{
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad"};
 	private List<CocineroTable> row;
@@ -89,5 +99,50 @@ public class CocineroTableModel extends AbstractTableModel{
 	}
 	public void clear() {
 		row.clear();
+	}
+	private void act(List<Cocinero> coc) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				row.clear();
+				for(int i = 0; i < coc.size(); i++) {
+					row.add(new CocineroTable(null, null, null, null, null, null));
+					row.get(i).setNombre(coc.get(i).getNombre());
+					row.get(i).setId(String.valueOf(coc.get(i).getid()));
+					row.get(i).setSalario(String.valueOf(coc.get(i).getSalario()));
+					row.get(i).setFechaPago(coc.get(i).getFechaPago());
+					row.get(i).setTipo(coc.get(i).getTipo());
+					row.get(i).setEspecialidad(coc.get(i).getEspecialidad());
+				}
+				fireTableStructureChanged();
+			}
+		});
+		
+	}
+	@Override
+	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(coci);
+	}
+
+	@Override
+	public void onRemove(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(coci);
+	}
+
+	@Override
+	public void onModified(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(coci);
+	}
+
+	@Override
+	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(coci);
 	}
 }

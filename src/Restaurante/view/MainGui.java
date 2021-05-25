@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
+import Restaurante.control.Restaurante;
+
 
 public class MainGui extends JFrame{
 	private static final long serialVersionUID = 1L;
@@ -19,8 +21,10 @@ public class MainGui extends JFrame{
 	private GuiCliente tablaCli;
 	private GuiComidaYBebida tablaCYB;
 	private GuiAlmacen tablaAlm;
-	public MainGui() {
+	private Restaurante res;
+	public MainGui(Restaurante res) {
 		super("Restaurante");
+		this.res = res;
 		initGUI();
 	}
 	private void initGUI() {;
@@ -30,39 +34,34 @@ public class MainGui extends JFrame{
 		Clientes.setActionCommand("Ver lista clientes");
 		Clientes.setToolTipText("Gestion lista clientes");
 		Clientes.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionClientes();}});
-		
-		ComidaYBebida = new JButton("ComidaYBebida");
+		this.add(Clientes);
+		ComidaYBebida = new JButton("Carta");
 		ComidaYBebida.setActionCommand("Ver carta");
 		ComidaYBebida.setToolTipText("Gestion carta");
 		ComidaYBebida.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionComidaYBebida();}});
-		
+		this.add(ComidaYBebida);
 		Empleados = new JButton("Empleados");
 		Empleados.setActionCommand("Ver lista empleados");
 		Empleados.setToolTipText("Gestion lista empleados");
 		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionEmpleados();}});
-		
+		this.add(Empleados);
 		Almacen = new JButton("Almacen");
 		Almacen.setActionCommand("Ver lista del almacen");
 		Almacen.setToolTipText("Gestion almacen");
 		Almacen.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionAlmacen();}});
-		JButton[] botones= { Clientes, ComidaYBebida, Empleados, Almacen};
-		for(JButton b : botones) {
-			this.add(b);
-		}
+		this.add(Almacen);
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
 	}
 	private void gestionClientes() {
-		if(tablaCli == null) {
-			tablaCli = new GuiCliente((Frame) SwingUtilities.getWindowAncestor(this));
-		}
+		tablaCli = new GuiCliente((Frame) SwingUtilities.getWindowAncestor(this), res);
 		int status = tablaCli.open();
 		if(status == 1) {
 			try {
-				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
-				//_ctrl.setForceLaws(obj);
+				res.setClientes(tablaCli.getCliente());
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -71,14 +70,11 @@ public class MainGui extends JFrame{
 		}
 	}
 	private void gestionComidaYBebida() {
-		if(tablaCYB == null) {
-			tablaCYB = new GuiComidaYBebida((Frame) SwingUtilities.getWindowAncestor(this));
-		}
+		tablaCYB = new GuiComidaYBebida((Frame) SwingUtilities.getWindowAncestor(this),res);
 		int status = tablaCYB.open();
 		if(status == 1) {
 			try {
-				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
-				//_ctrl.setForceLaws(obj);
+				res.setCYB(tablaCYB.getCYB());
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -87,9 +83,7 @@ public class MainGui extends JFrame{
 		}
 	}
 	private void gestionEmpleados() {
-		if(tablaEmpl == null) {
-			tablaEmpl = new GuiEmpleado((Frame) SwingUtilities.getWindowAncestor(this));
-		}
+		tablaEmpl = new GuiEmpleado((Frame) SwingUtilities.getWindowAncestor(this));
 		int status = tablaEmpl.open();
 		if(status == 1) {
 			try {
@@ -103,14 +97,11 @@ public class MainGui extends JFrame{
 		}
 	}
 	private void gestionAlmacen() {
-		if(tablaAlm == null) {
-			tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this));
-		}
+		tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this),res);
 		int status = tablaAlm.open();
 		if(status == 1) {
 			try {
-				//JSONObject obj = _changeForceLawsDialog.getSelectedLaws();
-				//_ctrl.setForceLaws(obj);
+				res.setAlm(tablaAlm.getAlm());
 			}
 			catch(Exception e) {
 				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);

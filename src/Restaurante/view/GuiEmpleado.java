@@ -9,6 +9,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,6 +17,7 @@ import javax.swing.JToolBar;
 
 import Restaurante.view.Empleado.CocineroTableModel;
 import Restaurante.view.Empleado.EmplTableModel;
+import Restaurante.view.Empleado.EncargadoTableModel;
 
 public class GuiEmpleado extends JDialog{
 	private static final long serialVersionUID = 1L;
@@ -23,6 +25,7 @@ public class GuiEmpleado extends JDialog{
 	private JTable _table;
 	private EmplTableModel tableModel;
 	private CocineroTableModel CociTableModel;
+	private EncargadoTableModel EncTableModel;
 	private JPanel mainPanel;
 	
 	public GuiEmpleado(Frame frame) {
@@ -57,8 +60,7 @@ public class GuiEmpleado extends JDialog{
 		JButton Ve = new JButton("Vista Encargado");
 		Ve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_status = 1;
-				setVisible(false);
+				tablaEncargado();
 			}
 		});
 		JButton Vc = new JButton("Vista Cocina");
@@ -87,8 +89,7 @@ public class GuiEmpleado extends JDialog{
 		JButton Ve = new JButton("Vista Encargado");
 		Ve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_status = 1;
-				setVisible(false);
+				tablaEncargado();
 			}
 		});
 		JButton Vc = new JButton("Vista Empleados");
@@ -107,18 +108,20 @@ public class GuiEmpleado extends JDialog{
 		JToolBar toolBar = new JToolBar();
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);
-		CociTableModel = new CocineroTableModel();
-		_table = new JTable(CociTableModel);
+		JLabel help = new JLabel("");
+		help.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(help);
+		EncTableModel = new EncargadoTableModel();
+		_table = new JTable(EncTableModel);
 		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainPanel.add(x);
 		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
 		add(mainPanel);
 		
-		JButton Ve = new JButton("Vista Encargado");
+		JButton Ve = new JButton("Vista Cocina");
 		Ve.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_status = 1;
-				setVisible(false);
+				tablaCoci();
 			}
 		});
 		JButton Vc = new JButton("Vista Empleados");

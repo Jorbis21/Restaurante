@@ -7,6 +7,11 @@ public class AlmTable {
 		Tipo = t;
 		Cantidad = c;
 	}
+	public AlmTable() {
+		Nombre = "";
+		Tipo = "";
+		Cantidad = "";
+	}
 	public String getNombre(){
 		return Nombre;
 	}

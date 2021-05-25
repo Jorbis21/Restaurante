@@ -49,4 +49,5 @@ public class Empleado {
 	public String toString() {
 		return getData().toString();
 	}
+	
 }

@@ -3,24 +3,35 @@ package Restaurante.view.ComidaYBebida;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
+import Restaurante.control.Restaurante;
+import Restaurante.model.Almacen;
+import Restaurante.model.Cliente;
+import Restaurante.model.Cocinero;
+import Restaurante.model.ComidaYBebida;
+import Restaurante.model.Empleado;
+import Restaurante.model.Encargado;
+import Restaurante.model.ResObserver;
 
-public class CYBTableModel extends AbstractTableModel{
+public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Cantidad","Comida", "Descripcion"};
 	private List<CYBTable> row;
 	
-	public CYBTableModel(){
+	public CYBTableModel(Restaurante res){
 		row = new ArrayList<CYBTable>();
+		res.addObserver(this);
 	}
 	
-	public void update(String n, String c, String _c, String d) {
-		row.clear();
-		
-		CYBTable ct = new CYBTable(n,c,_c,d);
-		row.add(ct);
-		
+	
+	public void addCYB() {
+		row.add(new CYBTable());
+		fireTableStructureChanged();
+	}
+	public void RemoveCYB() {
+		row.remove(row.size() - 1);
 		fireTableStructureChanged();
 	}
 	@Override
@@ -35,25 +46,26 @@ public class CYBTableModel extends AbstractTableModel{
 	public String getColumnName(int column) {
 		return col[column];
 	}
-	public void setNombreAt(Object o, int rowIndex, int colIndex) {
+	public void setValueAt(Object o, int rowIndex, int columnIndex) {
 		CYBTable ct = row.get(rowIndex);
-		ct.setNombre(o.toString());
-	}
-	public void setCantidadAt(Object o, int rowIndex, int colIndex) {
-		CYBTable ct = row.get(rowIndex);
-		ct.setCantidad(o.toString());
-	}
-	public void setComidaAt(Object o, int rowIndex, int colIndex) {
-		CYBTable ct = row.get(rowIndex);
-		ct.setComida(o.toString());
-	}
-	public void setDescAt(Object o, int rowIndex, int colIndex) {
-		CYBTable ct = row.get(rowIndex);
-		ct.setDesc(o.toString());
-	}
+		switch(columnIndex) {
+			case 0:
+				ct.setNombre(o.toString());
+			break;
+			case 1:
+				ct.setCantidad(o.toString());
+			break;
+			case 2:
+				ct.setComida(o.toString());
+			break;
+			case 3:
+				ct.setDesc(o.toString());
+			break;
+		}
+    }
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
-		return colIndex == 1;
+		return colIndex == 1 || colIndex== 0|| colIndex ==2 || colIndex ==3;
 	}
 	@Override
 	public Object getValueAt(int rowIndex, int colIndex) {
@@ -77,6 +89,53 @@ public class CYBTableModel extends AbstractTableModel{
 	}
 	public void clear() {
 		row.clear();
+	}
+	private void act(List<ComidaYBebida> cyb) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				row.clear();
+				for(int i = 0; i < cyb.size(); i++) {
+					row.add(new CYBTable(null, null, null, null));
+					row.get(i).setNombre(cyb.get(i).getNombre());
+					boolean x = cyb.get(i).getComida();
+					if(x)
+						row.get(i).setComida("Bebida");
+					else
+						row.get(i).setComida("Comida");
+					row.get(i).setCantidad(String.valueOf(cyb.get(i).getCantidad()));
+					row.get(i).setDesc(cyb.get(i).getDesc());
+				}
+				fireTableStructureChanged();
+			}
+		});
+		
+	}
+	@Override
+	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(CYB);
+	}
+
+	@Override
+	public void onRemove(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(CYB);
+	}
+
+	@Override
+	public void onModified(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(CYB);
+	}
+
+	@Override
+	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(CYB);
 	}
 
 }

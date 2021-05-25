@@ -9,6 +9,12 @@ public class CYBTable {
 		Comida = _c;
 		Desc = d;
 	}
+	public CYBTable() {
+		Nombre = "";
+		Cantidad = "";
+		Comida = "";
+		Desc = "";
+	}
 	public void setNombre(String n) {
 		Nombre = n;
 	}

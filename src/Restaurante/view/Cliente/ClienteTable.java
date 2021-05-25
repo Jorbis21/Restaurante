@@ -8,6 +8,11 @@ public class ClienteTable {
 		Cuenta = c;
 		MetodoPago = m;
 	}
+	public ClienteTable() {
+		Nombre = "";
+		Cuenta = "";
+		MetodoPago = "";
+	}
 	public void setNombre(String n) {
 		Nombre = n;
 	}

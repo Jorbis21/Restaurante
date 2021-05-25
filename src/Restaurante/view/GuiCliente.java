@@ -5,55 +5,129 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JToolBar;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Restaurante.control.Restaurante;
 import Restaurante.view.Cliente.ClienteTableModel;
 
 public class GuiCliente extends JDialog{
 	private static final long serialVersionUID = 1L;
+	private String[] keys = {"Name","Bill","Pay"};
 	private int _status;;
 	private JTable _table;
 	private ClienteTableModel tableModel;
 	
-	public GuiCliente(Frame frame) {
+	public GuiCliente(Frame frame, Restaurante res) {
 		super(frame, true);
-		//_forceLawsInfo = forceLawsInfo;
-		initGUI();
+		initGUI(res);
 	}
-	private void initGUI() {
+	private void initGUI(Restaurante res) {
 		_status = 0;
 		setTitle("Cliente");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		//HELP
-		JLabel help = new JLabel("");
-		help.setAlignmentX(CENTER_ALIGNMENT);
-		mainPanel.add(help);
+		JToolBar toolBar = new JToolBar();
+		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(toolBar);	
 		//TABLE
-		tableModel = new ClienteTableModel();
+		tableModel = new ClienteTableModel(res);
 		_table = new JTable(tableModel);
 		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		mainPanel.add(x);
 		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
 
 		//BUTTONS
-		JPanel opt = new JPanel(new FlowLayout());
-		JButton ok = new JButton("Vista Encargado");
-		ok.addActionListener(new ActionListener() {
+		JButton g = new JButton("Guardar");
+		g.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				_status = 1;
-				setVisible(false);
+				JFileChooser fc = new JFileChooser();
+		    	if(e.getSource() == g) {
+		    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		    			File file = fc.getSelectedFile();
+		    			FileOutputStream w = null;
+						try {
+							res.setClientes(getCliente());
+							w = new FileOutputStream(file);
+			            	Restaurante.closeCli(w);
+			    			System.out.println("loading " +file.getName());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+		    		}
+		    		else System.out.println("load cancelled by user");
+		    	}
 			}
 		});
-		JButton cancel = new JButton("Vista cocina");
+		JButton c = new JButton("Cargar");
+		c.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+		    	if(e.getSource() == c) {
+		    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+		    			File file = fc.getSelectedFile();
+		    			InputStream w = null;
+						try {
+							w = new FileInputStream(file);
+							res.resetCli();
+			            	res.loadClientes(w);
+			    			System.out.println("loading " +file.getName());
+						} catch (Exception e1) {
+							JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
+		    		}
+		    		else System.out.println("load cancelled by user");
+		    	}
+			}
+		});
+		JButton Ac = new JButton("Añadir Cliente");
+		Ac.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				tableModel.addCli();
+			}
+		});
+		JButton Ec = new JButton("Eliminar Cliente");
+		Ec.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {	
+				tableModel.RemoveCli();
+			}
+		});
+		toolBar.add(g);
+		toolBar.add(c);
+		toolBar.add(Ac);
+		toolBar.add(Ec);
+		JPanel opt = new JPanel(new FlowLayout());
+		JButton ok = new JButton("OK");
+		ok.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String[] x = {"OK","Cancel"};
+				int i = JOptionPane.showOptionDialog(getParent(), "Guarde antes de salir", "Aviso", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, x, x[1]);
+				if(i == 0 || i == -1) {
+					_status = 0;
+				}
+				else {
+					_status = 1;
+					setVisible(false);
+				}
+			}
+		});
+		JButton cancel = new JButton("Cancel");
 		cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {	
 				_status = 0;
@@ -68,36 +142,41 @@ public class GuiCliente extends JDialog{
 	    setVisible(false); 
 	    pack();
 	}
+	public JSONArray getCliente() {
+		JSONArray cl = new JSONArray();
+		String data = "{}";
+		for(int i = 0; i < tableModel.getRowCount(); i++) {
+			JSONObject x = new JSONObject();
+			for(int j = 0; j < tableModel.getColumnCount();j++) {
+				String key = keys[j];
+				String value = (String) tableModel.getValueAt(i, j);
+				if(j != 0 && !data.equals("{")) {
+					data += ",";
+				}
+				else if (j == 0){
+					data = "{";
+				}
+				if(!value.equals("")) {
+					data += key+":"+value;	
+				}
+				if(j == tableModel.getColumnCount()-1) {
+					data += "}";
+				}
+			}
+			x.put("type", "Cliente");
+			x.put("data", new JSONObject(data));
+			cl.put(x);
+			data = "{}";
+		}
+		
+		return cl;
+	}
 	public int open() {
         pack();
         tableModel.clear();
 		setVisible(true);
 		return _status;
 	}
-	/*public JSONObject getSelectedLaws() {
-		JSONObject law = new JSONObject();
-		JSONObject selLaw = _forceLawsInfo.get(_selectedLawsIndex);
-		String data = "{}";
-		for(int i = 0; i < _table.getRowCount(); i++) {
-			String key = (String) _table.getValueAt(i, 0);
-			String value = (String) _table.getValueAt(i, 1);
-			if(i != 0 && !data.equals("{")) {
-				data += ",";
-			}
-			else if (i == 0){
-				data = "{";
-			}
-			if(!value.equals("")) {
-				data += key+":"+value;	
-			}
-			if(i == _table.getRowCount()-1) {
-				data += "}";
-			}
-		}
-		law.put("type", selLaw.getString("type"));
-		law.put("data", new JSONObject(data));
-		return law;
-	}*/
 	public String toString(){
 		return tableModel.toString();
 	}

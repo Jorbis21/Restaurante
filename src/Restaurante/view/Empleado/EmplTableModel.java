@@ -3,10 +3,19 @@ package Restaurante.view.Empleado;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
+import Restaurante.model.Almacen;
+import Restaurante.model.Cliente;
+import Restaurante.model.Cocinero;
+import Restaurante.model.ComidaYBebida;
+import Restaurante.model.Empleado;
+import Restaurante.model.Encargado;
+import Restaurante.model.ResObserver;
 
-public class EmplTableModel extends AbstractTableModel {
+
+public class EmplTableModel extends AbstractTableModel implements ResObserver{
 
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago"};
@@ -78,6 +87,49 @@ public class EmplTableModel extends AbstractTableModel {
 	}
 	public void clear() {
 		row.clear();
+	}
+	private void act(List<Empleado> emp) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				row.clear();
+				for(int i = 0; i < emp.size(); i++) {
+					row.add(new EmpleadosTable(null, null, null, null));
+					row.get(i).setNombre(emp.get(i).getNombre());
+					row.get(i).setId(String.valueOf(emp.get(i).getid()));
+					row.get(i).setSalario(String.valueOf(emp.get(i).getSalario()));
+					row.get(i).setFechaPago(emp.get(i).getFechaPago());
+				}
+				fireTableStructureChanged();
+			}
+		});
+		
+	}
+	@Override
+	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		act(emp);
+		
+	}
+
+	@Override
+	public void onRemove(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(emp);
+	}
+
+	@Override
+	public void onModified(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(emp);
+	}
+
+	@Override
+	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
+			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+		// TODO Auto-generated method stub
+		act(emp);
 	}
 
 }
