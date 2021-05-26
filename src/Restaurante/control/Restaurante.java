@@ -68,7 +68,7 @@ public class Restaurante {
 		ListAlmacen = new ArrayList<Almacen>();
 		ListCocinero = new ArrayList<Cocinero>();
 		ListEncargado = new ArrayList<Encargado>();
-		ListEncargado.add(new Encargado("Admin", -21, 0, "nunca", 2001, null));
+		ListEmpleado = new ArrayList<Empleado>();
 		ArrayList<Builder<Cliente>> ClienteBuilder = new ArrayList<>();
 		ClienteBuilder.add(new ClienteBuilder());
 		factoryCli = new BuilderBasedFactory<Cliente>(ClienteBuilder);
@@ -120,11 +120,13 @@ public class Restaurante {
 	 * @param in
 	 */
 	public void loadCYB(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray cyb = jsonInput.getJSONArray("CYB");
-		for (int i = 0; i < cyb.length(); i++) {
-			ComidaYBebida c = factoryCYB.createInstance(cyb.getJSONObject(i));
-			ListCYB.add(c);
+		if(in != null) {
+			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+			JSONArray cyb = jsonInput.getJSONArray("CYB");
+			for (int i = 0; i < cyb.length(); i++) {
+				ComidaYBebida c = factoryCYB.createInstance(cyb.getJSONObject(i));
+				ListCYB.add(c);
+			}
 		}
 	}
 	/**
@@ -204,11 +206,13 @@ public class Restaurante {
 	 * @param in
 	 */
 	public void loadClientes(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray cli = jsonInput.getJSONArray("Cliente");
-		for (int i = 0; i < cli.length(); i++) {
-			Cliente c = factoryCli.createInstance(cli.getJSONObject(i));
-			ListCliente.add(c);
+		if(in != null) {
+			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+			JSONArray cli = jsonInput.getJSONArray("Cliente");
+			for (int i = 0; i < cli.length(); i++) {
+				Cliente c = factoryCli.createInstance(cli.getJSONObject(i));
+				ListCliente.add(c);
+			}
 		}
 	}
 	/**
@@ -288,11 +292,13 @@ public class Restaurante {
 	 * @param in
 	 */
 	public void loadAlmacen(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray alm = jsonInput.getJSONArray("Almacen");
-		for (int i = 0; i < alm.length(); i++) {
-			Almacen a = factoryAlm.createInstance(alm.getJSONObject(i));
-			ListAlmacen.add(a);
+		if(in != null) {
+			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+			JSONArray alm = jsonInput.getJSONArray("Almacen");
+			for (int i = 0; i < alm.length(); i++) {
+				Almacen a = factoryAlm.createInstance(alm.getJSONObject(i));
+				ListAlmacen.add(a);
+			}
 		}
 	}
 	/**
@@ -373,17 +379,18 @@ public class Restaurante {
 	 * @param in
 	 */
 	public void loadEnc(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray enc = jsonInput.getJSONArray("Encargado");
-		for (int i = 0; i < enc.length(); i++) {
-			Encargado e = factoryEnc.createInstance(enc.getJSONObject(i));
-			ListEncargado.add(e);
-			ListEmpleado.add(e);
-			for (Empleado x : ListEncargado.get(i).getLista()) {
-				ListEmpleado.add(x);
+		if(in != null) {
+			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+			JSONArray enc = jsonInput.getJSONArray("Encargado");
+			for (int i = 0; i < enc.length(); i++) {
+				Encargado e = factoryEnc.createInstance(enc.getJSONObject(i));
+				ListEncargado.add(e);
+				ListEmpleado.add(e);
+				for (Empleado x : ListEncargado.get(i).getLista()) {
+					ListEmpleado.add(x);
+				}
 			}
 		}
-
 	}
 	/**
 	 * Carga los datos de los objetos para
@@ -463,11 +470,13 @@ public class Restaurante {
 	 * @param in
 	 */
 	public void loadCoci(InputStream in) {
-		JSONObject jsonInput = new JSONObject(new JSONTokener(in));
-		JSONArray coc = jsonInput.getJSONArray("Cocinero");
-		for (int i = 0; i < coc.length(); i++) {
-			Cocinero c = factoryCoci.createInstance(coc.getJSONObject(i));
-			ListCocinero.add(c);
+		if(in != null) {
+			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
+			JSONArray coc = jsonInput.getJSONArray("Cocinero");
+			for (int i = 0; i < coc.length(); i++) {
+				Cocinero c = factoryCoci.createInstance(coc.getJSONObject(i));
+				ListCocinero.add(c);
+			}
 		}
 	}
 	/**

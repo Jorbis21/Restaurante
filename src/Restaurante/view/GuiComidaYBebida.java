@@ -198,6 +198,9 @@ public class GuiComidaYBebida extends JDialog{
 				if(!value.equals("")) {
 					data += key+":"+value;	
 				}
+				else {
+					data += key+":"+"-";	
+				}
 				if(j == tableModel.getColumnCount()-1) {
 					data += "}";
 				}
