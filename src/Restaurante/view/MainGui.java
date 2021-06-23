@@ -3,18 +3,20 @@
  */
 package Restaurante.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
+import javax.swing.JPanel;
+import javax.swing.JToolBar;
 
 import Restaurante.control.Restaurante;
+
 
 
 public class MainGui extends JFrame{
@@ -22,12 +24,13 @@ public class MainGui extends JFrame{
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private JButton Clientes, ComidaYBebida, Empleados, Almacen;
+	private JButton Clientes, ComidaYBebida, Empleados, Almacen, Exit;
 	private GuiEmpleado tablaEmpl;
 	private GuiCliente tablaCli;
 	private GuiComidaYBebida tablaCYB;
 	private GuiAlmacen tablaAlm;
 	private Restaurante res;
+	private JPanel center;
 	//-----------------------------
 	//Metodos
 	//-----------------------------
@@ -44,71 +47,98 @@ public class MainGui extends JFrame{
 	 * Inicia el JFrame de la aplicacion
 	 */
 	private void initGUI() {;
-		this.setLayout(new GridLayout(2,2));
-		this.setPreferredSize(new Dimension(500,350));
+		this.setLayout(new BorderLayout());
+		this.setPreferredSize(new Dimension(600,600));
+		
+		JPanel mainPanel = new JPanel(new BorderLayout());
+		this.add(mainPanel);
+		JToolBar toolbar = new JToolBar();
+		mainPanel.add(toolbar, BorderLayout.PAGE_START);
+		center = new JPanel();
+		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
+		mainPanel.add(center, BorderLayout.CENTER);
+		
+		tablaEmpl = new GuiEmpleado(res);
+		tablaCYB = new GuiComidaYBebida(res);
+		tablaAlm = new GuiAlmacen(res);
+		tablaCli = new GuiCliente(res);
+		
 		Clientes = new JButton("Clientes");
 		Clientes.setActionCommand("Ver lista clientes");
 		Clientes.setToolTipText("Gestion lista clientes");
 		Clientes.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionClientes();}});
-		this.add(Clientes);
+		toolbar.add(Clientes);
 		ComidaYBebida = new JButton("Carta");
 		ComidaYBebida.setActionCommand("Ver carta");
 		ComidaYBebida.setToolTipText("Gestion carta");
 		ComidaYBebida.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionComidaYBebida();}});
-		this.add(ComidaYBebida);
+		toolbar.add(ComidaYBebida);
 		Empleados = new JButton("Empleados");
 		Empleados.setActionCommand("Ver lista empleados");
 		Empleados.setToolTipText("Gestion lista empleados");
 		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionEmpleados();}});
-		this.add(Empleados);
+		toolbar.add(Empleados);
 		Almacen = new JButton("Almacen");
 		Almacen.setActionCommand("Ver lista del almacen");
 		Almacen.setToolTipText("Gestion almacen");
 		Almacen.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionAlmacen();}});
-		this.add(Almacen);
-		
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		toolbar.add(Almacen);
+		Exit = new JButton("Salir");
+		Exit.setActionCommand("Cierra el programa");
+		Exit.setToolTipText("Cierra el programa guardando todos los datos");
+		Exit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			guardar();
+			System.exit(0);
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
+		toolbar.add(Exit);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
+	}
+	private void guardar() throws FileNotFoundException {
+		res.setClientes(tablaCli.getCliente());
+		res.setCYB(tablaCYB.getCYB());
+		res.setAlm(tablaAlm.getAlm());
+		for(int j = 0; j < res.getListEncargado().size(); j++) {
+			res.setEnc(tablaEmpl.getEmpl(),j);
+		}
+		res.setCoci(tablaEmpl.getCoci());
+    	Restaurante.closeAlm();
+    	Restaurante.closeCli();
+    	Restaurante.closeCoci();
+    	Restaurante.closeCYB();
+    	Restaurante.closeEnc();
 	}
 	/**
 	 * Inicia la GUICliente
 	 */
 	private void gestionClientes() {
-		tablaCli = new GuiCliente((Frame) SwingUtilities.getWindowAncestor(this), res);
-		int status = tablaCli.open();
-		if(status == 1) {
-			try {
-				res.setClientes(tablaCli.getCliente());
-			}
-			catch(Exception e) {
-				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
+		center.removeAll();
+		tablaCli = new GuiCliente(res);
+		center.add(tablaCli);
+		tablaCli.open();
+		
 	}
 	/**
 	 * Inicia la GUIComidaYBebida
 	 */
 	private void gestionComidaYBebida() {
-		tablaCYB = new GuiComidaYBebida((Frame) SwingUtilities.getWindowAncestor(this),res);
-		int status = tablaCYB.open();
-		if(status == 1) {
-			try {
-				res.setCYB(tablaCYB.getCYB());
-			}
-			catch(Exception e) {
-				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
+		center.removeAll();
+		tablaCYB = new GuiComidaYBebida(res);
+		center.add(tablaCYB);
+		tablaCYB.open();
 	}
 	/**
 	 * Inicia la GUIEmpleados
 	 */
 	private void gestionEmpleados() {
-		tablaEmpl = new GuiEmpleado((Frame) SwingUtilities.getWindowAncestor(this),res);
+		center.removeAll();
+		tablaEmpl = new GuiEmpleado(res);
+		center.add(tablaEmpl);
 		tablaEmpl.open();
 		
 	}
@@ -116,17 +146,10 @@ public class MainGui extends JFrame{
 	 * Inicia la GUIAlmacen
 	 */
 	private void gestionAlmacen() {
-		tablaAlm = new GuiAlmacen((Frame) SwingUtilities.getWindowAncestor(this),res);
-		int status = tablaAlm.open();
-		if(status == 1) {
-			try {
-				res.setAlm(tablaAlm.getAlm());
-			}
-			catch(Exception e) {
-				JOptionPane.showMessageDialog(this.getParent(), "Somethings went wrong: "+e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-			
-		}
+		center.removeAll();
+		tablaAlm = new GuiAlmacen(res);
+		center.add(tablaAlm);
+		tablaAlm.open();
 	}
 
 }

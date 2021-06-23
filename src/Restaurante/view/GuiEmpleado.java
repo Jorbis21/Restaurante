@@ -4,20 +4,12 @@
 package Restaurante.view;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,7 +23,7 @@ import Restaurante.control.Restaurante;
 import Restaurante.view.Empleado.CocineroTableModel;
 import Restaurante.view.Empleado.EmplTableModel;
 
-public class GuiEmpleado extends JDialog{
+public class GuiEmpleado extends JPanel{
 	//-----------------------------
 	//Atributos
 	//-----------------------------
@@ -52,10 +44,8 @@ public class GuiEmpleado extends JDialog{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiEmpleado(Frame frame, Restaurante res) {
-		super(frame, true);
+	public GuiEmpleado(Restaurante res) {
 		this.res = res;
-		this.setModal(false);
 		initGUI();
 	
 	}
@@ -64,7 +54,6 @@ public class GuiEmpleado extends JDialog{
 	 */
 	private void initGUI() {
 		_status = 0;
-		setTitle("Empleado");
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		tablaEmpl(false);
@@ -75,14 +64,12 @@ public class GuiEmpleado extends JDialog{
 	 * @param a
 	 */
 	private void tablaEmpl(boolean a) {
-		if(a) {
-			mainPanel.removeAll();
-		}
 		//TOOLBAR
 		JToolBar toolBar = new JToolBar();
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);
 		//TABLE
+		CociTableModel = new CocineroTableModel(res);
 		tableModel = new EmplTableModel(res);
 		_table = new JTable(tableModel);
 		//SCROLLPANE
@@ -103,32 +90,21 @@ public class GuiEmpleado extends JDialog{
 		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardarEmpl(e,g);}});
 		g.setEnabled(false);
 		
-		JButton c = new JButton("Cargar");
-		c.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {cargarEmpl(e,c);}});
-		
 		JButton Ve = new JButton("Vista Encargado");
 		Ve.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {VEncEmpl(g,Ac,Ec);}});
 		
 		JButton Vc = new JButton("Vista Cocina");
 		Vc.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.setEdit(false);tablaCoci();}});
 		
-		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {ok();}});
-		
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {_status = 0;setVisible(false);}});
-		
-		JPanel opt = new JPanel(new FlowLayout());
+	
 		toolBar.add(g);
-		toolBar.add(c);
 		toolBar.add(Ve);
 		toolBar.add(Vc);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
-		opt.add(ok);
-		opt.add(cancel);
-		mainPanel.add(opt);
-	    pack();
+		setVisible(false);
+
+	   
 	}
 	/**
 	 * Permite alencargado modificar a los empleados
@@ -150,72 +126,28 @@ public class GuiEmpleado extends JDialog{
 		}
 	}
 	/**
-	 * Caja de aviso cuando se sale de la gui
-	 */
-	public void ok() {
-		String[] x = {"OK","Cancel"};
-		int i = JOptionPane.showOptionDialog(getParent(), "Guarde antes de salir", "Aviso", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, x, x[1]);
-		if(i == 0 || i == -1) {
-			_status = 0;
-		}
-		else {
-			_status = 1;
-			setVisible(false);
-		}
-	}
-	/**
-	 * Carga los datos desde el fichero elegido
-	 * @param e
-	 * @param c
-	 */
-	public void cargarEmpl(ActionEvent e,JButton c) {
-		JFileChooser fc = new JFileChooser();
-    	if(e.getSource() == c) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			InputStream w = null;
-				try {
-					w = new FileInputStream(file);
-					res.resetEnc();
-	            	res.loadEnc(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
-    	}
-	}
-	/**
 	 * Guarda los datos en el fichero elegido
 	 * @param e
 	 * @param g
 	 */
 	public void guardarEmpl(ActionEvent e,JButton g) {
-		JFileChooser fc = new JFileChooser();
+		
     	if(e.getSource() == g) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			FileOutputStream w = null;
-				try {
-					for(int j = 0; j < res.getListEncargado().size(); j++) {
-						res.setEnc(getEmpl(),j);
-					}
-					w = new FileOutputStream(file);
-	            	Restaurante.closeEnc(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
+			try {
+				for(int j = 0; j < res.getListEncargado().size(); j++) {
+				res.setEnc(getEmpl(),j);
+			}
+				Restaurante.closeEnc();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
     	}
 	}
 	/**
 	 * Carga la tabla de cocinero
 	 */
 	private void tablaCoci() {
-		mainPanel.removeAll();
+		//mainPanel.removeAll();
 		//TOOLBAR
 		JToolBar toolBar = new JToolBar();
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
@@ -241,48 +173,22 @@ public class GuiEmpleado extends JDialog{
 		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardarCoci(e,g);}});
 		g.setEnabled(false);
 		
-		JButton c = new JButton("Cargar");
-		c.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {cargarCoci(e,c);}});
-		
 		JButton Ve = new JButton("Vista Encargado");
 		Ve.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {VEncCoci(g,Ac,Ec);}});
 		
 		JButton Vc = new JButton("Vista Empleados");
 		Vc.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {VEmplCoci();}});
 		
-		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {ok();}});
 		
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {	_status = 0;setVisible(false);}});
-		
-		JPanel opt = new JPanel(new FlowLayout());
 		toolBar.add(g);
-		toolBar.add(c);
 		toolBar.add(Ve);
 		toolBar.add(Vc);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
-		
-		opt.add(ok);
-		opt.add(cancel);
-		mainPanel.add(opt);
-	    pack();
+		setVisible(false);
+
 	}
-	/**
-	 * Caja de aviso cuando se sale de la gui
-	 */
-	public void okC() {
-		String[] x = {"OK","Cancel"};
-		int i = JOptionPane.showOptionDialog(getParent(), "Guarde antes de salir", "Aviso", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, x, x[1]);
-		if(i == 0 || i == -1) {
-			_status = 0;
-		}
-		else {
-			_status = 1;
-			setVisible(false);
-		}
-	}
+	
 	/**
 	 * Carga tabla empleados
 	 */
@@ -309,50 +215,20 @@ public class GuiEmpleado extends JDialog{
 			}
 		}
 	}
-	/**
-	 * Carga los datos desde el fichero elegido
-	 * @param e
-	 * @param c
-	 */
-	public void cargarCoci(ActionEvent e,JButton c) {
-		JFileChooser fc = new JFileChooser();
-    	if(e.getSource() == c) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			InputStream w = null;
-				try {
-					w = new FileInputStream(file);
-					res.resetCoci();
-	            	res.loadCoci(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
-    	}
-	}
+	
 	/**
 	 * Guarda los datos en el fichero elegido
 	 * @param e
 	 * @param g
 	 */
 	public void guardarCoci(ActionEvent e,JButton g) {
-		JFileChooser fc = new JFileChooser();
-    	if(e.getSource() == g) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			FileOutputStream w = null;
-				try {
-					res.setCoci(getCoci());
-					w = new FileOutputStream(file);
-	            	Restaurante.closeCoci(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
+		if(e.getSource() == g) {
+			try {
+				res.setCoci(getCoci());
+	            Restaurante.closeCoci();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
     	}
 	}
 	/**
@@ -360,7 +236,6 @@ public class GuiEmpleado extends JDialog{
 	 * @return
 	 */
 	public int open() {
-        pack();
         tableModel.clear();
 		setVisible(true);
 		return _status;

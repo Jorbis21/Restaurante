@@ -4,6 +4,8 @@
  */
 package Restaurante.control;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -100,9 +102,10 @@ public class Restaurante {
 	/**
 	 * Guarda los datos de la lista en un archivo
 	 * @param a
+	 * @throws FileNotFoundException 
 	 */
-	public static void closeCYB(FileOutputStream a) {
-		OutputStream os = a;
+	public static void closeCYB() throws FileNotFoundException {
+		OutputStream os = new FileOutputStream(new File("resources/Carta.json"));
 		PrintStream p = new PrintStream(os);
 		p.println(chargeCYB());
 	}
@@ -186,9 +189,10 @@ public class Restaurante {
 	/**
 	 * Guarda los datos en un fichero
 	 * @param a
+	 * @throws FileNotFoundException 
 	 */
-	public static void closeCli(FileOutputStream a) {
-		OutputStream os = a;
+	public static void closeCli() throws FileNotFoundException {
+		OutputStream os = new FileOutputStream(new File("resources/Clientes.json"));
 		PrintStream p = new PrintStream(os);
 		p.println(chargeClientes());
 	}
@@ -272,9 +276,10 @@ public class Restaurante {
 	 * Guarda los datos del almacen
 	 * en el archivo
 	 * @param a
+	 * @throws FileNotFoundException 
 	 */
-	public static void closeAlm(FileOutputStream a) {
-		OutputStream os = a;
+	public static void closeAlm() throws FileNotFoundException {
+		OutputStream os = new FileOutputStream(new File("resources/Almacen.json"));
 		PrintStream p = new PrintStream(os);
 		p.println(chargeAlmacen());
 	}
@@ -434,9 +439,10 @@ public class Restaurante {
 	 * Guarda los datos de los encargados
 	 * en un archivo
 	 * @param a
+	 * @throws FileNotFoundException 
 	 */
-	public static void closeEnc(FileOutputStream a) {
-		OutputStream os = a;
+	public static void closeEnc() throws FileNotFoundException {
+		OutputStream os = new FileOutputStream(new File("resources/Encargados.json"));
 		PrintStream p = new PrintStream(os);
 		p.println(chargeEnc());
 	}
@@ -530,9 +536,10 @@ public class Restaurante {
 	/**
 	 * Guarda los datos de los cocineros
 	 * @param a
+	 * @throws FileNotFoundException 
 	 */
-	public static void closeCoci(FileOutputStream a) {
-		OutputStream os = a;
+	public static void closeCoci() throws FileNotFoundException {
+		OutputStream os = new FileOutputStream(new File("resources/Cocineros.json"));
 		PrintStream p = new PrintStream(os);
 		p.println(chargeCoci());
 	}

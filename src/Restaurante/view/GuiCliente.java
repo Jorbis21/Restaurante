@@ -4,20 +4,12 @@
 package Restaurante.view;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,7 +22,7 @@ import org.json.JSONObject;
 import Restaurante.control.Restaurante;
 import Restaurante.view.Cliente.ClienteTableModel;
 
-public class GuiCliente extends JDialog{
+public class GuiCliente extends JPanel{
 	//-----------------------------
 	//Atributos
 	//-----------------------------
@@ -48,9 +40,7 @@ public class GuiCliente extends JDialog{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiCliente(Frame frame, Restaurante res) {
-		super(frame, true);
-		this.setModal(false);
+	public GuiCliente(Restaurante res) {
 		this.res = res;
 		initGUI();
 	}
@@ -59,12 +49,12 @@ public class GuiCliente extends JDialog{
 	 */
 	private void initGUI() {
 		_status = 0;
-		setTitle("Cliente");
+
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		//TOOLBAR
 		JToolBar toolBar = new JToolBar();
-		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		toolBar.setAlignmentX(LEFT_ALIGNMENT);
 		mainPanel.add(toolBar);	
 		//TABLE
 		tableModel = new ClienteTableModel(res);
@@ -77,92 +67,33 @@ public class GuiCliente extends JDialog{
 		JButton g = new JButton("Guardar");
 		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e, g);}});
 		
-		JButton c = new JButton("Cargar");
-		c.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {cargar(e,c);}});
-		
 		JButton Ac = new JButton("Añadir Cliente");
 		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCli();}});
 		
 		JButton Ec = new JButton("Eliminar Cliente");
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.RemoveCli();}});
 		
-		JButton ok = new JButton("OK");
-		ok.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {ok();}});
-		
-		JButton cancel = new JButton("Cancel");
-		cancel.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {_status = 0;setVisible(false);}});
-		
-		JPanel opt = new JPanel(new FlowLayout());
 		toolBar.add(g);
-		toolBar.add(c);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
-		opt.add(ok);
-		opt.add(cancel);
-		mainPanel.add(opt);
 		
 		add(mainPanel);
-	    setVisible(false); 
-	    pack();
+	    setVisible(false);
 	}
-	/**
-	 * Caja de aviso cuando se sale de la gui
-	 */
-	public void ok() {
-		String[] x = {"OK","Cancel"};
-		int i = JOptionPane.showOptionDialog(getParent(), "Guarde antes de salir", "Aviso", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, x, x[1]);
-		if(i == 0 || i == -1) {
-			_status = 0;
-		}
-		else {
-			_status = 1;
-			setVisible(false);
-		}
-	}
+	
 	/**
 	 * Guarda los datos en el fichero elegido
 	 * @param e
 	 * @param g
 	 */
 	public void guardar(ActionEvent e,JButton g) {
-		JFileChooser fc = new JFileChooser();
     	if(e.getSource() == g) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			FileOutputStream w = null;
-				try {
-					res.setClientes(getCliente());
-					w = new FileOutputStream(file);
-	            	Restaurante.closeCli(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
-    	}
-	}
-	/**
-	 * Carga los datos desde el fichero elegido
-	 * @param e
-	 * @param c
-	 */
-	public void cargar(ActionEvent e,JButton c) {
-		JFileChooser fc = new JFileChooser();
-    	if(e.getSource() == c) {
-    		if(fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-    			File file = fc.getSelectedFile();
-    			InputStream w = null;
-				try {
-					w = new FileInputStream(file);
-					res.resetCli();
-	            	res.loadClientes(w);
-	    			System.out.println("loading " +file.getName());
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    		else System.out.println("load cancelled by user");
+			try {
+				res.setClientes(getCliente());
+	            Restaurante.closeCli();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
     	}
 	}
 	/**
@@ -203,7 +134,6 @@ public class GuiCliente extends JDialog{
 	 * @return
 	 */
 	public int open() {
-        pack();
         tableModel.clear();
 		setVisible(true);
 		return _status;
