@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,10 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
 import Restaurante.control.Restaurante;
+import Restaurante.view.Almacen.GuiAlmacen;
+import Restaurante.view.Cliente.GuiCliente;
+import Restaurante.view.ComidaYBebida.GuiComidaYBebida;
+import Restaurante.view.Empleado.GuiEmpleado;
 
 
 
@@ -93,6 +98,7 @@ public class MainGui extends JFrame{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}}});
+		toolbar.add(Box.createGlue());
 		toolbar.add(Exit);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
@@ -103,9 +109,9 @@ public class MainGui extends JFrame{
 		res.setClientes(tablaCli.getCliente());
 		res.setCYB(tablaCYB.getCYB());
 		res.setAlm(tablaAlm.getAlm());
-		for(int j = 0; j < res.getListEncargado().size(); j++) {
+		/*for(int j = 0; j < res.getListEncargado().size(); j++) {
 			res.setEnc(tablaEmpl.getEmpl(),j);
-		}
+		}*/
 		res.setCoci(tablaEmpl.getCoci());
     	Restaurante.closeAlm();
     	Restaurante.closeCli();

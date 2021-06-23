@@ -1,0 +1,189 @@
+/**
+ * Gui de la tabla de cliente
+ */
+package Restaurante.view.Cliente;
+
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import Restaurante.control.Restaurante;
+import Restaurante.view.Cliente.control.ClienteTableModel;
+
+public class GuiCliente extends JPanel{
+	//-----------------------------
+	//Atributos
+	//-----------------------------
+	private static final long serialVersionUID = 1L;
+	private String[] keys = {"Name","Bill","Pay"};
+	private int _status;;
+	private JTable _table;
+	private ClienteTableModel tableModel;
+	Restaurante res;
+	JTextField bus;
+	@SuppressWarnings("rawtypes")
+	private TableRowSorter trsfiltro;
+	//-----------------------------
+	//Metodos
+	//-----------------------------
+	/**
+	 * Constructor
+	 * @param frame
+	 * @param res
+	 */
+	public GuiCliente(Restaurante res) {
+		this.res = res;
+		initGUI();
+	}
+	/**
+	 * Inicia el JDialog de cliente
+	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private void initGUI() {
+		_status = 0;
+
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		//TOOLBAR
+		JToolBar toolBar = new JToolBar();
+		toolBar.setAlignmentX(CENTER_ALIGNMENT);
+		mainPanel.add(toolBar);	
+		//TABLE
+		tableModel = new ClienteTableModel(res);
+		_table = new JTable(tableModel);
+		_table.setRowSelectionAllowed(true);
+		//SCROLLPANE
+		JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		mainPanel.add(x);
+		mainPanel.add(Box.createRigidArea(new Dimension(0,20)));
+		//JTEXTFIELD
+				bus = new JTextField("Buscar");
+				bus.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseClicked(MouseEvent e) {bus.setText("");}
+					@Override
+					public void mousePressed(MouseEvent e) {}
+					@Override
+					public void mouseReleased(MouseEvent e) {}
+					@Override
+					public void mouseEntered(MouseEvent e) {}
+					@Override
+					public void mouseExited(MouseEvent e) {bus.setText("Buscar");}	
+				});
+				
+				bus.addKeyListener(new KeyAdapter() {
+					public void keyReleased(final KeyEvent e) {
+						String cadena = (bus.getText());
+						bus.setText(cadena);
+						repaint();
+						filtro();
+					}});
+				trsfiltro = new TableRowSorter(_table.getModel());
+				_table.setRowSorter(trsfiltro);
+		//BUTTONS
+		JButton g = new JButton("Guardar");
+		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e, g);}});
+		
+		JButton Ac = new JButton("Añadir Cliente");
+		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCli();}});
+		
+		JButton Ec = new JButton("Eliminar Cliente");
+		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+			int x[] = _table.getSelectedRows();
+			for(int i = 0; i < x.length; i++) {
+				tableModel.RemoveCli(x[i]);
+			}
+			
+		}});
+		
+		toolBar.add(g);
+		toolBar.add(Ac);
+		toolBar.add(Ec);
+		toolBar.add(bus);
+		add(mainPanel);
+	    setVisible(false);
+	}
+	@SuppressWarnings("unchecked")
+	public void filtro() {
+		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
+	}
+	/**
+	 * Guarda los datos en el fichero elegido
+	 * @param e
+	 * @param g
+	 */
+	public void guardar(ActionEvent e,JButton g) {
+    	if(e.getSource() == g) {
+			try {
+				res.setClientes(getCliente());
+	            Restaurante.closeCli();
+			} catch (Exception e1) {
+				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+    	}
+	}
+	/**
+	 * Coge los datos de la tabla y los pone en un JSONArray
+	 * @return
+	 */
+	public JSONArray getCliente() {
+		JSONArray cl = new JSONArray();
+		String data = "{}";
+		for(int i = 0; i < tableModel.getRowCount(); i++) {
+			JSONObject x = new JSONObject();
+			for(int j = 0; j < tableModel.getColumnCount();j++) {
+				String key = keys[j];
+				String value = (String) tableModel.getValueAt(i, j);
+				if(j != 0 && !data.equals("{")) {
+					data += ",";
+				}
+				else if (j == 0){
+					data = "{";
+				}
+				if(!value.equals("")) {
+					data += key+":"+value;	
+				}
+				if(j == tableModel.getColumnCount()-1) {
+					data += "}";
+				}
+			}
+			x.put("type", "Cliente");
+			x.put("data", new JSONObject(data));
+			cl.put(x);
+			data = "{}";
+		}
+		
+		return cl;
+	}
+	/**
+	 * Abre la tabla
+	 * @return
+	 */
+	public int open() {
+        tableModel.clear();
+		setVisible(true);
+		return _status;
+	}
+	public String toString(){
+		return tableModel.toString();
+	}
+}
