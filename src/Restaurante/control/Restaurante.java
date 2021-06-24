@@ -51,6 +51,7 @@ public class Restaurante {
 	private static Factory<Cocinero> factoryCoci;
 	private static Factory<Empleado> factoryEmpl;
 	private static Factory<Encargado> factoryEnc;
+	private int Encargado;
 
 	// ---------------------------------------
 	// Metodos
@@ -415,6 +416,9 @@ public class Restaurante {
 		j.put("Encargado", array);
 		return j;
 	}
+	public int getEncargado() {
+		return Encargado;
+	}
 	/**
 	 * Da valor a la lista de empleados
 	 * del encargado
@@ -449,7 +453,39 @@ public class Restaurante {
 	public boolean existeEnc(String d, int id) {
 		int i = 0; boolean found = false;
 		while(i < ListEncargado.size() && !found) {
-			if(ListEncargado.get(i).getDni().equals(d) && ListEncargado.get(i).getIdEncargado() == id)
+			if(ListEncargado.get(i).getDni().equals(d) && ListEncargado.get(i).getIdEncargado() == id) {
+				found = true;
+				Encargado = i;
+			}
+			i++;
+		}
+		return found;
+	}
+	public boolean exiteId(int id) {
+		int i = 0; boolean found = false;
+		while(i < ListEmpleado.size() && !found) {
+			if(ListEmpleado.get(i).getid() == id)
+				found = true;
+			i++;
+		}
+		i=0;
+		while(i < ListCocinero.size() && !found) {
+			if(ListCocinero.get(i).getid() == id)
+				found = true;
+			i++;
+		}
+		return found;
+	}
+	public boolean exiteDni(String Dni) {
+		int i = 0; boolean found = false;
+		while(i < ListEmpleado.size() && !found) {
+			if(ListEmpleado.get(i).getDni().equals(Dni))
+				found = true;
+			i++;
+		}
+		i=0;
+		while(i < ListCocinero.size() && !found) {
+			if(ListCocinero.get(i).getDni().equals(Dni))
 				found = true;
 			i++;
 		}

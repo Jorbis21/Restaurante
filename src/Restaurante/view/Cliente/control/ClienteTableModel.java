@@ -85,7 +85,9 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 				ct.setCuenta(o.toString());
 			break;
 			case 2:
-				ct.setMetodoPago(o.toString());
+				if(o.toString().equals("Metalico") || o.toString().equals("Tarjeta")) {
+					ct.setMetodoPago(o.toString());
+				}
 			break;
 		}
     }

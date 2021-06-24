@@ -35,7 +35,7 @@ public class GuiEmpleado extends JPanel{
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private String[] keys = {"Name","Id","Salary","Date","IdE","ListE","Dni"};
+	private String[] keys = {"Name","Id","Salary","Date","Dni"};
 	private int status = -1;
 	private JTable _table;
 	private EmplTableModel tableModel;
@@ -124,6 +124,8 @@ public class GuiEmpleado extends JPanel{
 				g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardarEmpl(e,g);}});
 				g.setEnabled(false);
 				if(status == 0) {
+					
+					res.tablaEnc(res.getListEncargado().get(res.getEncargado()).getLista());
 					g.setEnabled(true);
 					Ac.setEnabled(true);
 					Ec.setEnabled(true);
@@ -156,9 +158,7 @@ public class GuiEmpleado extends JPanel{
 	public void guardarEmpl(ActionEvent e,JButton g) {
     	if(e.getSource() == g) {
 			try {
-				for(int j = 0; j < res.getListEncargado().size(); j++) {
-				res.setEnc(getEmpl(),j);
-			}
+				res.setEnc(getEmpl(),res.getEncargado());
 				Restaurante.closeEnc();
 			} catch (Exception e1) {
 				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);

@@ -25,8 +25,9 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
-	private String[] col = {"Nombre","Id","Salario", "FechaPago","DNI"};
+	private String[] col = {"Nombre","Id","Salario", "FechaPago","Dni"};
 	private List<EmpleadosTable> row;
+	Restaurante res;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -36,6 +37,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	 */
 	public EmplTableModel(Restaurante res){
 		row = new ArrayList<EmpleadosTable>();
+		this.res = res;
 		res.addObserver(this);
 	}
 	/**
@@ -83,7 +85,8 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setId(o.toString());
+				if(!res.exiteId(Integer.parseInt(o.toString()))) 
+					ct.setId(o.toString());
 			break;
 			case 2:
 				ct.setSalario(o.toString());
@@ -91,8 +94,9 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 			case 3:
 				ct.setFechaPago(o.toString());
 			break;
-			case 4:
-				ct.setDni(o.toString());
+			case 4:	
+				if(!res.exiteDni(o.toString())) 
+					ct.setDni(o.toString());
 			break;
 		}
     }
@@ -137,6 +141,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 		}
 		return s;
 	}
+	
 	/**
 	 * Limpia la tabla
 	 */
@@ -171,7 +176,6 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
 			List<ComidaYBebida> CYB, List<Cocinero> coci) {
 		act(emp);
-		
 	}
 
 

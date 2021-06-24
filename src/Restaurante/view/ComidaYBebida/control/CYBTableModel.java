@@ -48,7 +48,9 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	 * Quita fila
 	 */
 	public void RemoveCYB(int x) {
-		row.remove(x);
+		if(!row.isEmpty()) {
+			row.remove(x);
+		}
 		fireTableStructureChanged();
 	}
 	/**
@@ -85,7 +87,8 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 				ct.setCantidad(o.toString());
 			break;
 			case 2:
-				ct.setComida(o.toString());
+				if(o.toString().equals("Comida") || o.toString().equals("Bebida"))
+					ct.setComida(o.toString());
 			break;
 			case 3:
 				ct.setDesc(o.toString());

@@ -63,7 +63,7 @@ public class GuiCoci extends JPanel{
 	private void initGUI() {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-		this.setPreferredSize(new Dimension(600,600));
+		this.setPreferredSize(new Dimension(600,700));
 		//TOOLBAR
 		JToolBar toolBar = new JToolBar();
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);

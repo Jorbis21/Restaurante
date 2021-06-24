@@ -25,8 +25,9 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
-	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "DNI"};
+	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "Dni"};
 	private List<CocineroTable> row;
+	private Restaurante res;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -36,6 +37,7 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	 */
 	public CocineroTableModel(Restaurante res){
 		row = new ArrayList<CocineroTable>();
+		this.res = res;
 		res.addObserver(this);
 	}
 	/**
@@ -83,7 +85,8 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setId(o.toString());
+				if(!res.exiteId(Integer.parseInt(o.toString()))) 
+					ct.setId(o.toString());
 			break;
 			case 2:
 				ct.setSalario(o.toString());
@@ -98,7 +101,8 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setEspecialidad(o.toString());
 			break;
 			case 6:
-				ct.setDni(o.toString());
+				if(!res.exiteDni(o.toString())) 
+					ct.setDni(o.toString());
 			break;
 		}
     }
