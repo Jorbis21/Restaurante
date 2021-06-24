@@ -446,6 +446,24 @@ public class Restaurante {
 		PrintStream p = new PrintStream(os);
 		p.println(chargeEnc());
 	}
+	public boolean existeEnc(String d, int id) {
+		int i = 0; boolean found = false;
+		while(i < ListEncargado.size() && !found) {
+			if(ListEncargado.get(i).getDni().equals(d) && ListEncargado.get(i).getIdEncargado() == id)
+				found = true;
+			i++;
+		}
+		return found;
+	}
+	public boolean existeEmp(String d, int id) {
+		int i = 0; boolean found = false;
+		while(i < ListEmpleado.size() && !found) {
+			if(ListEmpleado.get(i).getDni().equals(d) && ListEmpleado.get(i).getid() == id)
+				found = true;
+			i++;
+		}
+		return found;
+	}
 	/**
 	 * Devuelve el valor de la lista de encargados
 	 * @return

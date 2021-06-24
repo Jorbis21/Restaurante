@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,8 +35,8 @@ public class GuiComidaYBebida extends JPanel{
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private String[] keys = {"Name","Amount","Food","Desc"};
-	private int _status;
+	private String[] keys = {"Name","Amount","Food","Desc","Price"};
+	private int status;
 	private JTable _table;
 	private CYBTableModel tableModel;
 	Restaurante res;
@@ -50,8 +51,9 @@ public class GuiComidaYBebida extends JPanel{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiComidaYBebida(Restaurante res) {
+	public GuiComidaYBebida(Restaurante res, int s) {
 		this.res = res;
+		status = s;
 		initGUI();
 	}
 	/**
@@ -59,7 +61,6 @@ public class GuiComidaYBebida extends JPanel{
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void initGUI() {
-		_status = 0;
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		//TOOLBAR
@@ -99,14 +100,17 @@ public class GuiComidaYBebida extends JPanel{
 				trsfiltro = new TableRowSorter(_table.getModel());
 				_table.setRowSorter(trsfiltro);
 		//BUTTONS
-		JButton g = new JButton("Guardar");
+		JButton g = new JButton();
+		g.setIcon(new ImageIcon("resources/g.png"));
 		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e,g);}});
+		g.setEnabled(false);
 		
-		
-		JButton Ac = new JButton("Añadir plato");
+		JButton Ac = new JButton();
+		Ac.setIcon(new ImageIcon("resources/m.png"));
 		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCYB();}});
-		
-		JButton Ec = new JButton("Eliminar plato");
+		Ac.setEnabled(false);
+		JButton Ec = new JButton();
+		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {	
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {
@@ -114,6 +118,13 @@ public class GuiComidaYBebida extends JPanel{
 			}
 			
 			}});
+		Ec.setEnabled(false);
+		if(status == 0 || status == 1) {
+			g.setEnabled(true);
+			Ac.setEnabled(true);
+			Ec.setEnabled(true);
+			tableModel.setEdit(true);
+		}
 		toolBar.add(g);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
@@ -145,10 +156,10 @@ public class GuiComidaYBebida extends JPanel{
 	 * Abre la tabla
 	 * @return
 	 */
-	public int open() {
+	public void open() {
         tableModel.clear();
 		setVisible(true);
-		return _status;
+	
 	}
 	/**
 	 * Coge los datos de la tabla y los pone en un JSONArray

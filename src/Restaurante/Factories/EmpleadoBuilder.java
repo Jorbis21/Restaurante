@@ -26,7 +26,8 @@ public class EmpleadoBuilder extends Builder<Empleado>{
 		int i = data.getInt("Id");
 		double s = data.getDouble("Salary");
 		String f = data.getString("Date");
-		return new Empleado(n,i,s,f);
+		String d = data.getString("Dni");
+		return new Empleado(n,i,s,f,d);
 	}
 	/**
 	 * Crea los datos

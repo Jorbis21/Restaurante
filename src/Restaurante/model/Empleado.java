@@ -13,6 +13,7 @@ public class Empleado {
 	private int id;
 	private double Salario;
 	private String FechaPago;
+	private String dni;
 	//-----------------------------------
 	//Metodos
 	//-----------------------------------
@@ -23,11 +24,12 @@ public class Empleado {
 	 * @param s
 	 * @param f
 	 */
-	public Empleado(String n, int _id, double s, String f) {
+	public Empleado(String n, int _id, double s, String f, String d) {
 		Nombre = n;
 		id = _id;
 		Salario =s;
 		FechaPago = f;
+		dni = d;
 	}
 	/**
 	 * Devuelve el nombre
@@ -57,6 +59,9 @@ public class Empleado {
 	public String getFechaPago(){
 		return FechaPago;
 	}
+	public String getDni(){
+		return dni;
+	}
 	/**
 	 * Da valor al nombre
 	 * @param n
@@ -85,6 +90,9 @@ public class Empleado {
 	public void setFechaPago(String f){
 		FechaPago = f;
 	}
+	public void setDni(String d){
+		dni = d;
+	}
 	/**
 	 * Crea un JSONObject con los datos de la clase
 	 * @return
@@ -95,6 +103,7 @@ public class Empleado {
 		data.put("Id", id);
 		data.put("Salary", Salario);
 		data.put("Date", FechaPago);
+		data.put("Dni", dni);
 		return data;
 	}
 	public String toString() {

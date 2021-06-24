@@ -29,8 +29,8 @@ public class Encargado extends Empleado{
 	 * @param idE
 	 * @param l
 	 */
-	public Encargado(String n, int _id, double s, String f, int idE, ArrayList<Empleado> l) {
-		super(n, _id, s, f);
+	public Encargado(String n, int _id, double s, String f, int idE, ArrayList<Empleado> l, String d) {
+		super(n, _id, s, f, d);
 		IdEncargado = idE;
 		PersonasACargo = l;
 	}

@@ -22,8 +22,8 @@ public class Cocinero extends Empleado{
 	 * @param t
 	 * @param e
 	 */
-	public Cocinero(String n, int _id, double s, String f,String t, String e) {
-		super(n, _id, s, f);
+	public Cocinero(String n, int _id, double s, String f,String t, String e, String d) {
+		super(n, _id, s, f,d);
 		Tipo = t;
 		Especialidad = e;
 	}

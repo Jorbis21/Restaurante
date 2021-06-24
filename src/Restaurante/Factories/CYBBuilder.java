@@ -30,7 +30,8 @@ public class CYBBuilder extends Builder<ComidaYBebida>{
 		else
 			_c = false;
 		String d = data.getString("Desc");
-		return new ComidaYBebida(n,c,_c,d);
+		double p = data.getDouble("Price");
+		return new ComidaYBebida(n,c,_c,d,p);
 	}
 	/**
 	 * Crea los datos

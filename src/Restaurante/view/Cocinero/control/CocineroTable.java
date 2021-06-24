@@ -1,7 +1,9 @@
 /**
  * Clase de la tabla Cocinero
  */
-package Restaurante.view.Empleado.control;
+package Restaurante.view.Cocinero.control;
+
+import Restaurante.view.Empleado.control.EmpleadosTable;
 
 public class CocineroTable extends EmpleadosTable{
 	//----------------------
@@ -20,8 +22,8 @@ public class CocineroTable extends EmpleadosTable{
 	 * @param t
 	 * @param e
 	 */
-	public CocineroTable(String n, String i, String s, String f, String t, String e) {
-		super(n, i, s, f);
+	public CocineroTable(String n, String i, String s, String f, String t, String e, String d) {
+		super(n, i, s, f,d);
 		Tipo = t;
 		Especialidad = e;
 	}

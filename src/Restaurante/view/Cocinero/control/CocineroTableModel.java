@@ -1,7 +1,7 @@
 /**
  * Modelo de la tabla Cocinero
  */
-package Restaurante.view.Empleado.control;
+package Restaurante.view.Cocinero.control;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
-	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad"};
+	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "DNI"};
 	private List<CocineroTable> row;
 	//-----------------
 	//Metodos
@@ -48,8 +48,8 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	/**
 	 * Quita fila
 	 */
-	public void RemoveCoci() {
-		row.remove(row.size() - 1);
+	public void RemoveCoci(int x) {
+		row.remove(x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -97,6 +97,9 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 			case 5:
 				ct.setEspecialidad(o.toString());
 			break;
+			case 6:
+				ct.setDni(o.toString());
+			break;
 		}
     }
 	/**
@@ -138,6 +141,10 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 			break;
 		case 5:
 			s = ct.getEspecialidad();
+			break;
+		case 6:
+			s = ct.getDni();
+			break;
 		}
 		return s;
 	}
@@ -156,13 +163,14 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 			public void run() {
 				row.clear();
 				for(int i = 0; i < coc.size(); i++) {
-					row.add(new CocineroTable(null, null, null, null, null, null));
+					row.add(new CocineroTable(null, null, null, null, null, null,null));
 					row.get(i).setNombre(coc.get(i).getNombre());
 					row.get(i).setId(String.valueOf(coc.get(i).getid()));
 					row.get(i).setSalario(String.valueOf(coc.get(i).getSalario()));
 					row.get(i).setFechaPago(coc.get(i).getFechaPago());
 					row.get(i).setTipo(coc.get(i).getTipo());
 					row.get(i).setEspecialidad(coc.get(i).getEspecialidad());
+					row.get(i).setDni(coc.get(i).getDni());
 				}
 				fireTableStructureChanged();
 			}

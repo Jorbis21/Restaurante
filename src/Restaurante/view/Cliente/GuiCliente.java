@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -100,13 +101,16 @@ public class GuiCliente extends JPanel{
 				trsfiltro = new TableRowSorter(_table.getModel());
 				_table.setRowSorter(trsfiltro);
 		//BUTTONS
-		JButton g = new JButton("Guardar");
+		JButton g = new JButton();
+		g.setIcon(new ImageIcon("resources/g.png"));
 		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e, g);}});
 		
-		JButton Ac = new JButton("Añadir Cliente");
+		JButton Ac = new JButton();
+		Ac.setIcon(new ImageIcon("resources/m.png"));
 		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCli();}});
 		
-		JButton Ec = new JButton("Eliminar Cliente");
+		JButton Ec = new JButton();
+		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {

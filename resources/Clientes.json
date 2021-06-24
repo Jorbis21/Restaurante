@@ -1,1 +1,1 @@
-{"Cliente":[{"data":{"Bill":100,"Pay":"Tarjeta","Name":"Jorge Gonzalez"},"type":"Cliente"},{"data":{"Bill":50,"Pay":"Tarjeta","Name":"Alejandro Berrendero"},"type":"Cliente"}]}
+{"Cliente":[{"data":{"Bill":100,"Pay":"Tarjeta","Name":"Jorge Gonzalez"},"type":"Cliente"},{"data":{"Bill":50,"Pay":"Tarjeta","Name":"Alejandro Berrendero"},"type":"Cliente"},{"data":{"Bill":20,"Pay":"Metalico","Name":"Javier Orbis Ramírez"},"type":"Cliente"}]}

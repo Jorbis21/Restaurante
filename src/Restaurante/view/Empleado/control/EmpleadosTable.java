@@ -7,7 +7,7 @@ public class EmpleadosTable {
 	//-----------------------------------
 	//Atributos
 	//-----------------------------------
-	String Nombre, id, Salario,FechaPago;
+	String Nombre, id, Salario,FechaPago,dni;
 	//-----------------------------------
 	//Metodos
 	//-----------------------------------
@@ -18,11 +18,12 @@ public class EmpleadosTable {
 	 * @param s
 	 * @param f
 	 */
-	public EmpleadosTable(String n, String i, String s, String f) {
+	public EmpleadosTable(String n, String i, String s, String f,String d) {
 		Nombre = n;
 		id = i;
 		Salario = s;
 		FechaPago = f;
+		dni = d;
 	}
 	/**
 	 * Constructor vacio
@@ -32,6 +33,7 @@ public class EmpleadosTable {
 		id = "";
 		Salario = "";
 		FechaPago = "";
+		dni = "";
 	}
 	/**
 	 * Da valor al nombre
@@ -39,6 +41,9 @@ public class EmpleadosTable {
 	 */
 	public void setNombre(String n) {
 		Nombre = n;
+	}
+	public void setDni(String d) {
+		dni = d;
 	}
 	/**
 	 * Da valor al id
@@ -67,6 +72,9 @@ public class EmpleadosTable {
 	 */
 	public String getNombre() {
 		return Nombre;
+	}
+	public String getDni() {
+		return dni;
 	}
 	/**
 	 * Devuelve el id

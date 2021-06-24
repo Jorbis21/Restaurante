@@ -25,7 +25,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
 	private static final long serialVersionUID = 1L;
 	private boolean edit = false;
-	private String[] col = {"Nombre","Id","Salario", "FechaPago"};
+	private String[] col = {"Nombre","Id","Salario", "FechaPago","DNI"};
 	private List<EmpleadosTable> row;
 	//-----------------
 	//Metodos
@@ -48,8 +48,8 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	/**
 	 * Quita fila
 	 */
-	public void RemoveEmpl() {
-		row.remove(row.size() - 1);
+	public void RemoveEmpl(int x) {
+		row.remove(x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -91,6 +91,9 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 			case 3:
 				ct.setFechaPago(o.toString());
 			break;
+			case 4:
+				ct.setDni(o.toString());
+			break;
 		}
     }
 
@@ -128,6 +131,9 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 		case 3:
 			s = et.getFechaPago();
 			break;
+		case 4:
+			s = et.getDni();
+			break;
 		}
 		return s;
 	}
@@ -147,11 +153,12 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				public void run() {
 					row.clear();
 					for(int i = 0; i < emp.size(); i++) {
-						row.add(new EmpleadosTable(null, null, null, null));
+						row.add(new EmpleadosTable(null, null, null, null, null));
 						row.get(i).setNombre(emp.get(i).getNombre());
 						row.get(i).setId(String.valueOf(emp.get(i).getid()));
 						row.get(i).setSalario(String.valueOf(emp.get(i).getSalario()));
 						row.get(i).setFechaPago(emp.get(i).getFechaPago());
+						row.get(i).setDni(emp.get(i).getDni());
 					}
 					fireTableStructureChanged();
 				}

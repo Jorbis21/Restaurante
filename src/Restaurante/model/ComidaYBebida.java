@@ -11,6 +11,7 @@ public class ComidaYBebida {
 	//-------------------------------
 	private String Nombre, Desc;
 	private int Cantidad;
+	private double Precio;
 	private boolean Comida;//true para bebida
 	//-------------------------------
 	//Metodos
@@ -22,11 +23,12 @@ public class ComidaYBebida {
 	 * @param _c
 	 * @param d
 	 */
-	public ComidaYBebida(String n, int c, boolean _c, String d) {
+	public ComidaYBebida(String n, int c, boolean _c, String d,double p) {
 		Nombre = n;
 		Cantidad = c;
 		Comida = _c;
 		Desc = d;
+		Precio = p;
 	}
 	/**
 	 * Devuelve el nombre
@@ -56,6 +58,9 @@ public class ComidaYBebida {
 	public String getDesc() {
 		return Desc;
 	}
+	public double getPrecio(){
+		return Precio;
+	}
 	/**
 	 * Da valor a la descripcion
 	 * @param d
@@ -84,6 +89,9 @@ public class ComidaYBebida {
 	public void setComida(boolean _c){
 		Comida = _c;
 	}
+	public void setPrecio(double p){
+		Precio = p;
+	}
 	/**
 	 * Crea un JSONObject con los datos de la clase
 	 * @return
@@ -97,6 +105,7 @@ public class ComidaYBebida {
 		else
 			data.put("Food", "Comida");
 		data.put("Desc", Desc);
+		data.put("Price", Precio);
 		return data;
 	}
 	public String toString() {

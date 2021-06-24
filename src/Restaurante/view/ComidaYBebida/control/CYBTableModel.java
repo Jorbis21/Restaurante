@@ -23,8 +23,9 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	//Atributos
 	//-----------------
 	private static final long serialVersionUID = 1L;
-	private String[] col = {"Nombre","Cantidad","Comida", "Descripcion"};
+	private String[] col = {"Nombre","Cantidad","Comida", "Descripcion","Precio"};
 	private List<CYBTable> row;
+	private boolean edit;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -89,6 +90,9 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 			case 3:
 				ct.setDesc(o.toString());
 			break;
+			case 4:
+				ct.setPrecio(o.toString());
+			break;
 		}
     }
 	/**
@@ -96,7 +100,7 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	 */
 	@Override
 	public boolean isCellEditable(int rowIndex, int colIndex) {
-		return true;
+		return edit;
 	}
 	/**
 	 * Devuelve el valor de una posicion indicada
@@ -118,6 +122,9 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 		case 3: 
 			s = ct.getDesc();
 			break;
+		case 4: 
+			s = ct.getPrecio();
+			break;
 		}
 		return s;
 	}
@@ -136,7 +143,7 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 			public void run() {
 				row.clear();
 				for(int i = 0; i < cyb.size(); i++) {
-					row.add(new CYBTable(null, null, null, null));
+					row.add(new CYBTable(null, null, null, null, null));
 					row.get(i).setNombre(cyb.get(i).getNombre());
 					boolean x = cyb.get(i).getComida();
 					if(x)
@@ -145,6 +152,7 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 						row.get(i).setComida("Comida");
 					row.get(i).setCantidad(String.valueOf(cyb.get(i).getCantidad()));
 					row.get(i).setDesc(cyb.get(i).getDesc());
+					row.get(i).setPrecio(String.valueOf(cyb.get(i).getPrecio()));
 				}
 				fireTableStructureChanged();
 			}
@@ -163,6 +171,10 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 			List<ComidaYBebida> CYB, List<Cocinero> coci) {
 		// TODO Auto-generated method stub
 		act(CYB);
+	}
+	public void setEdit(boolean b) {
+		// TODO Auto-generated method stub
+		edit = b;
 	}
 
 }

@@ -5,20 +5,24 @@ package Restaurante.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+import javax.swing.SwingUtilities;
 
 import Restaurante.control.Restaurante;
 import Restaurante.view.Almacen.GuiAlmacen;
 import Restaurante.view.Cliente.GuiCliente;
+import Restaurante.view.Cocinero.GuiCoci;
 import Restaurante.view.ComidaYBebida.GuiComidaYBebida;
 import Restaurante.view.Empleado.GuiEmpleado;
 
@@ -29,13 +33,15 @@ public class MainGui extends JFrame{
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private JButton Clientes, ComidaYBebida, Empleados, Almacen, Exit;
+	private JButton Clientes, ComidaYBebida, Empleados, Almacen,Coci, Exit, IniSesion, CerrarSesion;
+	private GuiCoci tablaCoci;
 	private GuiEmpleado tablaEmpl;
 	private GuiCliente tablaCli;
 	private GuiComidaYBebida tablaCYB;
 	private GuiAlmacen tablaAlm;
 	private Restaurante res;
 	private JPanel center;
+	private int status = -1;
 	//-----------------------------
 	//Metodos
 	//-----------------------------
@@ -63,15 +69,17 @@ public class MainGui extends JFrame{
 		center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 		mainPanel.add(center, BorderLayout.CENTER);
 		
-		tablaEmpl = new GuiEmpleado(res);
-		tablaCYB = new GuiComidaYBebida(res);
+		tablaEmpl = new GuiEmpleado(res,status);
+		tablaCYB = new GuiComidaYBebida(res,status);
 		tablaAlm = new GuiAlmacen(res);
 		tablaCli = new GuiCliente(res);
+		tablaCoci = new GuiCoci(res,status);
 		
 		Clientes = new JButton("Clientes");
 		Clientes.setActionCommand("Ver lista clientes");
 		Clientes.setToolTipText("Gestion lista clientes");
 		Clientes.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionClientes();}});
+		Clientes.setVisible(false);
 		toolbar.add(Clientes);
 		ComidaYBebida = new JButton("Carta");
 		ComidaYBebida.setActionCommand("Ver carta");
@@ -82,28 +90,80 @@ public class MainGui extends JFrame{
 		Empleados.setActionCommand("Ver lista empleados");
 		Empleados.setToolTipText("Gestion lista empleados");
 		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionEmpleados();}});
+		Empleados.setVisible(false);
 		toolbar.add(Empleados);
+		Coci = new JButton("Cocineros");
+		Coci.setActionCommand("Ver lista cocineres");
+		Coci.setToolTipText("Gestion lista cocineros");
+		Coci.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionCoci();}});
+		Coci.setVisible(false);
+		toolbar.add(Coci);
 		Almacen = new JButton("Almacen");
 		Almacen.setActionCommand("Ver lista del almacen");
 		Almacen.setToolTipText("Gestion almacen");
 		Almacen.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionAlmacen();}});
+		Almacen.setVisible(false);
 		toolbar.add(Almacen);
-		Exit = new JButton("Salir");
+		toolbar.add(Box.createGlue());
+		IniSesion = new JButton();
+		IniSesion.setIcon(new ImageIcon("resources/i.png"));
+		IniSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+			IniSes();
+		}});
+		toolbar.add(IniSesion);
+		CerrarSesion = new JButton();
+		CerrarSesion.setIcon(new ImageIcon("resources/o.png"));
+		CerrarSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+			CerrarSes();
+		}});
+		toolbar.add(CerrarSesion);
+		Exit = new JButton();
+		Exit.setIcon(new ImageIcon("resources/e.png"));
 		Exit.setActionCommand("Cierra el programa");
 		Exit.setToolTipText("Cierra el programa guardando todos los datos");
-		Exit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+		Exit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+		try {
 			guardar();
 			System.exit(0);
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}}});
-		toolbar.add(Box.createGlue());
+		
 		toolbar.add(Exit);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
+	}
+	private void CerrarSes() {
+		status = -1;
+		gestionComidaYBebida();
+		Clientes.setVisible(false);
+		Empleados.setVisible(false);
+		Almacen.setVisible(false);
+		Coci.setVisible(false);
+	}
+	private void gestionCoci() {
+		center.removeAll();
+		ComidaYBebida.setEnabled(true);
+		Empleados.setEnabled(true);
+		Almacen.setEnabled(true);
+		Clientes.setEnabled(true);
+		Coci.setEnabled(false);
+		tablaCoci = new GuiCoci(res, status);
+		center.add(tablaCoci);
+		tablaCoci.open();
+	}
+	private void IniSes() {
+		IniGui Ini = new IniGui((Frame) SwingUtilities.getWindowAncestor(this),res);
+		status = Ini.open();
+		if(status == 0 || status == 1) {
+			Clientes.setVisible(true);
+			Empleados.setVisible(true);
+			Almacen.setVisible(true);
+			Coci.setVisible(true);
+		}
 	}
 	private void guardar() throws FileNotFoundException {
 		res.setClientes(tablaCli.getCliente());
@@ -112,7 +172,7 @@ public class MainGui extends JFrame{
 		/*for(int j = 0; j < res.getListEncargado().size(); j++) {
 			res.setEnc(tablaEmpl.getEmpl(),j);
 		}*/
-		res.setCoci(tablaEmpl.getCoci());
+		res.setCoci(tablaCoci.getCoci());
     	Restaurante.closeAlm();
     	Restaurante.closeCli();
     	Restaurante.closeCoci();
@@ -124,6 +184,11 @@ public class MainGui extends JFrame{
 	 */
 	private void gestionClientes() {
 		center.removeAll();
+		ComidaYBebida.setEnabled(true);
+		Empleados.setEnabled(true);
+		Almacen.setEnabled(true);
+		Coci.setEnabled(true);
+		Clientes.setEnabled(false);
 		tablaCli = new GuiCliente(res);
 		center.add(tablaCli);
 		tablaCli.open();
@@ -134,7 +199,14 @@ public class MainGui extends JFrame{
 	 */
 	private void gestionComidaYBebida() {
 		center.removeAll();
-		tablaCYB = new GuiComidaYBebida(res);
+		
+		Empleados.setEnabled(true);
+		Almacen.setEnabled(true);
+		Clientes.setEnabled(true);
+		Coci.setEnabled(true);
+		ComidaYBebida.setEnabled(false);
+		
+		tablaCYB = new GuiComidaYBebida(res,status);
 		center.add(tablaCYB);
 		tablaCYB.open();
 	}
@@ -143,7 +215,12 @@ public class MainGui extends JFrame{
 	 */
 	private void gestionEmpleados() {
 		center.removeAll();
-		tablaEmpl = new GuiEmpleado(res);
+		ComidaYBebida.setEnabled(true);
+		Empleados.setEnabled(false);
+		Almacen.setEnabled(true);
+		Clientes.setEnabled(true);
+		Coci.setEnabled(true);
+		tablaEmpl = new GuiEmpleado(res,status);
 		center.add(tablaEmpl);
 		tablaEmpl.open();
 		
@@ -153,6 +230,11 @@ public class MainGui extends JFrame{
 	 */
 	private void gestionAlmacen() {
 		center.removeAll();
+		ComidaYBebida.setEnabled(true);
+		Empleados.setEnabled(true);
+		Almacen.setEnabled(false);
+		Clientes.setEnabled(true);
+		Coci.setEnabled(true);
 		tablaAlm = new GuiAlmacen(res);
 		center.add(tablaAlm);
 		tablaAlm.open();

@@ -29,7 +29,8 @@ public class CocineroBuilder extends Builder<Cocinero>{
 		String f = data.getString("Date");
 		String t = data.getString("Type");
 		String e = data.getString("Specialty");
-		return new Cocinero(n,i,s,f,t,e);
+		String d = data.getString("Dni");
+		return new Cocinero(n,i,s,f,t,e,d);
 	}
 	/**
 	 * Crea los datos

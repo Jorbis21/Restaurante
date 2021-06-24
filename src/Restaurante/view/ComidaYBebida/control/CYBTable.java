@@ -7,7 +7,7 @@ public class CYBTable {
 	//-------------------------------
 	//Atributos
 	//-------------------------------
-	String Nombre, Cantidad, Comida, Desc;
+	String Nombre, Cantidad, Comida, Desc, Precio;
 	//-------------------------------
 	//Metodos
 	//-------------------------------
@@ -18,11 +18,12 @@ public class CYBTable {
 	 * @param _c
 	 * @param d
 	 */
-	public CYBTable(String n, String c, String _c, String d) {
+	public CYBTable(String n, String c, String _c, String d, String p) {
 		Nombre = n;
 		Cantidad = c;
 		Comida = _c;
 		Desc = d;
+		Precio = p;
 	}
 	/**
 	 * Constructor vacio
@@ -32,6 +33,7 @@ public class CYBTable {
 		Cantidad = "";
 		Comida = "";
 		Desc = "";
+		Precio = "";
 	}
 	/**
 	 * Da valor al nombre
@@ -39,6 +41,9 @@ public class CYBTable {
 	 */
 	public void setNombre(String n) {
 		Nombre = n;
+	}
+	public void setPrecio(String p) {
+		Precio = p;
 	}
 	/**
 	 * Da valor a la cantidad
@@ -88,5 +93,8 @@ public class CYBTable {
 	 */
 	public String getDesc() {
 		return Desc;
+	}
+	public String getPrecio() {
+		return Precio;
 	}
 }

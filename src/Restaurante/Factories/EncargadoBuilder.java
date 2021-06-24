@@ -41,7 +41,8 @@ public class EncargadoBuilder extends Builder<Encargado>{
 		for(Object e: data.getJSONArray("ListE")) {
 			x.add(liste.createInstance((JSONObject) e));
 		}
-		return new Encargado(n,i,s,f,ie,x);
+		String d = data.getString("Dni");
+		return new Encargado(n,i,s,f,ie,x,d);
 	}
 	/**
 	 * Crea los datos
