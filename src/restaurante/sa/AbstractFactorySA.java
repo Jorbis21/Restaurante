@@ -1,7 +1,6 @@
 package restaurante.sa;
 
-import restaurante.factories.FactorySA;
-import restaurante.sa.almacen.ISAAlmacen;
+import restaurante.sa.almacen.SAAlmacen;
 
 public abstract class AbstractFactorySA {
 	private static AbstractFactorySA instance;
@@ -11,6 +10,6 @@ public abstract class AbstractFactorySA {
 		}
 		return instance;
 	}
-	public abstract ISAAlmacen createSAAlm();
+	public abstract SAAlmacen createSAAlm();
 
 }

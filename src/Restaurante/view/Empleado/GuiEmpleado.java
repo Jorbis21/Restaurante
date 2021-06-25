@@ -27,7 +27,6 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import restaurante.view.empleado.control.EmplTableModel;
 import restaurante.control.Restaurante;
 
 public class GuiEmpleado extends JPanel{

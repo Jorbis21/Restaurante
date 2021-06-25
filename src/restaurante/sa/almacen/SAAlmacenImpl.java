@@ -6,7 +6,7 @@ import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.almacen.DAOAlmacen;
 import restaurante.model.Almacen;
 
-public class SAAlmacenImpl implements ISAAlmacen {
+public class SAAlmacenImpl implements SAAlmacen {
 	@Override
 	public boolean eliminarAlm(Almacen a) throws FileNotFoundException {
 		DAOAlmacen x = AbstractFactoryDAO.getInstance().createDAOAlm();
@@ -31,7 +31,7 @@ public class SAAlmacenImpl implements ISAAlmacen {
 	public boolean modificarAlm(Almacen a) throws FileNotFoundException {
 		DAOAlmacen x = AbstractFactoryDAO.getInstance().createDAOAlm();
 		if(!(buscarAlm(a) == null)) {
-			x.eliminarAlm(a);
+			x.modificarAlm(a);
 			return true;
 		}
 		return false;
