@@ -106,6 +106,11 @@ public class DAOCociImpl implements DAOCoci {
 		}
 		return ListCocinero;
 	}
+
+	@Override
+	public ArrayList<Cocinero> lista() throws FileNotFoundException {
+		return iniList();
+	}
 	
 
 }

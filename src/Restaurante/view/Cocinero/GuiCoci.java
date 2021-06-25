@@ -13,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,10 +21,7 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 public class GuiCoci extends JPanel{
@@ -33,11 +29,10 @@ public class GuiCoci extends JPanel{
 		//Atributos
 		//-----------------------------
 		private static final long serialVersionUID = 1L;
-		private String[] keys1 = {"Name","Id","Salary","Date","Type","Specialty","Dni"};
 		private int status = -1;
 		private JTable _table;
 		private CocineroTableModel tableModel;
-		private Restaurante res;
+		private RestauranteCtrl res;
 		JTextField bus;
 		@SuppressWarnings("rawtypes")
 		private TableRowSorter trsfiltro;
@@ -49,7 +44,7 @@ public class GuiCoci extends JPanel{
 		 * @param frame
 		 * @param res
 		 */
-		public GuiCoci(Restaurante res, int s) {
+		public GuiCoci(RestauranteCtrl res, int s) {
 			this.res = res;
 			status = s;
 			initGUI();
@@ -117,26 +112,19 @@ public class GuiCoci extends JPanel{
 			}});
 		Ec.setEnabled(false);
 
-		JButton g = new JButton();
-		g.setIcon(new ImageIcon("resources/g.png"));
-		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardarCoci(e,g);}});
-		g.setEnabled(false);
+		
 		if(status == 0) {
-			g.setEnabled(true);
 			Ac.setEnabled(true);
 			Ec.setEnabled(true);
 			tableModel.setEdit(true);
 		}
 		else if(status == 1) {
-			g.setEnabled(false);
 			Ac.setEnabled(false);
 			Ec.setEnabled(false);
 			tableModel.setEdit(false);
 		}
 		
 		
-		
-		toolBar.add(g);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
 		toolBar.add(bus);
@@ -148,23 +136,6 @@ public class GuiCoci extends JPanel{
 	public void filtro() {
 		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
 	}
-	
-	/**
-	 * Guarda los datos en el fichero elegido
-	 * @param e
-	 * @param g
-	 */
-	public void guardarCoci(ActionEvent e,JButton g) {
-		if(e.getSource() == g) {
-			try {
-				res.setCoci(getCoci());
-	            Restaurante.closeCoci();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-    	}
-	}
-	
 	/**
 	 * Abre la tabla
 	 * @return
@@ -173,39 +144,7 @@ public class GuiCoci extends JPanel{
 		tableModel.clear();
 		setVisible(true);
 	}
-	/**
-	 * Coge los datos de la tabla y los pone en un JSONArray
-	 * @return
-	 */
-	public JSONArray getCoci() {
-		JSONArray cl = new JSONArray();
-		String data = "{}";
-		for(int i = 0; i < tableModel.getRowCount(); i++) {
-			JSONObject x = new JSONObject();
-			for(int j = 0; j < tableModel.getColumnCount();j++) {
-				String key = keys1[j];
-				String value = (String) tableModel.getValueAt(i, j);
-				if(j != 0 && !data.equals("{")) {
-					data += ",";
-				}
-				else if (j == 0){
-					data = "{";
-				}
-				if(!value.equals("")) {
-					data += key+":"+value;	
-				}
-				if(j == tableModel.getColumnCount()-1) {
-					data += "}";
-				}
-			}
-			x.put("type", "Cocinero");
-			x.put("data", new JSONObject(data));
-			cl.put(x);
-			data = "{}";
-		}
-		
-		return cl;
-	}
+	
 	public String toString(){
 		return tableModel.toString();
 	}

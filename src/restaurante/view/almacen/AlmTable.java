@@ -3,6 +3,8 @@
  */
 package restaurante.view.almacen;
 
+import restaurante.model.Almacen;
+
 public class AlmTable {
 	//--------------------------------
 	//Atributos
@@ -71,5 +73,8 @@ public class AlmTable {
 	 */
 	public void setTipo(String t){
 		Tipo = t;
+	}
+	public Almacen convert() {
+		return new Almacen(Nombre,Tipo,Integer.parseInt(Cantidad));
 	}
 }

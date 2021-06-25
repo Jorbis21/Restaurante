@@ -16,7 +16,8 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.Restaurante;
+
+import restaurante.control.RestauranteCtrl;
 
 
 public class CocineroTableModel extends AbstractTableModel implements ResObserver{
@@ -27,7 +28,6 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "Dni"};
 	private List<CocineroTable> row;
-	private Restaurante res;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -35,9 +35,8 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	 * Constructor
 	 * @param res
 	 */
-	public CocineroTableModel(Restaurante res){
+	public CocineroTableModel(RestauranteCtrl res){
 		row = new ArrayList<CocineroTable>();
-		this.res = res;
 		res.addObserver(this);
 	}
 	/**
@@ -85,8 +84,7 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				if(!res.exiteId(Integer.parseInt(o.toString()))) 
-					ct.setId(o.toString());
+				ct.setId(o.toString());
 			break;
 			case 2:
 				ct.setSalario(o.toString());
@@ -101,8 +99,7 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setEspecialidad(o.toString());
 			break;
 			case 6:
-				if(!res.exiteDni(o.toString())) 
-					ct.setDni(o.toString());
+				ct.setDni(o.toString());
 			break;
 		}
     }

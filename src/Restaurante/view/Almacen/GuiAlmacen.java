@@ -11,12 +11,12 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,20 +25,16 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 public class GuiAlmacen extends JPanel{
 	//--------------------------------
 	//Atributos
 	//--------------------------------
 	private static final long serialVersionUID = 1L;
-	private String keys[] = {"Name","Type","Amount"};
 	private JTable _table;
 	private AlmTableModel tableModel;
-	Restaurante res;
+	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -50,7 +46,7 @@ public class GuiAlmacen extends JPanel{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiAlmacen(Restaurante res) {
+	public GuiAlmacen(RestauranteCtrl res) {
 		this.res = res;
 		initGUI();
 	}
@@ -99,25 +95,30 @@ public class GuiAlmacen extends JPanel{
 		trsfiltro = new TableRowSorter(_table.getModel());
 		_table.setRowSorter(trsfiltro);
 		//BUTTONS
-		JButton g = new JButton();
-		g.setIcon(new ImageIcon("resources/g.png"));
-		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e,g);}});
 		
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
-		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addAlm();}});
+		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			tableModel.addAlm();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
 		
 		JButton Ec = new JButton();
 		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {	
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {
-				tableModel.RemoveAlm(x[i]);
+				try {
+					tableModel.RemoveAlm(x[i]);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		}});
-		
-		toolBar.add(g);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
 		toolBar.add(bus);
@@ -129,22 +130,7 @@ public class GuiAlmacen extends JPanel{
 	public void filtro() {
 		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
 	}
-	/**
-	 * Guarda los datos en el fichero elegido
-	 * @param e
-	 * @param g
-	 */
-	private void guardar(ActionEvent e,JButton g) {
-    	if(e.getSource() == g) {
-				try {
-					res.setAlm(getAlm());
-	            	Restaurante.closeAlm();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-				}
-    		}
-    	
-	}
+	
 	/**
 	 * Abre la tabla
 	 * @return
@@ -153,39 +139,7 @@ public class GuiAlmacen extends JPanel{
         tableModel.clear();
 		setVisible(true);
 	}
-	/**
-	 * Coge los datos de la tabla y los pone en un JSONArray
-	 * @return
-	 */
-	public JSONArray getAlm() {
-		JSONArray cl = new JSONArray();
-		String data = "{}";
-		for(int i = 0; i < tableModel.getRowCount(); i++) {
-			JSONObject x = new JSONObject();
-			for(int j = 0; j < tableModel.getColumnCount();j++) {
-				String key = keys[j];
-				String value = (String) tableModel.getValueAt(i, j);
-				if(j != 0 && !data.equals("{")) {
-					data += ",";
-				}
-				else if (j == 0){
-					data = "{";
-				}
-				if(!value.equals("")) {
-					data += key+":"+value;	
-				}
-				if(j == tableModel.getColumnCount()-1) {
-					data += "}";
-				}
-			}
-			x.put("type", "Almacen");
-			x.put("data", new JSONObject(data));
-			cl.put(x);
-			data = "{}";
-		}
-		
-		return cl;
-	}
+	
 	public String toString(){
 		return tableModel.toString();
 	}

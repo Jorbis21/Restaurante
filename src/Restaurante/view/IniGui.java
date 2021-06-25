@@ -7,14 +7,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 public class IniGui extends JDialog{
 	private static final long serialVersionUID = 1L;
 	int status = -1;
-	Restaurante res;
+	RestauranteCtrl res;
 
-	public IniGui(Frame frame, Restaurante res) {
+	public IniGui(Frame frame, RestauranteCtrl res) {
 		super(frame, true);
 		this.res = res;
 		initGUI();

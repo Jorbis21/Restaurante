@@ -1,6 +1,7 @@
 package restaurante.sa.cocinero;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.cocinero.DAOCoci;
@@ -43,5 +44,11 @@ public class SACocineroImpl implements SACocinero {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Cocinero> lista() throws FileNotFoundException {
+		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
+		return x.lista();
 	}
 }

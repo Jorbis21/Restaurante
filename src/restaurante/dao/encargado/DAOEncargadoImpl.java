@@ -98,7 +98,6 @@ public class DAOEncargadoImpl implements DAOEncargado {
 	 * @return 
 	 */
 	private ArrayList<Encargado> loadEnc(InputStream in,Factory<Encargado> factoryEnc) {
-		ArrayList<Empleado> ListEmpleado = new ArrayList<Empleado>();
 		ArrayList<Encargado> ListEncargado = new ArrayList<Encargado>();
 		if(in != null) {
 			JSONObject jsonInput = new JSONObject(new JSONTokener(in));
@@ -106,13 +105,14 @@ public class DAOEncargadoImpl implements DAOEncargado {
 			for (int i = 0; i < enc.length(); i++) {
 				Encargado e = factoryEnc.createInstance(enc.getJSONObject(i));
 				ListEncargado.add(e);
-				ListEmpleado.add(e);
-				for (Empleado x : ListEncargado.get(i).getLista()) {
-					ListEmpleado.add(x);
-				}
 			}
 		}
 		return ListEncargado;
+	}
+
+	@Override
+	public ArrayList<Encargado> lista() throws FileNotFoundException {
+		return iniList();
 	}
 
 }

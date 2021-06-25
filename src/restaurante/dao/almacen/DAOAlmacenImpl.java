@@ -22,7 +22,7 @@ import restaurante.model.Almacen;
 public class DAOAlmacenImpl implements DAOAlmacen {
 	
 	@Override
-	public boolean eliminarAlm(Almacen a) throws FileNotFoundException {
+	public boolean eliminarAlm(int a) throws FileNotFoundException {
 		ArrayList<Almacen> ListAlmacen = iniList();
 		ListAlmacen.remove(a);
 		guardar(ListAlmacen);
@@ -46,9 +46,12 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 	}
 
 	@Override
-	public boolean modificarAlm(Almacen a) throws FileNotFoundException {
-		eliminarAlm(a);
-		aniadirAlm(a);
+	public boolean modificarAlm(Almacen a, int x) throws FileNotFoundException {
+		ArrayList<Almacen> ListAlmacen = iniList();
+		ListAlmacen.get(x).setNombre(a.getNombre());
+		ListAlmacen.get(x).setTipo(a.getTipo());
+		ListAlmacen.get(x).setCantidad(a.getCantidad());
+		guardar(ListAlmacen);
 		return true;
 	}
 
@@ -61,6 +64,10 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 			}
 		}
 		return null;
+	}
+	@Override
+	public ArrayList<Almacen> lista() throws FileNotFoundException {
+		return iniList();
 	}
 	private ArrayList<Almacen> iniList() throws FileNotFoundException {
 		Factory<Almacen> factoryAlm;
@@ -104,5 +111,7 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		j.put("Almacen", array);
 		return j;
 	}
+
+	
 
 }

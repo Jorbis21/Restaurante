@@ -15,7 +15,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,21 +23,17 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 public class GuiCliente extends JPanel{
 	//-----------------------------
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private String[] keys = {"Name","Bill","Pay"};
 	private int _status;;
 	private JTable _table;
 	private ClienteTableModel tableModel;
-	Restaurante res;
+	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -50,7 +45,7 @@ public class GuiCliente extends JPanel{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiCliente(Restaurante res) {
+	public GuiCliente(RestauranteCtrl res) {
 		this.res = res;
 		initGUI();
 	}
@@ -100,10 +95,6 @@ public class GuiCliente extends JPanel{
 				trsfiltro = new TableRowSorter(_table.getModel());
 				_table.setRowSorter(trsfiltro);
 		//BUTTONS
-		JButton g = new JButton();
-		g.setIcon(new ImageIcon("resources/g.png"));
-		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e, g);}});
-		
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
 		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCli();}});
@@ -118,7 +109,6 @@ public class GuiCliente extends JPanel{
 			
 		}});
 		
-		toolBar.add(g);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
 		toolBar.add(bus);
@@ -129,54 +119,7 @@ public class GuiCliente extends JPanel{
 	public void filtro() {
 		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
 	}
-	/**
-	 * Guarda los datos en el fichero elegido
-	 * @param e
-	 * @param g
-	 */
-	public void guardar(ActionEvent e,JButton g) {
-    	if(e.getSource() == g) {
-			try {
-				res.setClientes(getCliente());
-	            Restaurante.closeCli();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-    	}
-	}
-	/**
-	 * Coge los datos de la tabla y los pone en un JSONArray
-	 * @return
-	 */
-	public JSONArray getCliente() {
-		JSONArray cl = new JSONArray();
-		String data = "{}";
-		for(int i = 0; i < tableModel.getRowCount(); i++) {
-			JSONObject x = new JSONObject();
-			for(int j = 0; j < tableModel.getColumnCount();j++) {
-				String key = keys[j];
-				String value = (String) tableModel.getValueAt(i, j);
-				if(j != 0 && !data.equals("{")) {
-					data += ",";
-				}
-				else if (j == 0){
-					data = "{";
-				}
-				if(!value.equals("")) {
-					data += key+":"+value;	
-				}
-				if(j == tableModel.getColumnCount()-1) {
-					data += "}";
-				}
-			}
-			x.put("type", "Cliente");
-			x.put("data", new JSONObject(data));
-			cl.put(x);
-			data = "{}";
-		}
-		
-		return cl;
-	}
+	
 	/**
 	 * Abre la tabla
 	 * @return

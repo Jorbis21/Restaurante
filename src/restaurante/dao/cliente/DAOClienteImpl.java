@@ -105,4 +105,9 @@ public class DAOClienteImpl implements DAOCliente{
 		j.put("Cliente", array);
 		return j;
 	}
+
+	@Override
+	public ArrayList<Cliente> lista() throws FileNotFoundException {
+		return iniList();
+	}
 }

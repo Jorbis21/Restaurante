@@ -1,6 +1,7 @@
 package restaurante.sa.cyb;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.cyb.DAOCyb;
@@ -44,6 +45,12 @@ public class SACybImpl implements SACyb {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<ComidaYBebida> lista() throws FileNotFoundException {
+		DAOCyb x = AbstractFactoryDAO.getInstance().createDAOCyb();
+		return x.lista();
 	}
 
 }

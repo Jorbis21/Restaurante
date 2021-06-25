@@ -1,6 +1,7 @@
 package restaurante.sa.cliente;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.cliente.DAOCliente;
@@ -44,6 +45,12 @@ public class SAClienteImpl implements SACliente{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Cliente> lista() throws FileNotFoundException {
+		DAOCliente x = AbstractFactoryDAO.getInstance().createDAOCli();
+		return x.lista();
 	}
 
 }

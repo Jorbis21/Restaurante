@@ -3,6 +3,7 @@
  */
 package restaurante.view.almacen;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 public class AlmTableModel extends AbstractTableModel implements ResObserver{
@@ -26,6 +27,7 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Tipo","Cantidad"};
 	private List<AlmTable> row;
+	private GuiAlmCtrl alm;
 	
 	//-----------------
 	//Metodos
@@ -34,22 +36,28 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 	 * Constructor
 	 * @param res
 	 */
-	public AlmTableModel(Restaurante res){
+	public AlmTableModel(RestauranteCtrl res){
+		alm = new GuiAlmCtrl(res);
 		row = new ArrayList<AlmTable>();
 		res.addObserver(this);
 	}
 	/**
 	 * Aniade fila
+	 * @throws FileNotFoundException 
 	 */
-	public void addAlm() {
+	public void addAlm() throws FileNotFoundException {
 		row.add(new AlmTable());
+		alm.aniadir(row.get(getRowCount() - 1).convert());
 		fireTableStructureChanged();
 	}
 	/**
 	 * Quita fila
+	 * @throws FileNotFoundException 
 	 */
-	public void RemoveAlm(int x) {
+	public void RemoveAlm(int x) throws FileNotFoundException {
+		Almacen a = row.get(x).convert();
 		row.remove(x);
+		alm.eliminar(a,x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -88,6 +96,11 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 			case 2:
 				ct.setCantidad(o.toString());
 			break;
+		}
+		try {
+			alm.modificar(ct.convert(), rowIndex);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
     }
 	/**

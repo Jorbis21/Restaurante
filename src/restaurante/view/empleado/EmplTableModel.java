@@ -16,7 +16,7 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 public class EmplTableModel extends AbstractTableModel implements ResObserver{
@@ -27,7 +27,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago","Dni"};
 	private List<EmpleadosTable> row;
-	Restaurante res;
+	RestauranteCtrl res;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -35,7 +35,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	 * Constructor
 	 * @param res
 	 */
-	public EmplTableModel(Restaurante res){
+	public EmplTableModel(RestauranteCtrl res){
 		row = new ArrayList<EmpleadosTable>();
 		this.res = res;
 		res.addObserver(this);
@@ -85,8 +85,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				if(!res.exiteId(Integer.parseInt(o.toString()))) 
-					ct.setId(o.toString());
+				ct.setId(o.toString());
 			break;
 			case 2:
 				ct.setSalario(o.toString());
@@ -95,8 +94,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				ct.setFechaPago(o.toString());
 			break;
 			case 4:	
-				if(!res.exiteDni(o.toString())) 
-					ct.setDni(o.toString());
+				ct.setDni(o.toString());
 			break;
 		}
     }

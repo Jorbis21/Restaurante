@@ -1,10 +1,12 @@
 package restaurante.sa.encargado;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.encargado.DAOEncargado;
 import restaurante.model.Empleado;
+import restaurante.model.Encargado;
 
 public class SAEncargadoImpl implements SAEncargado {
 
@@ -43,6 +45,12 @@ public class SAEncargadoImpl implements SAEncargado {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public ArrayList<Encargado> lista() throws FileNotFoundException {
+		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
+		return y.lista();
 	}
 
 }

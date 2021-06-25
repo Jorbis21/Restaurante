@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -24,7 +23,7 @@ import restaurante.view.cliente.GuiCliente;
 import restaurante.view.cocinero.GuiCoci;
 import restaurante.view.comidaybebida.GuiComidaYBebida;
 import restaurante.view.empleado.GuiEmpleado;
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 
@@ -39,7 +38,7 @@ public class MainGui extends JFrame{
 	private GuiCliente tablaCli;
 	private GuiComidaYBebida tablaCYB;
 	private GuiAlmacen tablaAlm;
-	private Restaurante res;
+	private RestauranteCtrl res;
 	private JPanel center;
 	private int status = -1;
 	//-----------------------------
@@ -49,7 +48,7 @@ public class MainGui extends JFrame{
 	 * Constructor
 	 * @param res
 	 */
-	public MainGui(Restaurante res) {
+	public MainGui(RestauranteCtrl res) {
 		super("Restaurante");
 		this.res = res;
 		initGUI();
@@ -122,13 +121,8 @@ public class MainGui extends JFrame{
 		Exit.setActionCommand("Cierra el programa");
 		Exit.setToolTipText("Cierra el programa guardando todos los datos");
 		Exit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-		try {
-			guardar();
-			System.exit(0);
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}}});
+		//guardar();
+		System.exit(0);}});
 		
 		toolbar.add(Exit);
 		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -164,18 +158,6 @@ public class MainGui extends JFrame{
 			Almacen.setVisible(true);
 			Coci.setVisible(true);
 		}
-	}
-	private void guardar() throws FileNotFoundException {
-		res.setClientes(tablaCli.getCliente());
-		res.setCYB(tablaCYB.getCYB());
-		res.setAlm(tablaAlm.getAlm());
-		res.setEnc(tablaEmpl.getEmpl(),res.getEncargado());
-		res.setCoci(tablaCoci.getCoci());
-    	Restaurante.closeAlm();
-    	Restaurante.closeCli();
-    	Restaurante.closeCoci();
-    	Restaurante.closeCYB();
-    	Restaurante.closeEnc();
 	}
 	/**
 	 * Inicia la GUICliente

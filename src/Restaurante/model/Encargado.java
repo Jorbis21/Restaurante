@@ -8,14 +8,12 @@ import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import restaurante.control.Restaurante;
 
 public class Encargado extends Empleado{
 	//------------------------
 	//Atributos
 	//------------------------
 	private ArrayList<Empleado> PersonasACargo;
-	Restaurante res;
 	private int IdEncargado;
 	//------------------------
 	//Metodos

@@ -106,4 +106,9 @@ public class DAOCybImpl implements DAOCyb {
 		PrintStream p = new PrintStream(os);
 		p.println(chargeCYB(ListCYB));
 	}
+
+	@Override
+	public ArrayList<ComidaYBebida> lista() throws FileNotFoundException {
+		return iniList();
+	}
 }

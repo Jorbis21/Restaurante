@@ -4,27 +4,21 @@
 package main;
 
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 import javax.swing.SwingUtilities;
 
 import restaurante.view.MainGui;
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 
 public class Main {
 	
-	private static Restaurante res = new Restaurante();
+	private static RestauranteCtrl res;
 	
 	public static void init() throws FileNotFoundException {
-		res.loadAlmacen(new FileInputStream(new File("resources/Almacen.json")));
-		res.loadClientes(new FileInputStream(new File("resources/Clientes.json")));
-		res.loadCoci(new FileInputStream(new File("resources/Cocineros.json")));
-		res.loadCYB(new FileInputStream(new File("resources/Carta.json")));
-		res.loadEnc(new FileInputStream(new File("resources/Encargados.json")));
+		res = new RestauranteCtrl();
 	}
 	
 	private static void start(String[] args) throws Exception {

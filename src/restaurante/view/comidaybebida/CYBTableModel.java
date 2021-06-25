@@ -16,7 +16,8 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.Restaurante;
+
+import restaurante.control.RestauranteCtrl;
 
 public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
@@ -33,7 +34,7 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	 * Constructor
 	 * @param res
 	 */
-	public CYBTableModel(Restaurante res){
+	public CYBTableModel(RestauranteCtrl res){
 		row = new ArrayList<CYBTable>();
 		res.addObserver(this);
 	}

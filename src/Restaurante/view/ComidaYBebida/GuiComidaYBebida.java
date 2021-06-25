@@ -15,7 +15,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -27,7 +26,7 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 public class GuiComidaYBebida extends JPanel{
 	//-----------------------------
@@ -38,7 +37,7 @@ public class GuiComidaYBebida extends JPanel{
 	private int status;
 	private JTable _table;
 	private CYBTableModel tableModel;
-	Restaurante res;
+	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -50,7 +49,7 @@ public class GuiComidaYBebida extends JPanel{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiComidaYBebida(Restaurante res, int s) {
+	public GuiComidaYBebida(RestauranteCtrl res, int s) {
 		this.res = res;
 		status = s;
 		initGUI();
@@ -99,11 +98,6 @@ public class GuiComidaYBebida extends JPanel{
 				trsfiltro = new TableRowSorter(_table.getModel());
 				_table.setRowSorter(trsfiltro);
 		//BUTTONS
-		JButton g = new JButton();
-		g.setIcon(new ImageIcon("resources/g.png"));
-		g.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {guardar(e,g);}});
-		g.setEnabled(false);
-		
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
 		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCYB();}});
@@ -119,12 +113,10 @@ public class GuiComidaYBebida extends JPanel{
 			}});
 		Ec.setEnabled(false);
 		if(status == 0 || status == 1) {
-			g.setEnabled(true);
 			Ac.setEnabled(true);
 			Ec.setEnabled(true);
 			tableModel.setEdit(true);
 		}
-		toolBar.add(g);
 		toolBar.add(Ac);
 		toolBar.add(Ec);
 		toolBar.add(bus);
@@ -134,22 +126,6 @@ public class GuiComidaYBebida extends JPanel{
 	@SuppressWarnings("unchecked")
 	public void filtro() {
 		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
-	}
-	/**
-	 * Guarda los datos en el fichero elegido
-	 * @param e
-	 * @param g
-	 */
-	public void guardar(ActionEvent e,JButton g) {
-    	if(e.getSource() == g) {
-			try {
-				res.setCYB(getCYB());
-	            Restaurante.closeCYB();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(getParent(), "Somethings went wrong: "+e1.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
-			}
-    	}
-    	
 	}
 	/**
 	 * Abre la tabla

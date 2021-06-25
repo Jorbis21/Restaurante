@@ -1,12 +1,15 @@
 package restaurante.dao.encargado;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import restaurante.model.Empleado;
+import restaurante.model.Encargado;
 
 public interface DAOEncargado {
 	boolean aniadirEnc(Empleado a, int x) throws FileNotFoundException;
 	boolean modificarEnc(Empleado a, int x) throws FileNotFoundException;
 	Empleado buscarEnc(Empleado a, int x) throws FileNotFoundException;
+	ArrayList<Encargado> lista() throws FileNotFoundException;
 	boolean eliminarEnc(Empleado a, int x) throws FileNotFoundException;
 }

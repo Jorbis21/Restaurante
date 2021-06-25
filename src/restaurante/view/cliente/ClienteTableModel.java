@@ -16,7 +16,7 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.Restaurante;
+import restaurante.control.RestauranteCtrl;
 
 
 public class ClienteTableModel extends AbstractTableModel implements ResObserver{
@@ -33,7 +33,7 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 	 * Constructor
 	 * @param res
 	 */
-	public ClienteTableModel(Restaurante res){
+	public ClienteTableModel(RestauranteCtrl res){
 		row = new ArrayList<ClienteTable>();
 		res.addObserver(this);
 	}
