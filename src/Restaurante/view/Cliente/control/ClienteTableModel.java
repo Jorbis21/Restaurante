@@ -1,7 +1,7 @@
 /**
  * Modelo de la tabla Cliente
  */
-package Restaurante.view.Cliente.control;
+package restaurante.view.cliente.control;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
-import Restaurante.control.Restaurante;
-import Restaurante.model.Almacen;
-import Restaurante.model.Cliente;
-import Restaurante.model.Cocinero;
-import Restaurante.model.ComidaYBebida;
-import Restaurante.model.Empleado;
-import Restaurante.model.Encargado;
-import Restaurante.model.ResObserver;
+import restaurante.model.Almacen;
+import restaurante.model.Cliente;
+import restaurante.model.Cocinero;
+import restaurante.model.ComidaYBebida;
+import restaurante.model.Empleado;
+import restaurante.model.Encargado;
+import restaurante.model.ResObserver;
+import restaurante.control.Restaurante;
 
 
 public class ClienteTableModel extends AbstractTableModel implements ResObserver{

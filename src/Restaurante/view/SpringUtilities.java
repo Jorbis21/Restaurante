@@ -1,4 +1,4 @@
-package Restaurante.view;
+package restaurante.view;
 
 import java.awt.Component;
 import java.awt.Container;

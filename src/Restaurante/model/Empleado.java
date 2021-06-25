@@ -1,7 +1,7 @@
 /**
  * Clase de Empleado
  */
-package Restaurante.model;
+package restaurante.model;
 
 import org.json.JSONObject;
 

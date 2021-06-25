@@ -1,7 +1,7 @@
 /*Clase Main, en esta clase se inicializa el restaurante
  * y se lanza la interfaz
  */
-package Main;
+package main;
 
 
 import java.io.File;
@@ -10,8 +10,8 @@ import java.io.FileNotFoundException;
 
 import javax.swing.SwingUtilities;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.MainGui;
+import restaurante.view.MainGui;
+import restaurante.control.Restaurante;
 
 
 
@@ -20,7 +20,6 @@ public class Main {
 	private static Restaurante res = new Restaurante();
 	
 	public static void init() throws FileNotFoundException {
-		res.loadAlmacen(new FileInputStream(new File("resources/Almacen.json")));
 		res.loadClientes(new FileInputStream(new File("resources/Clientes.json")));
 		res.loadCoci(new FileInputStream(new File("resources/Cocineros.json")));
 		res.loadCYB(new FileInputStream(new File("resources/Carta.json")));

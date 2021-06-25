@@ -1,11 +1,11 @@
 /**
  * Constructor de ComidaYBebida desde archivos JSON
  */
-package Restaurante.Factories;
+package restaurante.factories;
 
 import org.json.JSONObject;
 
-import Restaurante.model.ComidaYBebida;
+import restaurante.model.ComidaYBebida;
 
 public class CYBBuilder extends Builder<ComidaYBebida>{
 	//----------------------

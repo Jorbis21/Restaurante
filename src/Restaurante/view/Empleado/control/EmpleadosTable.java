@@ -1,7 +1,7 @@
 /**
  * Clase de la tabla Empleado
  */
-package Restaurante.view.Empleado.control;
+package restaurante.view.empleado.control;
 
 public class EmpleadosTable {
 	//-----------------------------------

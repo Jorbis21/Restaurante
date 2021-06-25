@@ -1,7 +1,7 @@
 /**
  * Interfaz de los observadores
  */
-package Restaurante.model;
+package restaurante.model;
 import java.util.List;
 public interface ResObserver {
 	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc, List<ComidaYBebida> CYB,List<Cocinero> coci);

@@ -1,14 +1,14 @@
 /**
  * Constructor de encargado desde archivos JSON
  */
-package Restaurante.Factories;
+package restaurante.factories;
 
 import java.util.ArrayList;
 
 import org.json.JSONObject;
 
-import Restaurante.model.Empleado;
-import Restaurante.model.Encargado;
+import restaurante.model.Empleado;
+import restaurante.model.Encargado;
 
 public class EncargadoBuilder extends Builder<Encargado>{
 	//----------------------

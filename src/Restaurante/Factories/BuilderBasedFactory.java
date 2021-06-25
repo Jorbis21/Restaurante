@@ -1,4 +1,4 @@
-package Restaurante.Factories;
+package restaurante.factories;
 
 import java.util.ArrayList;
 import java.util.List;

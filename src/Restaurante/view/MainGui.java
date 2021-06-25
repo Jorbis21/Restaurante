@@ -1,7 +1,7 @@
 /**
  * MainGui
  */
-package Restaurante.view;
+package restaurante.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -19,12 +19,12 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.Almacen.GuiAlmacen;
-import Restaurante.view.Cliente.GuiCliente;
-import Restaurante.view.Cocinero.GuiCoci;
-import Restaurante.view.ComidaYBebida.GuiComidaYBebida;
-import Restaurante.view.Empleado.GuiEmpleado;
+import restaurante.view.almacen.GuiAlmacen;
+import restaurante.view.cliente.GuiCliente;
+import restaurante.view.cocinero.GuiCoci;
+import restaurante.view.comidaybebida.GuiComidaYBebida;
+import restaurante.view.empleado.GuiEmpleado;
+import restaurante.control.Restaurante;
 
 
 
@@ -169,9 +169,7 @@ public class MainGui extends JFrame{
 		res.setClientes(tablaCli.getCliente());
 		res.setCYB(tablaCYB.getCYB());
 		res.setAlm(tablaAlm.getAlm());
-		/*for(int j = 0; j < res.getListEncargado().size(); j++) {
-			res.setEnc(tablaEmpl.getEmpl(),j);
-		}*/
+		res.setEnc(tablaEmpl.getEmpl(),res.getEncargado());
 		res.setCoci(tablaCoci.getCoci());
     	Restaurante.closeAlm();
     	Restaurante.closeCli();

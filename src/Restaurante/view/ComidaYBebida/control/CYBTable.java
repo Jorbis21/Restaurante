@@ -1,7 +1,7 @@
 /*
  * Clase de la tabla ComidaYBebida
  */
-package Restaurante.view.ComidaYBebida.control;
+package restaurante.view.comidaybebida.control;
 
 public class CYBTable {
 	//-------------------------------

@@ -2,11 +2,11 @@
  * Constructor de almacen desde archivos JSON
  */
 
-package Restaurante.Factories;
+package restaurante.factories;
 
 import org.json.JSONObject;
 
-import Restaurante.model.Almacen;
+import restaurante.model.Almacen;
 
 public class AlmacenBuilder extends Builder<Almacen>{
 	//----------------------

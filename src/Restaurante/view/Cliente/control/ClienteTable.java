@@ -1,7 +1,7 @@
 /**
  * Clase de la tabla cliente 
  */
-package Restaurante.view.Cliente.control;
+package restaurante.view.cliente.control;
 
 public class ClienteTable {
 	//-----------------

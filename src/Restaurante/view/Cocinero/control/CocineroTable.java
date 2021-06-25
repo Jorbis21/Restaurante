@@ -1,9 +1,9 @@
 /**
  * Clase de la tabla Cocinero
  */
-package Restaurante.view.Cocinero.control;
+package restaurante.view.cocinero.control;
 
-import Restaurante.view.Empleado.control.EmpleadosTable;
+import restaurante.view.empleado.control.EmpleadosTable;
 
 public class CocineroTable extends EmpleadosTable{
 	//----------------------

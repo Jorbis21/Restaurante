@@ -2,7 +2,7 @@
  * Clase restaurante en esta clase se inicializan todas las listas y se gestionan
  *esta clase es equivalente al controller
  */
-package Restaurante.control;
+package restaurante.control;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,22 +17,22 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import Restaurante.Factories.AlmacenBuilder;
-import Restaurante.Factories.Builder;
-import Restaurante.Factories.BuilderBasedFactory;
-import Restaurante.Factories.CYBBuilder;
-import Restaurante.Factories.ClienteBuilder;
-import Restaurante.Factories.CocineroBuilder;
-import Restaurante.Factories.EmpleadoBuilder;
-import Restaurante.Factories.EncargadoBuilder;
-import Restaurante.Factories.Factory;
-import Restaurante.model.Almacen;
-import Restaurante.model.Cliente;
-import Restaurante.model.Cocinero;
-import Restaurante.model.ComidaYBebida;
-import Restaurante.model.Empleado;
-import Restaurante.model.Encargado;
-import Restaurante.model.ResObserver;
+import restaurante.factories.AlmacenBuilder;
+import restaurante.factories.Builder;
+import restaurante.factories.BuilderBasedFactory;
+import restaurante.factories.CYBBuilder;
+import restaurante.factories.ClienteBuilder;
+import restaurante.factories.CocineroBuilder;
+import restaurante.factories.EmpleadoBuilder;
+import restaurante.factories.EncargadoBuilder;
+import restaurante.factories.Factory;
+import restaurante.model.Almacen;
+import restaurante.model.Cliente;
+import restaurante.model.Cocinero;
+import restaurante.model.ComidaYBebida;
+import restaurante.model.Empleado;
+import restaurante.model.Encargado;
+import restaurante.model.ResObserver;
 
 public class Restaurante {
 	// ---------------------------------------

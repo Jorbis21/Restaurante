@@ -1,7 +1,7 @@
 /**
  * Gui de la tabla de ComidaYBebida
  */
-package Restaurante.view.ComidaYBebida;
+package restaurante.view.comidaybebida;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,8 +27,8 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.ComidaYBebida.control.CYBTableModel;
+import restaurante.view.comidaybebida.control.CYBTableModel;
+import restaurante.control.Restaurante;
 
 public class GuiComidaYBebida extends JPanel{
 	//-----------------------------

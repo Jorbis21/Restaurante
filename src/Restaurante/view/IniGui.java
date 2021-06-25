@@ -1,4 +1,4 @@
-package Restaurante.view;
+package restaurante.view;
 
 import java.awt.BorderLayout;
 import java.awt.Frame;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import Restaurante.control.Restaurante;
+import restaurante.control.Restaurante;
 
 public class IniGui extends JDialog{
 	private static final long serialVersionUID = 1L;

@@ -1,11 +1,11 @@
 /**
  * Constructor de cocinero desde archivos JSON
  */
-package Restaurante.Factories;
+package restaurante.factories;
 
 import org.json.JSONObject;
 
-import Restaurante.model.Cocinero;
+import restaurante.model.Cocinero;
 
 
 public class CocineroBuilder extends Builder<Cocinero>{

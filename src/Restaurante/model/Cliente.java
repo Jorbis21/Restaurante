@@ -1,7 +1,7 @@
 /**
  * Clase del cliente 
  */
-package Restaurante.model;
+package restaurante.model;
 
 import org.json.JSONObject;
 

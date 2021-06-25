@@ -1,7 +1,7 @@
 /**
  * Gui de la tabla de cliente
  */
-package Restaurante.view.Cliente;
+package restaurante.view.cliente;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,8 +27,8 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.Cliente.control.ClienteTableModel;
+import restaurante.view.cliente.control.ClienteTableModel;
+import restaurante.control.Restaurante;
 
 public class GuiCliente extends JPanel{
 	//-----------------------------

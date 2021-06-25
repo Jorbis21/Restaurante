@@ -1,7 +1,7 @@
 /**
  * Modelo de la tabla ComidaYBebida
  */
-package Restaurante.view.ComidaYBebida.control;
+package restaurante.view.comidaybebida.control;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,14 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
-import Restaurante.control.Restaurante;
-import Restaurante.model.Almacen;
-import Restaurante.model.Cliente;
-import Restaurante.model.Cocinero;
-import Restaurante.model.ComidaYBebida;
-import Restaurante.model.Empleado;
-import Restaurante.model.Encargado;
-import Restaurante.model.ResObserver;
+import restaurante.model.Almacen;
+import restaurante.model.Cliente;
+import restaurante.model.Cocinero;
+import restaurante.model.ComidaYBebida;
+import restaurante.model.Empleado;
+import restaurante.model.Encargado;
+import restaurante.model.ResObserver;
+import restaurante.control.Restaurante;
 
 public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------

@@ -1,14 +1,14 @@
 /**
  * Clase del Encargado
  */
-package Restaurante.model;
+package restaurante.model;
 
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
+import restaurante.control.Restaurante;
 
 public class Encargado extends Empleado{
 	//------------------------

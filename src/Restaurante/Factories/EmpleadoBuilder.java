@@ -1,11 +1,11 @@
 /**
  * Constructor de empleado desde archivos JSON
  */
-package Restaurante.Factories;
+package restaurante.factories;
 
 import org.json.JSONObject;
 
-import Restaurante.model.Empleado;
+import restaurante.model.Empleado;
 
 public class EmpleadoBuilder extends Builder<Empleado>{
 	//----------------------

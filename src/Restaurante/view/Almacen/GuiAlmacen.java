@@ -1,7 +1,7 @@
 /**
  * Gui de la tabla de almacen
  */
-package Restaurante.view.Almacen;
+package restaurante.view.almacen;
 
 import java.awt.Dimension;
 
@@ -28,8 +28,8 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.Almacen.control.AlmTableModel;
+import restaurante.view.almacen.control.AlmTableModel;
+import restaurante.control.Restaurante;
 
 public class GuiAlmacen extends JPanel{
 	//--------------------------------

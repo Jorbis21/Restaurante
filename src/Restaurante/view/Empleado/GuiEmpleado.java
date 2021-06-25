@@ -1,7 +1,7 @@
 /**
  * Gui de la tabla de empleado
  */
-package Restaurante.view.Empleado;
+package restaurante.view.empleado;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -27,8 +27,8 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.Empleado.control.EmplTableModel;
+import restaurante.view.empleado.control.EmplTableModel;
+import restaurante.control.Restaurante;
 
 public class GuiEmpleado extends JPanel{
 	//-----------------------------

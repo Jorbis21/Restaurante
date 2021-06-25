@@ -1,7 +1,7 @@
 /**
  * Clase de la tabla Almacen
  */
-package Restaurante.view.Almacen.control;
+package restaurante.view.almacen.control;
 
 public class AlmTable {
 	//--------------------------------

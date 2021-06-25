@@ -1,7 +1,7 @@
 /**
  * Constructora generica de los objetos
  */
-package Restaurante.Factories;
+package restaurante.factories;
 import org.json.JSONObject;
 
 public abstract class Builder<T>{

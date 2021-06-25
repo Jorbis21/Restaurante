@@ -1,11 +1,11 @@
 /**
  * Constructor de cliente desde archivos JSON
  */
-package Restaurante.Factories;
+package restaurante.factories;
 
 import org.json.JSONObject;
 
-import Restaurante.model.Cliente;
+import restaurante.model.Cliente;
 
 public class ClienteBuilder extends Builder<Cliente>{
 	//----------------------

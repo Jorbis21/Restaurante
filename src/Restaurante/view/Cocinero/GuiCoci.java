@@ -1,4 +1,4 @@
-package Restaurante.view.Cocinero;
+package restaurante.view.cocinero;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -25,8 +25,8 @@ import javax.swing.table.TableRowSorter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import Restaurante.control.Restaurante;
-import Restaurante.view.Cocinero.control.CocineroTableModel;
+import restaurante.view.cocinero.control.CocineroTableModel;
+import restaurante.control.Restaurante;
 
 
 public class GuiCoci extends JPanel{
