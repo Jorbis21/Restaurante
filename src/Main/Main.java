@@ -20,7 +20,8 @@ public class Main {
 	private static Restaurante res = new Restaurante();
 	
 	public static void init() throws FileNotFoundException {
-		
+		res.loadAlmacen(new FileInputStream(new File("resources/Almacen.json")));
+		res.loadClientes(new FileInputStream(new File("resources/Clientes.json")));
 		res.loadCoci(new FileInputStream(new File("resources/Cocineros.json")));
 		res.loadCYB(new FileInputStream(new File("resources/Carta.json")));
 		res.loadEnc(new FileInputStream(new File("resources/Encargados.json")));
