@@ -17,7 +17,6 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.RestauranteCtrl;
 
 
 public class AlmTableModel extends AbstractTableModel implements ResObserver{
@@ -35,11 +34,12 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 	/**
 	 * Constructor
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public AlmTableModel(RestauranteCtrl res){
-		alm = new GuiAlmCtrl(res);
+	public AlmTableModel() throws FileNotFoundException{
+		alm = new GuiAlmCtrl();
 		row = new ArrayList<AlmTable>();
-		res.addObserver(this);
+		alm.iniciarObs(this);
 	}
 	/**
 	 * Aniade fila
@@ -47,7 +47,7 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 	 */
 	public void addAlm() throws FileNotFoundException {
 		row.add(new AlmTable());
-		alm.aniadir(row.get(getRowCount() - 1).convert());
+		alm.eventoAlm(row.get(getRowCount() - 1).convert(), 0, -1);
 		fireTableStructureChanged();
 	}
 	/**
@@ -57,7 +57,7 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 	public void RemoveAlm(int x) throws FileNotFoundException {
 		Almacen a = row.get(x).convert();
 		row.remove(x);
-		alm.eliminar(a,x);
+		alm.eventoAlm(a, 1, x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -98,7 +98,7 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 			break;
 		}
 		try {
-			alm.modificar(ct.convert(), rowIndex);
+			alm.eventoAlm(ct.convert(), 2, rowIndex);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -155,17 +155,19 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 		});
 		
 	}
+	
 	@Override
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(alm);
-		
-	}
-	@Override
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
+	public void ObsAlm(List<Almacen> alm) {
 		act(alm);
 	}
+	@Override
+	public void ObsCli(List<Cliente> cli) {}
+	@Override
+	public void ObsEmp(List<Empleado> emp) {}
+	@Override
+	public void ObsEnc(List<Encargado> enc) {}
+	@Override
+	public void ObsCyb(List<ComidaYBebida> cyb) {}
+	@Override
+	public void ObsCoci(List<Cocinero> coci) {}
 }

@@ -30,9 +30,12 @@ public class DAOClienteImpl implements DAOCliente{
 	}
 
 	@Override
-	public boolean modificarCli(Cliente a) throws FileNotFoundException {
-		eliminarCli(a);
-		aniadirCli(a);
+	public boolean modificarCli(Cliente a, int x) throws FileNotFoundException {
+		ArrayList<Cliente> ListCliente = iniList();
+		ListCliente.get(x).setNombre(a.getNombre());
+		ListCliente.get(x).setCuenta(a.getCuenta());
+		ListCliente.get(x).setMetodoPago(a.getMetodoPago());
+		guardar(ListCliente);
 		return true;
 	}
 
@@ -48,7 +51,7 @@ public class DAOClienteImpl implements DAOCliente{
 	}
 
 	@Override
-	public boolean eliminarCli(Cliente a) throws FileNotFoundException {
+	public boolean eliminarCli(int a) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
 		ListCliente.remove(a);
 		guardar(ListCliente);

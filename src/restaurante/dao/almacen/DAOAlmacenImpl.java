@@ -29,12 +29,6 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		return true;
 	}
 	
-	/**
-	 * Guarda los datos del almacen
-	 * en el archivo
-	 * @param a
-	 * @throws FileNotFoundException 
-	 */
 	@Override
 	public boolean aniadirAlm(Almacen a) throws FileNotFoundException {
 		

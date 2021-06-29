@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,21 +24,14 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import restaurante.control.RestauranteCtrl;
-
 public class GuiComidaYBebida extends JPanel{
 	//-----------------------------
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private String[] keys = {"Name","Amount","Food","Desc","Price"};
 	private int status;
 	private JTable _table;
 	private CYBTableModel tableModel;
-	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -48,17 +42,18 @@ public class GuiComidaYBebida extends JPanel{
 	 * Constructor
 	 * @param frame
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public GuiComidaYBebida(RestauranteCtrl res, int s) {
-		this.res = res;
+	public GuiComidaYBebida(int s) throws FileNotFoundException {
 		status = s;
 		initGUI();
 	}
 	/**
 	 * Inicia el JDialog de ComidaYbebida
+	 * @throws FileNotFoundException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initGUI() {
+	private void initGUI() throws FileNotFoundException {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		//TOOLBAR
@@ -66,7 +61,7 @@ public class GuiComidaYBebida extends JPanel{
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);	
 		//TABLE
-		tableModel = new CYBTableModel(res);
+		tableModel = new CYBTableModel();
 		_table = new JTable(tableModel);
 		_table.setRowSelectionAllowed(true);
 		//SCROLLPANE
@@ -100,14 +95,24 @@ public class GuiComidaYBebida extends JPanel{
 		//BUTTONS
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
-		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCYB();}});
+		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			tableModel.addCYB();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
 		Ac.setEnabled(false);
 		JButton Ec = new JButton();
 		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {	
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {
-				tableModel.RemoveCYB(x[i]);
+				try {
+					tableModel.RemoveCYB(x[i]);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 			}});
@@ -135,42 +140,6 @@ public class GuiComidaYBebida extends JPanel{
         tableModel.clear();
 		setVisible(true);
 	
-	}
-	/**
-	 * Coge los datos de la tabla y los pone en un JSONArray
-	 * @return
-	 */
-	public JSONArray getCYB() {
-		JSONArray cl = new JSONArray();
-		String data = "{}";
-		for(int i = 0; i < tableModel.getRowCount(); i++) {
-			JSONObject x = new JSONObject();
-			for(int j = 0; j < tableModel.getColumnCount();j++) {
-				String key = keys[j];
-				String value = (String) tableModel.getValueAt(i, j);
-				if(j != 0 && !data.equals("{")) {
-					data += ",";
-				}
-				else if (j == 0){
-					data = "{";
-				}
-				if(!value.equals("")) {
-					data += key+":"+value;	
-				}
-				else {
-					data += key+":"+"-";	
-				}
-				if(j == tableModel.getColumnCount()-1) {
-					data += "}";
-				}
-			}
-			x.put("type", "Plato");
-			x.put("data", new JSONObject(data));
-			cl.put(x);
-			data = "{}";
-		}
-		
-		return cl;
 	}
 	public String toString(){
 		return tableModel.toString();

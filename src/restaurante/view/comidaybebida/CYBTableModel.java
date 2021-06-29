@@ -3,6 +3,7 @@
  */
 package restaurante.view.comidaybebida;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +18,6 @@ import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
 
-import restaurante.control.RestauranteCtrl;
-
 public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
 	//Atributos
@@ -27,31 +26,37 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	private String[] col = {"Nombre","Cantidad","Comida", "Descripcion","Precio"};
 	private List<CYBTable> row;
 	private boolean edit;
+	private GuiCybCtrl cyb;
 	//-----------------
 	//Metodos
 	//-----------------
 	/**
 	 * Constructor
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public CYBTableModel(RestauranteCtrl res){
+	public CYBTableModel() throws FileNotFoundException{
+		cyb = new GuiCybCtrl();
 		row = new ArrayList<CYBTable>();
-		res.addObserver(this);
+		cyb.iniciarObs(this);
 	}
 	/**
 	 * Aniade fila
+	 * @throws FileNotFoundException 
 	 */
-	public void addCYB() {
+	public void addCYB() throws FileNotFoundException {
 		row.add(new CYBTable());
+		cyb.eventoCyb(row.get(getRowCount() - 1).convert(), 0, -1);
 		fireTableStructureChanged();
 	}
 	/**
 	 * Quita fila
+	 * @throws FileNotFoundException 
 	 */
-	public void RemoveCYB(int x) {
-		if(!row.isEmpty()) {
-			row.remove(x);
-		}
+	public void RemoveCYB(int x) throws FileNotFoundException {
+		ComidaYBebida c = row.get(x).convert();
+		row.remove(x);
+		cyb.eventoCyb(c, 1, x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -97,6 +102,11 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 			case 4:
 				ct.setPrecio(o.toString());
 			break;
+		}
+		try {
+			cyb.eventoCyb(ct.convert(), 2, rowIndex);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
     }
 	/**
@@ -163,22 +173,22 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 		});
 		
 	}
-	@Override
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(CYB);
-	}
-
-	@Override
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(CYB);
-	}
 	public void setEdit(boolean b) {
-		// TODO Auto-generated method stub
 		edit = b;
 	}
+	@Override
+	public void ObsAlm(List<Almacen> alm) {}
+	@Override
+	public void ObsCli(List<Cliente> cli) {}
+	@Override
+	public void ObsEmp(List<Empleado> emp) {}
+	@Override
+	public void ObsEnc(List<Encargado> enc) {}
+	@Override
+	public void ObsCyb(List<ComidaYBebida> cyb) {
+		act(cyb);
+	}
+	@Override
+	public void ObsCoci(List<Cocinero> coci) {}
 
 }

@@ -35,7 +35,6 @@ public class GuiEmpleado extends JPanel{
 	private JTable _table;
 	private EmplTableModel tableModel;
 	private JPanel mainPanel;
-	private RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -47,8 +46,7 @@ public class GuiEmpleado extends JPanel{
 	 * @param frame
 	 * @param res
 	 */
-	public GuiEmpleado(RestauranteCtrl res, int s) {
-		this.res = res;
+	public GuiEmpleado( int s) {
 		status = s;
 		initGUI();
 	
@@ -66,7 +64,7 @@ public class GuiEmpleado extends JPanel{
 				toolBar.setAlignmentX(CENTER_ALIGNMENT);
 				mainPanel.add(toolBar);
 				//TABLE
-				tableModel = new EmplTableModel(res);
+				tableModel = new EmplTableModel();
 				_table = new JTable(tableModel);
 				//SCROLLPANE
 				JScrollPane x = new JScrollPane(_table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -25,8 +25,6 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import restaurante.control.RestauranteCtrl;
-
 public class GuiAlmacen extends JPanel{
 	//--------------------------------
 	//Atributos
@@ -34,7 +32,6 @@ public class GuiAlmacen extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private JTable _table;
 	private AlmTableModel tableModel;
-	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -45,16 +42,17 @@ public class GuiAlmacen extends JPanel{
 	 * Construtor
 	 * @param frame
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public GuiAlmacen(RestauranteCtrl res) {
-		this.res = res;
+	public GuiAlmacen() throws FileNotFoundException {
 		initGUI();
 	}
 	/**
 	 * Inicia el JDialog de almacen
+	 * @throws FileNotFoundException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initGUI() {
+	private void initGUI() throws FileNotFoundException {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		this.setPreferredSize(new Dimension(600,600));
@@ -63,7 +61,7 @@ public class GuiAlmacen extends JPanel{
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);	
 		//TABLE
-		tableModel = new AlmTableModel(res);
+		tableModel = new AlmTableModel();
 		_table = new JTable(tableModel);
 		_table.setRowSelectionAllowed(true);
 		//SCROLLPANE

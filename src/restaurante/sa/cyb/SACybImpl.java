@@ -20,13 +20,10 @@ public class SACybImpl implements SACyb {
 	}
 
 	@Override
-	public boolean modificarCyb(ComidaYBebida a) throws FileNotFoundException {
-		DAOCyb x = AbstractFactoryDAO.getInstance().createDAOCyb();
-		if(!(buscarCyb(a) == null)){
-			x.modificarCyb(a);
-			return true;
-		}
-		return false;
+	public boolean modificarCyb(ComidaYBebida a, int x) throws FileNotFoundException {
+		DAOCyb z = AbstractFactoryDAO.getInstance().createDAOCyb();
+		z.modificarCyb(a,x);
+		return true;
 	}
 
 	@Override
@@ -38,10 +35,10 @@ public class SACybImpl implements SACyb {
 	}
 
 	@Override
-	public boolean eliminarCyb(ComidaYBebida a) throws FileNotFoundException {
-		DAOCyb x = AbstractFactoryDAO.getInstance().createDAOCyb();
+	public boolean eliminarCyb(ComidaYBebida a, int x) throws FileNotFoundException {
+		DAOCyb z = AbstractFactoryDAO.getInstance().createDAOCyb();
 		if(buscarCyb(a) == null){
-			x.eliminarCyb(a);
+			z.eliminarCyb(x);
 			return true;
 		}
 		return false;

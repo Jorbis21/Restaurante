@@ -3,6 +3,8 @@
  */
 package restaurante.view.cliente;
 
+import restaurante.model.Cliente;
+
 public class ClienteTable {
 	//-----------------
 	//Atributos
@@ -71,5 +73,13 @@ public class ClienteTable {
 	 */
 	public String getMetodoPago() {
 		return MetodoPago;
+	}
+	public Cliente convert(){
+		boolean a = false;
+		if(MetodoPago.equals("Tarjeta")) 
+			a = true;
+		else if (MetodoPago.equals("Metalico"))
+			a = false;
+		return new Cliente(Nombre, Integer.parseInt(Cuenta),a);
 	}
 }

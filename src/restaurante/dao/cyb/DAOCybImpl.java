@@ -30,9 +30,13 @@ public class DAOCybImpl implements DAOCyb {
 	}
 
 	@Override
-	public boolean modificarCyb(ComidaYBebida a) throws FileNotFoundException {
-		eliminarCyb(a);
-		aniadirCyb(a);
+	public boolean modificarCyb(ComidaYBebida a, int x) throws FileNotFoundException {
+		ArrayList<ComidaYBebida> ListCYB = iniList();
+		ListCYB.get(x).setNombre(a.getNombre());
+		ListCYB.get(x).setCantidad(a.getCantidad());
+		ListCYB.get(x).setComida(a.getComida());
+		ListCYB.get(x).setDesc(a.getDesc());
+		ListCYB.get(x).setPrecio(a.getPrecio());
 		return true;
 	}
 
@@ -48,7 +52,7 @@ public class DAOCybImpl implements DAOCyb {
 	}
 
 	@Override
-	public boolean eliminarCyb(ComidaYBebida a) throws FileNotFoundException {
+	public boolean eliminarCyb(int a) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
 		ListCYB.remove(a);
 		guardar(ListCYB);

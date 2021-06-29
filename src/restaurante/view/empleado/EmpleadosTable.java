@@ -7,7 +7,11 @@ public class EmpleadosTable {
 	//-----------------------------------
 	//Atributos
 	//-----------------------------------
-	String Nombre, id, Salario,FechaPago,dni;
+	protected String Nombre;
+	protected String id;
+	protected String Salario;
+	protected String FechaPago;
+	protected String dni;
 	//-----------------------------------
 	//Metodos
 	//-----------------------------------

@@ -29,9 +29,15 @@ public class DAOCociImpl implements DAOCoci {
 	}
 
 	@Override
-	public boolean modificarCoci(Cocinero a) throws FileNotFoundException {
-		eliminarCoci(a);
-		aniadirCoci(a);
+	public boolean modificarCoci(Cocinero a, int x) throws FileNotFoundException {
+		ArrayList<Cocinero> ListCocinero = iniList();
+		ListCocinero.get(x).setNombre(a.getNombre());
+		ListCocinero.get(x).setSalario(a.getSalario());
+		ListCocinero.get(x).setDni(a.getDni());
+		ListCocinero.get(x).setEspecialidad(a.getEspecialidad());
+		ListCocinero.get(x).setFechaPago(a.getFechaPago());
+		ListCocinero.get(x).setTipo(a.getTipo());
+		ListCocinero.get(x).setid(a.getid());
 		return true;
 	}
 
@@ -47,7 +53,7 @@ public class DAOCociImpl implements DAOCoci {
 	}
 
 	@Override
-	public boolean eliminarCoci(Cocinero a) throws FileNotFoundException {
+	public boolean eliminarCoci(int a) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
 		ListCocinero.remove(a);
 		guardar(ListCocinero);

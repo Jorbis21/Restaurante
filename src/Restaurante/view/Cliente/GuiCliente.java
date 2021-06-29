@@ -10,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,8 +24,6 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import restaurante.control.RestauranteCtrl;
-
 public class GuiCliente extends JPanel{
 	//-----------------------------
 	//Atributos
@@ -33,7 +32,6 @@ public class GuiCliente extends JPanel{
 	private int _status;;
 	private JTable _table;
 	private ClienteTableModel tableModel;
-	RestauranteCtrl res;
 	JTextField bus;
 	@SuppressWarnings("rawtypes")
 	private TableRowSorter trsfiltro;
@@ -44,16 +42,18 @@ public class GuiCliente extends JPanel{
 	 * Constructor
 	 * @param frame
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public GuiCliente(RestauranteCtrl res) {
-		this.res = res;
+	public GuiCliente() throws FileNotFoundException {
+		
 		initGUI();
 	}
 	/**
 	 * Inicia el JDialog de cliente
+	 * @throws FileNotFoundException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initGUI() {
+	private void initGUI() throws FileNotFoundException {
 		_status = 0;
 
 		JPanel mainPanel = new JPanel();
@@ -63,7 +63,7 @@ public class GuiCliente extends JPanel{
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);	
 		//TABLE
-		tableModel = new ClienteTableModel(res);
+		tableModel = new ClienteTableModel();
 		_table = new JTable(tableModel);
 		_table.setRowSelectionAllowed(true);
 		//SCROLLPANE
@@ -97,14 +97,24 @@ public class GuiCliente extends JPanel{
 		//BUTTONS
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
-		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCli();}});
+		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			tableModel.addCli();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
 		
 		JButton Ec = new JButton();
 		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {
-				tableModel.RemoveCli(x[i]);
+				try {
+					tableModel.RemoveCli(x[i]);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 		}});

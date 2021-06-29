@@ -1,22 +1,39 @@
 package restaurante.view.almacen;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import restaurante.control.RestauranteCtrl;
 import restaurante.model.Almacen;
+import restaurante.model.ResObserver;
+import restaurante.sa.AbstractFactorySA;
 
 public class GuiAlmCtrl {
-	private RestauranteCtrl res;
-	public GuiAlmCtrl(RestauranteCtrl res) {
-		this.res = res;
+	private ResObserver ObsAlm;
+	public boolean eventoAlm(Almacen a, int e, int z) throws FileNotFoundException {
+		boolean x = false;
+		switch(e) {
+		case 0:{
+			 x = AbstractFactorySA.getInstance().createSAAlm().aniadirAlm(a);
+		}
+		break;
+		case 1:{
+			x = AbstractFactorySA.getInstance().createSAAlm().eliminarAlm(a,z);
+		}
+		break;
+		case 2:{
+			x = AbstractFactorySA.getInstance().createSAAlm().modificarAlm(a,z);
+		}
+		break;
+		}
+		ArrayList<Almacen> ListAlmacen = new ArrayList<Almacen>();
+		ListAlmacen = AbstractFactorySA.getInstance().createSAAlm().lista();
+		ObsAlm.ObsAlm(ListAlmacen);
+		return x;
 	}
-	public boolean aniadir(Almacen a) throws FileNotFoundException {
-		return res.eventoAlm(a, 0, -1);
+	public void iniciarObs(ResObserver a) throws FileNotFoundException {
+		ArrayList<Almacen> ListAlmacen = AbstractFactorySA.getInstance().createSAAlm().lista();
+		ObsAlm = a;
+		ObsAlm.ObsAlm(ListAlmacen);
 	}
-	public boolean eliminar(Almacen a,int x) throws FileNotFoundException {
-		return res.eventoAlm(a, 1, x);
-	}
-	public boolean modificar(Almacen a, int x) throws FileNotFoundException {
-		return res.eventoAlm(a, 2, x);
-	}
+	
 }

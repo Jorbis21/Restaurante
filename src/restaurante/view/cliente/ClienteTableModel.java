@@ -3,6 +3,7 @@
  */
 package restaurante.view.cliente;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.RestauranteCtrl;
 
 
 public class ClienteTableModel extends AbstractTableModel implements ResObserver{
@@ -26,29 +26,37 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 	private static final long serialVersionUID = 1L;
 	private String[] col = {"Nombre","Cuenta","MetodoPago"};
 	private List<ClienteTable> row;
+	private GuiCliCtrl cli;
 	//-----------------
 	//Metodos
 	//-----------------
 	/**
 	 * Constructor
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public ClienteTableModel(RestauranteCtrl res){
+	public ClienteTableModel() throws FileNotFoundException{
+		cli = new GuiCliCtrl();
 		row = new ArrayList<ClienteTable>();
-		res.addObserver(this);
+		cli.iniciarObs(this);
 	}
 	/**
 	 * Aniade fila
+	 * @throws FileNotFoundException 
 	 */
-	public void addCli() {
+	public void addCli() throws FileNotFoundException {
 		row.add(new ClienteTable());
+		cli.eventoCli(row.get(getRowCount() - 1).convert(), 0, -1);
 		fireTableStructureChanged();
 	}
 	/**
 	 * Quita fila
+	 * @throws FileNotFoundException 
 	 */
-	public void RemoveCli(int x) {
+	public void RemoveCli(int x) throws FileNotFoundException {
+		Cliente c = row.get(x).convert();
 		row.remove(x);
+		cli.eventoCli(c, 1, x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -89,6 +97,12 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 					ct.setMetodoPago(o.toString());
 				}
 			break;
+		}
+		try {
+			cli.eventoCli(ct.convert(), 2, rowIndex);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
 	/**
@@ -148,16 +162,18 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 		
 	}
 	@Override
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
- 		act(cli);
- 		
-	}
+	public void ObsAlm(List<Almacen> alm) {	}
 	@Override
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
+	public void ObsCli(List<Cliente> cli) {
 		act(cli);
 	}
+	@Override
+	public void ObsEmp(List<Empleado> emp) {}
+	@Override
+	public void ObsEnc(List<Encargado> enc) {}
+	@Override
+	public void ObsCyb(List<ComidaYBebida> cyb) {}
+	@Override
+	public void ObsCoci(List<Cocinero> coci) {}
 
 }

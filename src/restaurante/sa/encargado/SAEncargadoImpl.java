@@ -21,7 +21,7 @@ public class SAEncargadoImpl implements SAEncargado {
 	}
 
 	@Override
-	public boolean modificarEnc(Empleado a, int x) throws FileNotFoundException {
+	public boolean modificarEnc(Empleado a, int n, int x) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
 		if(!(buscarEnc(a,x) == null)){
 			y.modificarEnc(a,x);
@@ -38,7 +38,7 @@ public class SAEncargadoImpl implements SAEncargado {
 	}
 
 	@Override
-	public boolean eliminarEnc(Empleado a, int x) throws FileNotFoundException {
+	public boolean eliminarEnc(Empleado a,int n, int x) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
 		if(buscarEnc(a,x) == null){
 			y.eliminarEnc(a,x);

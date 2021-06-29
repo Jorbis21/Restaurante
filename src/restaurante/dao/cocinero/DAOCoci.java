@@ -7,8 +7,8 @@ import restaurante.model.Cocinero;
 
 public interface DAOCoci {
 	boolean aniadirCoci(Cocinero a) throws FileNotFoundException;
-	boolean modificarCoci(Cocinero a) throws FileNotFoundException;
+	boolean modificarCoci(Cocinero a, int x) throws FileNotFoundException;
 	Cocinero buscarCoci(Cocinero a) throws FileNotFoundException;
 	ArrayList<Cocinero> lista() throws FileNotFoundException;
-	boolean eliminarCoci(Cocinero a) throws FileNotFoundException;
+	boolean eliminarCoci(int a) throws FileNotFoundException;
 }

@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -21,9 +22,6 @@ import javax.swing.JToolBar;
 import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
-import restaurante.control.RestauranteCtrl;
-
-
 public class GuiCoci extends JPanel{
 	//-----------------------------
 		//Atributos
@@ -32,7 +30,6 @@ public class GuiCoci extends JPanel{
 		private int status = -1;
 		private JTable _table;
 		private CocineroTableModel tableModel;
-		private RestauranteCtrl res;
 		JTextField bus;
 		@SuppressWarnings("rawtypes")
 		private TableRowSorter trsfiltro;
@@ -43,18 +40,19 @@ public class GuiCoci extends JPanel{
 		 * Constructor
 		 * @param frame
 		 * @param res
+		 * @throws FileNotFoundException 
 		 */
-		public GuiCoci(RestauranteCtrl res, int s) {
-			this.res = res;
+		public GuiCoci(int s) throws FileNotFoundException {
 			status = s;
 			initGUI();
 		
 		}
 	/**
 	 * Carga la tabla de cocinero
+	 * @throws FileNotFoundException 
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private void initGUI() {
+	private void initGUI() throws FileNotFoundException {
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 		this.setPreferredSize(new Dimension(600,700));
@@ -63,7 +61,7 @@ public class GuiCoci extends JPanel{
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);
 		//TABLE
-		tableModel = new CocineroTableModel(res);
+		tableModel = new CocineroTableModel();
 		_table = new JTable(tableModel);
 		_table.setRowSelectionAllowed(true);
 		//SCROLLPANE
@@ -98,7 +96,12 @@ public class GuiCoci extends JPanel{
 		//BUTTONS
 		JButton Ac = new JButton();
 		Ac.setIcon(new ImageIcon("resources/m.png"));
-		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {tableModel.addCoci();}});
+		Ac.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			tableModel.addCoci();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
 		Ac.setEnabled(false);
 		
 		JButton Ec = new JButton();
@@ -106,7 +109,12 @@ public class GuiCoci extends JPanel{
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
 			int x[] = _table.getSelectedRows();
 			for(int i = 0; i < x.length; i++) {
-				tableModel.RemoveCoci(x[i]);
+				try {
+					tableModel.RemoveCoci(x[i]);
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 			
 			}});

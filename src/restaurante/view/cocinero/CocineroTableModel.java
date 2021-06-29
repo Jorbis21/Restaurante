@@ -3,6 +3,7 @@
  */
 package restaurante.view.cocinero;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,6 @@ import restaurante.model.Empleado;
 import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
 
-import restaurante.control.RestauranteCtrl;
-
-
 public class CocineroTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
 	//Atributos
@@ -28,29 +26,38 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "Dni"};
 	private List<CocineroTable> row;
+	private GuiCociCtrl coci;
 	//-----------------
 	//Metodos
 	//-----------------
 	/**
 	 * Constructor
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public CocineroTableModel(RestauranteCtrl res){
+	public CocineroTableModel() throws FileNotFoundException{
+		coci = new GuiCociCtrl();
 		row = new ArrayList<CocineroTable>();
-		res.addObserver(this);
+		coci.iniciarObs(this);
+		
 	}
 	/**
 	 * Aniade fila
+	 * @throws FileNotFoundException 
 	 */
-	public void addCoci() {
+	public void addCoci() throws FileNotFoundException {
 		row.add(new CocineroTable());
+		coci.eventoCoci(row.get(getRowCount() - 1).convert(), 0, -1);
 		fireTableStructureChanged();
 	}
 	/**
 	 * Quita fila
+	 * @throws FileNotFoundException 
 	 */
-	public void RemoveCoci(int x) {
+	public void RemoveCoci(int x) throws FileNotFoundException {
+		Cocinero c = row.get(x).convert();
 		row.remove(x);
+		coci.eventoCoci(c, 1, x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -101,6 +108,12 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 			case 6:
 				ct.setDni(o.toString());
 			break;
+		}
+		try {
+			coci.eventoCoci(ct.convert(), 2, rowIndex);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
 	/**
@@ -178,19 +191,19 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 		});
 		
 	}
-	@Override
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(coci);
-	}
-
-	@Override
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(coci);
-	}
-
 	
+	@Override
+	public void ObsAlm(List<Almacen> alm) {}
+	@Override
+	public void ObsCli(List<Cliente> cli) {}
+	@Override
+	public void ObsEmp(List<Empleado> emp) {}
+	@Override
+	public void ObsEnc(List<Encargado> enc) {}
+	@Override
+	public void ObsCyb(List<ComidaYBebida> cyb) {}
+	@Override
+	public void ObsCoci(List<Cocinero> coci) {
+		act(coci);
+	}
 }

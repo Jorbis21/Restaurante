@@ -20,13 +20,10 @@ public class SACocineroImpl implements SACocinero {
 	}
 
 	@Override
-	public boolean modificarCoci(Cocinero a) throws FileNotFoundException {
-		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
-		if(buscarCoci(a) == null){
-			x.modificarCoci(a);
-			return true;
-		}
-		return false;
+	public boolean modificarCoci(Cocinero a, int x) throws FileNotFoundException {
+		DAOCoci z = AbstractFactoryDAO.getInstance().createDAOCoci();
+		z.modificarCoci(a, x);
+		return true;
 	}
 
 	@Override
@@ -37,10 +34,10 @@ public class SACocineroImpl implements SACocinero {
 	}
 
 	@Override
-	public boolean eliminarCoci(Cocinero a) throws FileNotFoundException {
-		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
+	public boolean eliminarCoci(Cocinero a, int x) throws FileNotFoundException {
+		DAOCoci z = AbstractFactoryDAO.getInstance().createDAOCoci();
 		if(buscarCoci(a) == null){
-			x.eliminarCoci(a);
+			z.eliminarCoci(x);
 			return true;
 		}
 		return false;

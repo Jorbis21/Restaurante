@@ -3,6 +3,8 @@
  */
 package restaurante.view.comidaybebida;
 
+import restaurante.model.ComidaYBebida;
+
 public class CYBTable {
 	//-------------------------------
 	//Atributos
@@ -96,5 +98,13 @@ public class CYBTable {
 	}
 	public String getPrecio() {
 		return Precio;
+	}
+	public ComidaYBebida convert() {
+		boolean x = false;
+		if(Comida.equals("Comida"))
+			x = false;
+		else if(Comida.equals("Bebida"))
+			x = true;
+		return new ComidaYBebida(Nombre, Integer.parseInt(Cantidad),x,Desc,Double.parseDouble(Precio));
 	}
 }

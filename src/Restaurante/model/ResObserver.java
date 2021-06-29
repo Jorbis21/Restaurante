@@ -4,6 +4,11 @@
 package restaurante.model;
 import java.util.List;
 public interface ResObserver {
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc, List<ComidaYBebida> CYB,List<Cocinero> coci);
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc, List<ComidaYBebida> CYB,List<Cocinero> coci);	
+	public void ObsAlm(List<Almacen> alm);
+	public void ObsCli(List<Cliente> cli);
+	public void ObsEmp(List<Empleado> emp);
+	public void ObsEnc(List<Encargado> enc);
+	public void ObsCyb(List<ComidaYBebida> cyb);
+	public void ObsCoci(List<Cocinero> coci);
 }
+

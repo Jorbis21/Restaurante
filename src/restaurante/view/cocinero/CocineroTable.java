@@ -3,6 +3,7 @@
  */
 package restaurante.view.cocinero;
 
+import restaurante.model.Cocinero;
 import restaurante.view.empleado.EmpleadosTable;
 
 public class CocineroTable extends EmpleadosTable{
@@ -62,6 +63,9 @@ public class CocineroTable extends EmpleadosTable{
 	 */
 	public void setEspecialidad(String e) {
 		Especialidad = e;
+	}
+	public Cocinero convert() {
+		return new Cocinero(Nombre, Integer.parseInt(id), Double.parseDouble(Salario), FechaPago, Tipo, Especialidad, dni);
 	}
 
 }
