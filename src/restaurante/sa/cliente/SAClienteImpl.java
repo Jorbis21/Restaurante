@@ -12,11 +12,7 @@ public class SAClienteImpl implements SACliente{
 	@Override
 	public boolean aniadirCli(Cliente a) throws FileNotFoundException {
 		DAOCliente x = AbstractFactoryDAO.getInstance().createDAOCli();
-		if(buscarCli(a) == null) {
-			x.aniadirCli(a);
-			return true;
-		}
-		return false;
+		return x.aniadirCli(a);
 	}
 
 	@Override
@@ -38,7 +34,7 @@ public class SAClienteImpl implements SACliente{
 	@Override
 	public boolean eliminarCli(Cliente a, int x) throws FileNotFoundException {
 		DAOCliente z = AbstractFactoryDAO.getInstance().createDAOCli();
-		if(buscarCli(a) == null) {
+		if(buscarCli(a) != null) {
 			z.eliminarCli(x);
 			return true;
 		}

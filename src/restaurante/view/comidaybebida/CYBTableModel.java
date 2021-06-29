@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,7 +16,6 @@ import restaurante.model.Cliente;
 import restaurante.model.Cocinero;
 import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
-import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
 
 public class CYBTableModel extends AbstractTableModel implements ResObserver{
@@ -90,17 +90,31 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setCantidad(o.toString());
+				if(Integer.parseInt(o.toString()) < 0) {
+					JOptionPane.showMessageDialog(null, "La cantidad no puede ser menor que 0", "Cantidad negativa", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setCantidad(o.toString());
+				}
+				
 			break;
 			case 2:
 				if(o.toString().equals("Comida") || o.toString().equals("Bebida"))
 					ct.setComida(o.toString());
+				else
+					JOptionPane.showMessageDialog(null, "Comida solo puede ser Comida o Bebida", "ERROR", JOptionPane.ERROR_MESSAGE, null);
 			break;
 			case 3:
 				ct.setDesc(o.toString());
 			break;
 			case 4:
-				ct.setPrecio(o.toString());
+				if(Integer.parseInt(o.toString()) < 0) {
+					JOptionPane.showMessageDialog(null, "El precio no puede ser menor que 0", "Precio negativo", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setPrecio(o.toString());
+				}
+				
 			break;
 		}
 		try {
@@ -182,8 +196,6 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 	public void ObsCli(List<Cliente> cli) {}
 	@Override
 	public void ObsEmp(List<Empleado> emp) {}
-	@Override
-	public void ObsEnc(List<Encargado> enc) {}
 	@Override
 	public void ObsCyb(List<ComidaYBebida> cyb) {
 		act(cyb);

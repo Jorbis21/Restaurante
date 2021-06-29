@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,7 +16,6 @@ import restaurante.model.Cliente;
 import restaurante.model.Cocinero;
 import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
-import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
 
 
@@ -90,11 +90,19 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setCuenta(o.toString());
+				if(Integer.parseInt(o.toString()) < 0) {
+					JOptionPane.showMessageDialog(null, "La cuenta no puede ser menor que 0", "Cuenta negativa", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setCuenta(o.toString());
+				}
 			break;
 			case 2:
 				if(o.toString().equals("Metalico") || o.toString().equals("Tarjeta")) {
 					ct.setMetodoPago(o.toString());
+				}
+				else {
+					JOptionPane.showMessageDialog(null, "El metodo de pago solo puede ser Tarjeta o Metalico", "ERROR", JOptionPane.ERROR_MESSAGE, null);
 				}
 			break;
 		}
@@ -169,8 +177,6 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 	}
 	@Override
 	public void ObsEmp(List<Empleado> emp) {}
-	@Override
-	public void ObsEnc(List<Encargado> enc) {}
 	@Override
 	public void ObsCyb(List<ComidaYBebida> cyb) {}
 	@Override

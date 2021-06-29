@@ -32,10 +32,10 @@ public class CYBTable {
 	 */
 	public CYBTable() {
 		Nombre = "";
-		Cantidad = "";
+		Cantidad = "0";
 		Comida = "";
 		Desc = "";
-		Precio = "";
+		Precio = "0";
 	}
 	/**
 	 * Da valor al nombre

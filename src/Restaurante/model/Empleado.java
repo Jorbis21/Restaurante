@@ -106,6 +106,13 @@ public class Empleado {
 		data.put("Dni", dni);
 		return data;
 	}
+	public boolean equals(Empleado a) {
+		if(Nombre.equals(a.getNombre()) && id == a.getid() && Salario == a.getSalario()&& FechaPago.equals(a.getFechaPago()) && dni.equals(a.getDni())) {
+			return true;
+		}
+		return false;
+		
+	}
 	public String toString() {
 		return getData().toString();
 	}

@@ -12,11 +12,7 @@ public class SACybImpl implements SACyb {
 	@Override
 	public boolean aniadirCyb(ComidaYBebida a) throws FileNotFoundException {
 		DAOCyb x = AbstractFactoryDAO.getInstance().createDAOCyb();
-		if(buscarCyb(a) == null){
-			x.aniadirCyb(a);
-			return true;
-		}
-		return false;
+		return x.aniadirCyb(a);
 	}
 
 	@Override
@@ -37,7 +33,7 @@ public class SACybImpl implements SACyb {
 	@Override
 	public boolean eliminarCyb(ComidaYBebida a, int x) throws FileNotFoundException {
 		DAOCyb z = AbstractFactoryDAO.getInstance().createDAOCyb();
-		if(buscarCyb(a) == null){
+		if(buscarCyb(a) != null){
 			z.eliminarCyb(x);
 			return true;
 		}

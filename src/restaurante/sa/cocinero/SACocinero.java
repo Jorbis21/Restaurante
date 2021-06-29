@@ -11,4 +11,7 @@ public interface SACocinero {
 	Cocinero buscarCoci(Cocinero a) throws FileNotFoundException;
 	ArrayList<Cocinero> lista() throws FileNotFoundException;
 	boolean eliminarCoci(Cocinero a, int x) throws FileNotFoundException;
+	public boolean buscDni(String dni) throws FileNotFoundException;
+	public boolean buscId(int id) throws FileNotFoundException;
+		
 }

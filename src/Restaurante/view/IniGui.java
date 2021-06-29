@@ -4,22 +4,25 @@ import java.awt.BorderLayout;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 
 import javax.swing.*;
 
-import restaurante.control.RestauranteCtrl;
+import restaurante.view.empleado.GuiEmplCtrl;
+
 
 public class IniGui extends JDialog{
 	private static final long serialVersionUID = 1L;
 	int status = -1;
-	RestauranteCtrl res;
-
-	public IniGui(Frame frame, RestauranteCtrl res) {
+	private GuiEmplCtrl emp;
+	public IniGui(Frame frame) {
 		super(frame, true);
-		this.res = res;
+		emp = new GuiEmplCtrl(status);
+		this.setResizable(false);
 		initGUI();
 	}
    private void initGUI() {
+	   
        String[] labels = {"DNI: ", "Id"};
        int numPairs = labels.length;
        JPanel p = new JPanel(new SpringLayout());
@@ -30,7 +33,7 @@ public class IniGui extends JDialog{
        p.add(a);
        JLabel l1 = new JLabel(labels[1], JLabel.TRAILING);
        p.add(l1);
-       JPasswordField b = new JPasswordField(4);
+       JPasswordField b = new JPasswordField();
        l1.setLabelFor(b);
        p.add(b);
        
@@ -40,17 +43,26 @@ public class IniGui extends JDialog{
        ok.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				if(res.existeEnc(a.getText(),Integer.parseInt(b.getText()))) {
-					status = 0;
-					setVisible(false);
-				}
-				else if(res.existeEmp(a.getText(),Integer.parseInt(b.getText()))){
-					status = 1;
-					setVisible(false);
-				}
-				else {
-					status = -1;
-					setVisible(true);
+				try {
+					if(emp.buscEnc(a.getText(),Integer.parseInt(b.getText()))) {
+						status = 0;
+						setVisible(false);
+					}
+					else if(emp.buscEmp(a.getText(),Integer.parseInt(b.getText()))){
+						status = 1;
+						setVisible(false);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "Dni o Id incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE, null);
+						status = -1;
+						setVisible(true);
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		});

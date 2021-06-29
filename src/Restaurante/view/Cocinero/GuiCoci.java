@@ -61,7 +61,7 @@ public class GuiCoci extends JPanel{
 		toolBar.setAlignmentX(CENTER_ALIGNMENT);
 		mainPanel.add(toolBar);
 		//TABLE
-		tableModel = new CocineroTableModel();
+		tableModel = new CocineroTableModel(status);
 		_table = new JTable(tableModel);
 		_table.setRowSelectionAllowed(true);
 		//SCROLLPANE

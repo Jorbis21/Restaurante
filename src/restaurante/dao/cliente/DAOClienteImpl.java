@@ -43,7 +43,7 @@ public class DAOClienteImpl implements DAOCliente{
 	public Cliente buscarCli(Cliente a) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
 		for(Cliente c: ListCliente) {
-			if(c==a) {
+			if(c.equals(a)) {
 				return c;
 			}
 		}

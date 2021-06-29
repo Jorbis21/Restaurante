@@ -6,28 +6,20 @@ import java.util.ArrayList;
 import restaurante.dao.AbstractFactoryDAO;
 import restaurante.dao.encargado.DAOEncargado;
 import restaurante.model.Empleado;
-import restaurante.model.Encargado;
 
 public class SAEncargadoImpl implements SAEncargado {
 
 	@Override
 	public boolean aniadirEnc(Empleado a, int x) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
-		if(buscarEnc(a,x) == null){
-			y.aniadirEnc(a,x);
-			return true;
-		}
-		return false;
+		return y.aniadirEnc(a,x);
 	}
 
 	@Override
 	public boolean modificarEnc(Empleado a, int n, int x) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
-		if(!(buscarEnc(a,x) == null)){
-			y.modificarEnc(a,x);
-			return true;
-		}
-		return false;
+		y.modificarEnc(a,n,x);
+		return true;
 	}
 
 	@Override
@@ -40,17 +32,39 @@ public class SAEncargadoImpl implements SAEncargado {
 	@Override
 	public boolean eliminarEnc(Empleado a,int n, int x) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
-		if(buscarEnc(a,x) == null){
-			y.eliminarEnc(a,x);
+		if(buscarEnc(a,x) != null){
+			y.eliminarEnc(n,x);
 			return true;
 		}
 		return false;
 	}
+	
+	public int buscEnc(String dni, int ide) throws FileNotFoundException {
+		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
+		return y.buscEnc(dni, ide);
+		
+	}
+	public boolean buscEmp(String dni, int id) throws FileNotFoundException {
+		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
+		return y.buscEmp(dni, id);
+	}
 
 	@Override
-	public ArrayList<Encargado> lista() throws FileNotFoundException {
+	public ArrayList<Empleado> lista(int status, int enc) throws FileNotFoundException {
 		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
-		return y.lista();
+		return y.lista(status, enc);
+	}
+
+	@Override
+	public boolean buscDni(String dni) throws FileNotFoundException {
+		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
+		return y.buscDni(dni);
+	}
+
+	@Override
+	public boolean buscId(int id) throws FileNotFoundException {
+		DAOEncargado y = AbstractFactoryDAO.getInstance().createDAOEnc();
+		return y.buscId(id);
 	}
 
 }

@@ -108,6 +108,13 @@ public class ComidaYBebida {
 		data.put("Price", Precio);
 		return data;
 	}
+	public boolean equals(ComidaYBebida a) {
+		if(Nombre.equals(a.getNombre()) && Cantidad == a.getCantidad() && Comida == a.getComida() && Desc.equals(a.getDesc())&& Precio == a.getPrecio()) {
+			return true;
+		}
+		return false;
+		
+	}
 	public String toString() {
 		return getData().toString();
 	}

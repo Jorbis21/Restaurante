@@ -79,6 +79,13 @@ public class Almacen {
 		data.put("Amount", Cantidad);
 		return data;
 	}
+	public boolean equals(Almacen a) {
+		if(Nombre.equals(a.getNombre()) && Tipo.equals(a.getTipo()) && Cantidad == a.getCantidad()) {
+			return true;
+		}
+		return false;
+		
+	}
 	public String toString() {
 		return getData().toString();
 	}

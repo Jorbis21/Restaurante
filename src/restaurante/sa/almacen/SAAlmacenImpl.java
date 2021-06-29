@@ -11,9 +11,8 @@ public class SAAlmacenImpl implements SAAlmacen {
 	@Override
 	public boolean eliminarAlm(Almacen a, int x) throws FileNotFoundException {
 		DAOAlmacen b = AbstractFactoryDAO.getInstance().createDAOAlm();
-		if(buscarAlm(a) == null) {
-			b.eliminarAlm(x);
-			return true;
+		if(buscarAlm(a) != null) {
+			return b.eliminarAlm(x);
 		}
 		return false;
 	}
@@ -21,11 +20,7 @@ public class SAAlmacenImpl implements SAAlmacen {
 	@Override
 	public boolean aniadirAlm(Almacen a) throws FileNotFoundException {
 		DAOAlmacen x = AbstractFactoryDAO.getInstance().createDAOAlm();
-		if(buscarAlm(a) == null) {
-			x.aniadirAlm(a);
-			return true;
-		}
-		return false;
+		return x.aniadirAlm(a);
 	}
 
 	@Override

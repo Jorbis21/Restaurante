@@ -3,6 +3,8 @@
  */
 package restaurante.view.empleado;
 
+import restaurante.model.Empleado;
+
 public class EmpleadosTable {
 	//-----------------------------------
 	//Atributos
@@ -34,8 +36,8 @@ public class EmpleadosTable {
 	 */
 	public EmpleadosTable() {
 		Nombre = "";
-		id = "";
-		Salario = "";
+		id = "-1";
+		Salario = "0";
 		FechaPago = "";
 		dni = "";
 	}
@@ -100,5 +102,8 @@ public class EmpleadosTable {
 	 */
 	public String getFechaPago() {
 		return FechaPago;
+	}
+	public Empleado convert() {
+		return new Empleado(Nombre, Integer.parseInt(id), Double.parseDouble(Salario), FechaPago,dni);
 	}
 }

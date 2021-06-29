@@ -12,11 +12,7 @@ public class SACocineroImpl implements SACocinero {
 	@Override
 	public boolean aniadirCoci(Cocinero a) throws FileNotFoundException {
 		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
-		if(buscarCoci(a) == null){
-			x.aniadirCoci(a);
-			return true;
-		}
-		return false;
+		return x.aniadirCoci(a);
 	}
 
 	@Override
@@ -32,11 +28,20 @@ public class SACocineroImpl implements SACocinero {
 		Cocinero y = x.buscarCoci(a);
 		return y;
 	}
+	public boolean buscDni(String dni) throws FileNotFoundException {
+		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
+		return x.buscDni(dni);
+		
+	}
+	public boolean buscId(int id) throws FileNotFoundException {
+		DAOCoci x = AbstractFactoryDAO.getInstance().createDAOCoci();
+		return x.buscId(id);
+	}
 
 	@Override
 	public boolean eliminarCoci(Cocinero a, int x) throws FileNotFoundException {
 		DAOCoci z = AbstractFactoryDAO.getInstance().createDAOCoci();
-		if(buscarCoci(a) == null){
+		if(buscarCoci(a) != null){
 			z.eliminarCoci(x);
 			return true;
 		}

@@ -67,4 +67,11 @@ public class Cocinero extends Empleado{
 	public String toString() {
 		return getData().toString();
 	}
+	public boolean equals(Cocinero a) {
+		if(super.equals(a) && Especialidad.equals(a.getEspecialidad()) && Tipo.equals(a.getTipo())) {
+			return true;
+		}
+		return false;
+		
+	}
 }

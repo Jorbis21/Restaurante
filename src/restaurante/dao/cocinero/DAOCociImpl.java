@@ -45,13 +45,27 @@ public class DAOCociImpl implements DAOCoci {
 	public Cocinero buscarCoci(Cocinero a) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
 		for(Cocinero x: ListCocinero) {
-			if(x==a) {
+			if(x.equals(a)) {
 				return x;
 			}
 		}
 		return null;
 	}
-
+	public boolean buscDni(String dni) throws FileNotFoundException {
+		ArrayList<Cocinero> ListCocinero = iniList();
+		for(Cocinero c: ListCocinero) 
+			if(c.getDni().equals(dni))
+				return true;
+		return false;
+		
+	}
+	public boolean buscId(int id) throws FileNotFoundException {
+		ArrayList<Cocinero> ListCocinero = iniList();
+		for(Cocinero c: ListCocinero) 
+			if(c.getid() == id)
+				return true;
+		return false;
+	}
 	@Override
 	public boolean eliminarCoci(int a) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();

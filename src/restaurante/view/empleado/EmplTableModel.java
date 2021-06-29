@@ -3,9 +3,11 @@
  */
 package restaurante.view.empleado;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
@@ -14,10 +16,8 @@ import restaurante.model.Cliente;
 import restaurante.model.Cocinero;
 import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
-import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
-import restaurante.control.RestauranteCtrl;
-
+import restaurante.view.cocinero.GuiCociCtrl;
 
 public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
@@ -27,31 +27,39 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 	private boolean edit = false;
 	private String[] col = {"Nombre","Id","Salario", "FechaPago","Dni"};
 	private List<EmpleadosTable> row;
-	RestauranteCtrl res;
+	private GuiEmplCtrl emp;
+	private GuiCociCtrl coci;
 	//-----------------
 	//Metodos
 	//-----------------
 	/**
 	 * Constructor
 	 * @param res
+	 * @throws FileNotFoundException 
 	 */
-	public EmplTableModel(RestauranteCtrl res){
+	public EmplTableModel(int status) throws FileNotFoundException{
+		emp = new GuiEmplCtrl(status);
+		coci = new GuiCociCtrl();
 		row = new ArrayList<EmpleadosTable>();
-		this.res = res;
-		res.addObserver(this);
+		emp.iniciarObs(this);
 	}
 	/**
 	 * Aniade fila
+	 * @throws FileNotFoundException 
 	 */
-	public void addEmpl() {
+	public void addEmpl() throws FileNotFoundException {
 		row.add(new EmpleadosTable());
+		emp.eventoEnc(row.get(getRowCount() - 1).convert(), 0, -1);
 		fireTableStructureChanged();
 	}
 	/**
 	 * Quita fila
+	 * @throws FileNotFoundException 
 	 */
-	public void RemoveEmpl(int x) {
+	public void RemoveEmpl(int x) throws FileNotFoundException {
+		Empleado e = row.get(x).convert();
 		row.remove(x);
+		emp.eventoEnc(e, 1, x);
 		fireTableStructureChanged();
 	}
 	/**
@@ -85,17 +93,56 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setId(o.toString());
+			try {
+				if(coci.buscId(Integer.parseInt(o.toString()))||emp.buscId(Integer.parseInt(o.toString()))) {
+					JOptionPane.showMessageDialog(null, "Id ya en uso", "ERROR", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setId(o.toString());
+				}
+			} catch (NumberFormatException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+				
 			break;
 			case 2:
-				ct.setSalario(o.toString());
+				if(Integer.parseInt(o.toString()) < 0) {
+					JOptionPane.showMessageDialog(null, "El salario no puede ser menor que 0", "Salario negativa", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setSalario(o.toString());
+				}
 			break;
 			case 3:
 				ct.setFechaPago(o.toString());
 			break;
 			case 4:	
-				ct.setDni(o.toString());
+				try {
+					if(coci.buscDni(o.toString())||emp.buscDni(o.toString())) {
+						JOptionPane.showMessageDialog(null, "Dni ya en uso", "ERROR", JOptionPane.ERROR_MESSAGE, null);
+					}
+					else {
+						ct.setDni(o.toString());
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			break;
+		}
+		try {
+			emp.eventoEnc(ct.convert(), 2, rowIndex);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
     }
 
@@ -170,18 +217,18 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 		
 		
 	}
+	
 	@Override
-	public void onAdd(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
+	public void ObsAlm(List<Almacen> alm) {}
+	@Override
+	public void ObsCli(List<Cliente> cli) {}
+	@Override
+	public void ObsEmp(List<Empleado> emp) {
 		act(emp);
 	}
-
-
 	@Override
-	public void onRegister(List<Almacen> alm, List<Cliente> cli, List<Empleado> emp, List<Encargado> enc,
-			List<ComidaYBebida> CYB, List<Cocinero> coci) {
-		// TODO Auto-generated method stub
-		act(emp);
-	}
+	public void ObsCyb(List<ComidaYBebida> cyb) {}
+	@Override
+	public void ObsCoci(List<Cocinero> coci) {}
 
 }

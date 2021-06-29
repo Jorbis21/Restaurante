@@ -44,7 +44,7 @@ public class DAOCybImpl implements DAOCyb {
 	public ComidaYBebida buscarCyb(ComidaYBebida a) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
 		for(ComidaYBebida x: ListCYB) {
-			if(x==a) {
+			if(x.equals(a)) {
 				return x;
 			}
 		}

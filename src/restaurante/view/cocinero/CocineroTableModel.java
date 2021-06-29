@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
@@ -15,8 +16,8 @@ import restaurante.model.Cliente;
 import restaurante.model.Cocinero;
 import restaurante.model.ComidaYBebida;
 import restaurante.model.Empleado;
-import restaurante.model.Encargado;
 import restaurante.model.ResObserver;
+import restaurante.view.empleado.GuiEmplCtrl;
 
 public class CocineroTableModel extends AbstractTableModel implements ResObserver{
 	//-----------------
@@ -27,6 +28,7 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	private String[] col = {"Nombre","Id","Salario", "FechaPago", "Tipo", "Especialidad", "Dni"};
 	private List<CocineroTable> row;
 	private GuiCociCtrl coci;
+	private GuiEmplCtrl emp;
 	//-----------------
 	//Metodos
 	//-----------------
@@ -35,7 +37,8 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	 * @param res
 	 * @throws FileNotFoundException 
 	 */
-	public CocineroTableModel() throws FileNotFoundException{
+	public CocineroTableModel(int status) throws FileNotFoundException{
+		emp = new GuiEmplCtrl(status);
 		coci = new GuiCociCtrl();
 		row = new ArrayList<CocineroTable>();
 		coci.iniciarObs(this);
@@ -91,10 +94,29 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setNombre(o.toString());
 			break;
 			case 1:
-				ct.setId(o.toString());
+				try {
+					if(coci.buscId(Integer.parseInt(o.toString()))||emp.buscId(Integer.parseInt(o.toString()))) {
+						JOptionPane.showMessageDialog(null, "Id ya en uso", "ERROR", JOptionPane.ERROR_MESSAGE, null);
+					}
+					else {
+						ct.setId(o.toString());
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			break;
 			case 2:
-				ct.setSalario(o.toString());
+				if(Integer.parseInt(o.toString()) < 0) {
+					JOptionPane.showMessageDialog(null, "El salario no puede ser menor que 0", "Salario negativa", JOptionPane.ERROR_MESSAGE, null);
+				}
+				else {
+					ct.setSalario(o.toString());
+				}
+				
 			break;
 			case 3:
 				ct.setFechaPago(o.toString());
@@ -106,7 +128,20 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 				ct.setEspecialidad(o.toString());
 			break;
 			case 6:
-				ct.setDni(o.toString());
+				try {
+					if(coci.buscDni(o.toString())||emp.buscDni(o.toString())) {
+						JOptionPane.showMessageDialog(null, "Dni ya en uso", "ERROR", JOptionPane.ERROR_MESSAGE, null);
+					}
+					else {
+						ct.setDni(o.toString());
+					}
+				} catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			break;
 		}
 		try {
@@ -198,8 +233,6 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 	public void ObsCli(List<Cliente> cli) {}
 	@Override
 	public void ObsEmp(List<Empleado> emp) {}
-	@Override
-	public void ObsEnc(List<Encargado> enc) {}
 	@Override
 	public void ObsCyb(List<ComidaYBebida> cyb) {}
 	@Override

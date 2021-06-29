@@ -11,4 +11,6 @@ public interface DAOCoci {
 	Cocinero buscarCoci(Cocinero a) throws FileNotFoundException;
 	ArrayList<Cocinero> lista() throws FileNotFoundException;
 	boolean eliminarCoci(int a) throws FileNotFoundException;
+	boolean buscDni(String dni) throws FileNotFoundException;
+	boolean buscId(int id) throws FileNotFoundException;
 }

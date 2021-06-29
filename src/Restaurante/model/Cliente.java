@@ -82,6 +82,13 @@ public class Cliente {
 			data.put("Pay", "Metalico");
 		return data;
 	}
+	public boolean equals(Cliente a) {
+		if(Nombre.equals(a.getNombre()) && Cuenta == a.getCuenta() && MetodoPago == a.getMetodoPago()) {
+			return true;
+		}
+		return false;
+		
+	}
 	public String toString() {
 		return getData().toString();
 	}

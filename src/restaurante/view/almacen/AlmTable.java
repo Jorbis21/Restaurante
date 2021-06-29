@@ -30,7 +30,7 @@ public class AlmTable {
 	public AlmTable() {
 		Nombre = "";
 		Tipo = "";
-		Cantidad = "";
+		Cantidad = "0";
 	}
 	/**
 	 * Devuelve el nombre

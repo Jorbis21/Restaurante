@@ -53,7 +53,7 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 	public Almacen buscarAlm(Almacen a) throws FileNotFoundException {
 		ArrayList<Almacen> ListAlmacen = iniList();
 		for(Almacen x: ListAlmacen) {
-			if(x==a) {
+			if(x.equals(a)) {
 				return x;
 			}
 		}

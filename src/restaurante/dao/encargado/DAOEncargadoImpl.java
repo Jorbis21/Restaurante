@@ -27,32 +27,76 @@ public class DAOEncargadoImpl implements DAOEncargado {
 		ArrayList<Encargado> ListEncargado = iniList();
 		ListEncargado.get(x).getLista().add(a);
 		guardar(ListEncargado);
-		return false;
+		return true;
 	}
 
 	@Override
-	public boolean modificarEnc(Empleado a, int x) throws FileNotFoundException {
-		eliminarEnc(a,x);
-		aniadirEnc(a,x);
-		return false;
+	public boolean modificarEnc(Empleado a, int n,int x) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		ListEncargado.get(n).getLista().get(x).setNombre(a.getNombre());
+		ListEncargado.get(n).getLista().get(x).setDni(a.getDni());
+		ListEncargado.get(n).getLista().get(x).setFechaPago(a.getFechaPago());
+		ListEncargado.get(n).getLista().get(x).setSalario(a.getSalario());
+		ListEncargado.get(n).getLista().get(x).setid(a.getid());
+		return true;
 	}
-
+	// hay que cambiarlo
 	@Override
 	public Empleado buscarEnc(Empleado a, int x) throws FileNotFoundException {
 		ArrayList<Encargado> ListEncargado = iniList();
-		for(Empleado y: ListEncargado.get(x).getLista()) {
-			if(y == a) {
-				return y;
+		for (Encargado e: ListEncargado) {
+			for(Empleado y: e.getLista()) {
+				if(y.equals(a)) {
+					return y;
+				}
 			}
 		}
+		
 		return null;
 	}
-
-	@Override
-	public boolean eliminarEnc(Empleado a, int x) throws FileNotFoundException {
+	public int buscEnc(String dni, int ide) throws FileNotFoundException {
 		ArrayList<Encargado> ListEncargado = iniList();
-		ListEncargado.get(x).getLista().remove(a);
+		int i = 0;
+		while (i < ListEncargado.size()) {
+			Encargado e = ListEncargado.get(i);
+			if (e.getDni().equals(dni) && e.getIdEncargado() == ide) {
+				return i;
+			}
+			i++;
+		}
+		return -1;
+		
+	}
+	public boolean buscDni(String dni) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		for (Encargado e: ListEncargado) 
+			for(Empleado y: e.getLista()) 
+				if(e.getDni().equals(dni) || y.getDni().equals(dni))
+					return true;
 		return false;
+	}
+	public boolean buscId(int id) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		for (Encargado e: ListEncargado) 
+			for(Empleado y: e.getLista()) 
+				if(e.getid() == id || y.getid() == id)
+					return true;
+		return false;
+	}
+	public boolean buscEmp(String dni, int id) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		for (Encargado e: ListEncargado) 
+			for(Empleado em: e.getLista()) 
+				if (em.getDni().equals(dni) && em.getid() == id) 
+					return true;
+		return false;
+	}
+	@Override
+	public boolean eliminarEnc(int a, int x) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		ListEncargado.get(a).getLista().remove(x);
+		guardar(ListEncargado);
+		return true;
 	}
 	private ArrayList<Encargado> iniList() throws FileNotFoundException{
 		Factory<Encargado> factoryEnc;
@@ -111,8 +155,21 @@ public class DAOEncargadoImpl implements DAOEncargado {
 	}
 
 	@Override
-	public ArrayList<Encargado> lista() throws FileNotFoundException {
-		return iniList();
+	public ArrayList<Empleado> lista(int status, int enc) throws FileNotFoundException {
+		ArrayList<Encargado> ListEncargado = iniList();
+		ArrayList<Empleado> x = new ArrayList<Empleado>();
+		if(status == 0) {
+			return ListEncargado.get(enc).getLista();
+		}
+		else if(status == 1) {
+			for (Encargado e: ListEncargado) {
+				x.add(e);
+				for(Empleado em: e.getLista()) {
+					x.add(em);
+				}
+			}
+		}
+		return x;
 	}
 
 }

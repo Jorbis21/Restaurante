@@ -24,16 +24,13 @@ import restaurante.view.cliente.GuiCliente;
 import restaurante.view.cocinero.GuiCoci;
 import restaurante.view.comidaybebida.GuiComidaYBebida;
 import restaurante.view.empleado.GuiEmpleado;
-import restaurante.control.RestauranteCtrl;
-
-
 
 public class MainGui extends JFrame{
 	//-----------------------------
 	//Atributos
 	//-----------------------------
 	private static final long serialVersionUID = 1L;
-	private JButton Clientes, ComidaYBebida, Empleados, Almacen,Coci, Exit, IniSesion, CerrarSesion;
+	private JButton Clientes, ComidaYBebida, Empleados, Almacen,Coci, IniSesion, CerrarSesion;
 	private GuiCoci tablaCoci;
 	private GuiEmpleado tablaEmpl;
 	private GuiCliente tablaCli;
@@ -99,7 +96,12 @@ public class MainGui extends JFrame{
 		Empleados = new JButton("Empleados");
 		Empleados.setActionCommand("Ver lista empleados");
 		Empleados.setToolTipText("Gestion lista empleados");
-		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionEmpleados();}});
+		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
+			gestionEmpleados();
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}}});
 		Empleados.setVisible(false);
 		toolbar.add(Empleados);
 		Coci = new JButton("Cocineros");
@@ -127,7 +129,12 @@ public class MainGui extends JFrame{
 		IniSesion = new JButton();
 		IniSesion.setIcon(new ImageIcon("resources/i.png"));
 		IniSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-			IniSes();
+			try {
+				IniSes();
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		}});
 		toolbar.add(IniSesion);
 		CerrarSesion = new JButton();
@@ -141,16 +148,7 @@ public class MainGui extends JFrame{
 			}
 		}});
 		toolbar.add(CerrarSesion);
-		Exit = new JButton();
-		Exit.setIcon(new ImageIcon("resources/e.png"));
-		Exit.setActionCommand("Cierra el programa");
-		Exit.setToolTipText("Cierra el programa guardando todos los datos");
-		Exit.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-		//guardar();
-		System.exit(0);}});
-		
-		toolbar.add(Exit);
-		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
@@ -174,7 +172,7 @@ public class MainGui extends JFrame{
 		center.add(tablaCoci);
 		tablaCoci.open();
 	}
-	private void IniSes() {
+	private void IniSes() throws FileNotFoundException {
 		IniGui Ini = new IniGui((Frame) SwingUtilities.getWindowAncestor(this));
 		status = Ini.open();
 		if(status == 0 || status == 1) {
@@ -219,8 +217,9 @@ public class MainGui extends JFrame{
 	}
 	/**
 	 * Inicia la GUIEmpleados
+	 * @throws FileNotFoundException 
 	 */
-	private void gestionEmpleados() {
+	private void gestionEmpleados() throws FileNotFoundException {
 		center.removeAll();
 		ComidaYBebida.setEnabled(true);
 		Empleados.setEnabled(false);

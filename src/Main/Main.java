@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import javax.swing.SwingUtilities;
 
 import restaurante.view.MainGui;
-import restaurante.control.RestauranteCtrl;
 
 
 
@@ -19,7 +18,11 @@ public class Main {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
 			public void run() {
-				new MainGui();
+				try {
+					new MainGui();
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

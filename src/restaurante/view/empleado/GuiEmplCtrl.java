@@ -1,22 +1,67 @@
 package restaurante.view.empleado;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import restaurante.control.RestauranteCtrl;
 import restaurante.model.Empleado;
+import restaurante.model.ResObserver;
+import restaurante.sa.AbstractFactorySA;
+import restaurante.sa.encargado.SAEncargado;
 
 public class GuiEmplCtrl {
-	private RestauranteCtrl res;
-	public GuiEmplCtrl(RestauranteCtrl res) {
-		this.res = res;
+	
+	private ResObserver ObsEnc;
+	private int enc, status;
+	public GuiEmplCtrl(int s) {
+		status = s;
 	}
-	public boolean aniadir(Empleado a, int n) throws FileNotFoundException {
-		return res.eventoEnc(a, 0, n, -1);
+
+	public boolean eventoEnc(Empleado a, int e, int z) throws FileNotFoundException {
+		boolean x = false;
+		SAEncargado y = AbstractFactorySA.getInstance().createSAEnc();
+		switch(e) {
+		case 0:{
+			x = y.aniadirEnc(a, enc);
+		}
+		break;
+		case 1:{
+			x = y.eliminarEnc(a, enc, z);
+		}
+		break;
+		case 2:{
+			x = y.modificarEnc(a, enc, z);
+		}
+		break;
+		}
+		ArrayList<Empleado> ListEncargado = new ArrayList<Empleado>();
+		ListEncargado = y.lista(status, enc);
+		ObsEnc.ObsEmp(ListEncargado);
+		return x;
 	}
-	public boolean eliminar(Empleado a, int n,int x) throws FileNotFoundException {
-		return res.eventoEnc(a, 1,n, x);
+	public boolean buscDni(String dni) throws FileNotFoundException{
+		SAEncargado y = AbstractFactorySA.getInstance().createSAEnc();
+		return y.buscDni(dni);
 	}
-	public boolean modificar(Empleado a,int n, int x) throws FileNotFoundException {
-		return res.eventoEnc(a, 2,n, x);
+	public boolean buscId(int id) throws FileNotFoundException{
+		SAEncargado y = AbstractFactorySA.getInstance().createSAEnc();
+		return y.buscId(id);
 	}
+	public boolean buscEnc(String dni, int ide) throws FileNotFoundException {
+		enc = AbstractFactorySA.getInstance().createSAEnc().buscEnc(dni, ide);
+		if(enc > -1) {
+			status = 0;
+			return true;
+		}
+		return false;
+	}
+	public boolean buscEmp(String dni, int id) throws FileNotFoundException {
+		status = 1;
+		return AbstractFactorySA.getInstance().createSAEnc().buscEmp(dni, id);
+	}
+	public void iniciarObs(ResObserver e) throws FileNotFoundException {
+		ArrayList<Empleado> ListEncargado = AbstractFactorySA.getInstance().createSAEnc().lista(status, enc);
+		ObsEnc = e;
+		ObsEnc.ObsEmp(ListEncargado);
+	}
+	
 }

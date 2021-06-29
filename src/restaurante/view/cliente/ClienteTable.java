@@ -29,7 +29,7 @@ public class ClienteTable {
 	 */
 	public ClienteTable() {
 		Nombre = "";
-		Cuenta = "";
+		Cuenta = "0";
 		MetodoPago = "";
 	}
 	/**
