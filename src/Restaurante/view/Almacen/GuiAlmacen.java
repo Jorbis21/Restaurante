@@ -106,7 +106,10 @@ public class GuiAlmacen extends JPanel{
 		JButton Ec = new JButton();
 		Ec.setIcon(new ImageIcon("resources/s.png"));
 		Ec.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {	
-			int x[] = _table.getSelectedRows();
+			int x[] = new int[_table.getSelectedRowCount()];
+			for(int i = 0; i < _table.getSelectedRowCount(); i++) {
+				x[i] = _table.getSelectedRow();
+			}
 			for(int i = 0; i < x.length; i++) {
 				try {
 					tableModel.RemoveAlm(x[i]);
@@ -124,6 +127,9 @@ public class GuiAlmacen extends JPanel{
 	    setVisible(false); 
 	    
 	}
+	/**
+	 * Filtro para las filas
+	 */
 	@SuppressWarnings("unchecked")
 	public void filtro() {
 		trsfiltro.setRowFilter(RowFilter.regexFilter(bus.getText()));
@@ -136,9 +142,5 @@ public class GuiAlmacen extends JPanel{
 	public void open() {
         tableModel.clear();
 		setVisible(true);
-	}
-	
-	public String toString(){
-		return tableModel.toString();
 	}
 }

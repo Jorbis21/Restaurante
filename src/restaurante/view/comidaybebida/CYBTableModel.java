@@ -187,6 +187,11 @@ public class CYBTableModel extends AbstractTableModel implements ResObserver{
 		});
 		
 	}
+	
+	//-------------------
+	//Observers
+	//-------------------
+	
 	public void setEdit(boolean b) {
 		edit = b;
 	}

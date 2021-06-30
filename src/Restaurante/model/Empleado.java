@@ -106,6 +106,11 @@ public class Empleado {
 		data.put("Dni", dni);
 		return data;
 	}
+	/**
+	 * Conmprueba si son iguales
+	 * @param a
+	 * @return
+	 */
 	public boolean equals(Empleado a) {
 		if(Nombre.equals(a.getNombre()) && id == a.getid() && Salario == a.getSalario()&& FechaPago.equals(a.getFechaPago()) && dni.equals(a.getDni())) {
 			return true;
@@ -113,6 +118,9 @@ public class Empleado {
 		return false;
 		
 	}
+	/**
+	 * Objeto a String
+	 */
 	public String toString() {
 		return getData().toString();
 	}

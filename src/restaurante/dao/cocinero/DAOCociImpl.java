@@ -27,7 +27,6 @@ public class DAOCociImpl implements DAOCoci {
 		guardar(ListCocinero);
 		return true;
 	}
-
 	@Override
 	public boolean modificarCoci(Cocinero a, int x) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
@@ -38,19 +37,18 @@ public class DAOCociImpl implements DAOCoci {
 		ListCocinero.get(x).setFechaPago(a.getFechaPago());
 		ListCocinero.get(x).setTipo(a.getTipo());
 		ListCocinero.get(x).setid(a.getid());
+		guardar(ListCocinero);
 		return true;
 	}
-
 	@Override
 	public Cocinero buscarCoci(Cocinero a) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
-		for(Cocinero x: ListCocinero) {
-			if(x.equals(a)) {
+		for(Cocinero x: ListCocinero) 
+			if(x.equals(a)) 
 				return x;
-			}
-		}
 		return null;
 	}
+	@Override
 	public boolean buscDni(String dni) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
 		for(Cocinero c: ListCocinero) 
@@ -59,6 +57,7 @@ public class DAOCociImpl implements DAOCoci {
 		return false;
 		
 	}
+	@Override
 	public boolean buscId(int id) throws FileNotFoundException {
 		ArrayList<Cocinero> ListCocinero = iniList();
 		for(Cocinero c: ListCocinero) 
@@ -73,6 +72,20 @@ public class DAOCociImpl implements DAOCoci {
 		guardar(ListCocinero);
 		return true;
 	}
+	@Override
+	public ArrayList<Cocinero> lista() throws FileNotFoundException {
+		return iniList();
+	}
+	
+	//--------------------
+	//Metodos auxiliares
+	//--------------------
+	
+	/**
+	 * Devuelve una lista con los cocineros cargados desde la BBDD
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private ArrayList<Cocinero> iniList() throws FileNotFoundException{
 		Factory<Cocinero> factoryCoci;
 		ArrayList<Builder<Cocinero>> CociBuilder = new ArrayList<>();
@@ -81,9 +94,9 @@ public class DAOCociImpl implements DAOCoci {
 		return loadCoci(new FileInputStream(new File("resources/Cocineros.json")),factoryCoci);
 	}
 	/**
-	 * Guarda los datos de los cocineros
-	 * @param a
-	 * @throws FileNotFoundException 
+	 * Guarda la lista de cocineros modificada en la BBDD
+	 * @param ListCocinero
+	 * @throws FileNotFoundException
 	 */
 	private void guardar(ArrayList<Cocinero> ListCocinero) throws FileNotFoundException {
 		OutputStream os = new FileOutputStream(new File("resources/Cocineros.json"));
@@ -92,8 +105,8 @@ public class DAOCociImpl implements DAOCoci {
 		p.println(chargeCoci(ListCocinero));
 	}
 	/**
-	 * Carga los datos de los objetos para
-	 * guardarlos en un archivo
+	 * Transforma lista de cocineros en un JSONArray para guardarlo en la BBDD
+	 * @param ListCocinero
 	 * @return
 	 */
 	private JSONObject chargeCoci(ArrayList<Cocinero> ListCocinero) {
@@ -110,9 +123,10 @@ public class DAOCociImpl implements DAOCoci {
 		return j;
 	}
 	/**
-	 * Carga los datos desde un archivo
+	 * Carga los datos del cocinero desde el archivo
 	 * @param in
-	 * @return 
+	 * @param factoryCoci
+	 * @return
 	 */
 	private ArrayList<Cocinero> loadCoci(InputStream in, Factory<Cocinero> factoryCoci) {
 		ArrayList<Cocinero> ListCocinero = new ArrayList<Cocinero>();
@@ -126,11 +140,4 @@ public class DAOCociImpl implements DAOCoci {
 		}
 		return ListCocinero;
 	}
-
-	@Override
-	public ArrayList<Cocinero> lista() throws FileNotFoundException {
-		return iniList();
-	}
-	
-
 }

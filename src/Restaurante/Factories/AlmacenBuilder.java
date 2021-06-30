@@ -20,7 +20,7 @@ public class AlmacenBuilder extends Builder<Almacen>{
 	}
 	
 	/**
-	 * Davalor al objeto
+	 * Da valor al objeto
 	 */
 	@Override
 	protected Almacen createTheInstance(JSONObject data) {

@@ -74,6 +74,10 @@ public class AlmTable {
 	public void setTipo(String t){
 		Tipo = t;
 	}
+	/**
+	 * Convierte un AlmTable en un almacen
+	 * @return
+	 */
 	public Almacen convert() {
 		return new Almacen(Nombre,Tipo,Integer.parseInt(Cantidad));
 	}

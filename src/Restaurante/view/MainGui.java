@@ -72,107 +72,92 @@ public class MainGui extends JFrame{
 		tablaCli = new GuiCliente();
 		tablaCoci = new GuiCoci(status);
 		
+		
 		Clientes = new JButton("Clientes");
 		Clientes.setActionCommand("Ver lista clientes");
 		Clientes.setToolTipText("Gestion lista clientes");
-		Clientes.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
-			gestionClientes();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}}});
+		Clientes.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionClientes();}});
 		Clientes.setVisible(false);
 		toolbar.add(Clientes);
+		
 		ComidaYBebida = new JButton("Carta");
 		ComidaYBebida.setActionCommand("Ver carta");
 		ComidaYBebida.setToolTipText("Gestion carta");
-		ComidaYBebida.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
-			gestionComidaYBebida();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}}});
+		ComidaYBebida.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionComidaYBebida();}});
 		toolbar.add(ComidaYBebida);
+		
 		Empleados = new JButton("Empleados");
 		Empleados.setActionCommand("Ver lista empleados");
 		Empleados.setToolTipText("Gestion lista empleados");
-		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
-			gestionEmpleados();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}}});
+		Empleados.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionEmpleados();}});
 		Empleados.setVisible(false);
 		toolbar.add(Empleados);
+		
 		Coci = new JButton("Cocineros");
 		Coci.setActionCommand("Ver lista cocineres");
 		Coci.setToolTipText("Gestion lista cocineros");
-		Coci.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
-			gestionCoci();
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}}});
+		Coci.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionCoci();}});
 		Coci.setVisible(false);
 		toolbar.add(Coci);
+		
 		Almacen = new JButton("Almacen");
 		Almacen.setActionCommand("Ver lista del almacen");
 		Almacen.setToolTipText("Gestion almacen");
-		Almacen.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {try {
-			gestionAlmacen();
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		}}});
+		Almacen.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {gestionAlmacen();}});
 		Almacen.setVisible(false);
 		toolbar.add(Almacen);
+		
 		toolbar.add(Box.createGlue());
 		IniSesion = new JButton();
 		IniSesion.setIcon(new ImageIcon("resources/i.png"));
-		IniSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-			try {
-				IniSes();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}});
+		IniSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {IniSes();}});
 		toolbar.add(IniSesion);
+		
 		CerrarSesion = new JButton();
 		CerrarSesion.setIcon(new ImageIcon("resources/o.png"));
-		CerrarSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-			try {
-				CerrarSes();
-			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		}});
+		CerrarSesion.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {CerrarSes();}});
 		toolbar.add(CerrarSesion);
+		
+		gestionComidaYBebida();
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
 		this.setVisible(true);
 		
 	}
-	private void CerrarSes() throws FileNotFoundException {
+	/**
+	 * Cierra la sesion de la cuenta que este iniciada
+	 */
+	private void CerrarSes() {
 		status = -1;
-		gestionComidaYBebida();
+		gestionComidaYBebida();	
 		Clientes.setVisible(false);
 		Empleados.setVisible(false);
 		Almacen.setVisible(false);
 		Coci.setVisible(false);
 	}
-	private void gestionCoci() throws FileNotFoundException {
+	/**
+	 * Muestra la tabla de cocineros
+	 */
+	private void gestionCoci() {
 		center.removeAll();
 		ComidaYBebida.setEnabled(true);
 		Empleados.setEnabled(true);
 		Almacen.setEnabled(true);
 		Clientes.setEnabled(true);
 		Coci.setEnabled(false);
-		tablaCoci = new GuiCoci(status);
+		try {
+			tablaCoci = new GuiCoci(status);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		center.add(tablaCoci);
 		tablaCoci.open();
 	}
-	private void IniSes() throws FileNotFoundException {
+	/**
+	 * Inicia sesion con los parametros obtenidos en el IniGui
+	 */
+	private void IniSes() {
 		IniGui Ini = new IniGui((Frame) SwingUtilities.getWindowAncestor(this));
 		status = Ini.open();
 		if(status == 0 || status == 1) {
@@ -183,66 +168,76 @@ public class MainGui extends JFrame{
 		}
 	}
 	/**
-	 * Inicia la GUICliente
-	 * @throws FileNotFoundException 
+	 * Muestra la tabla clientes
 	 */
-	private void gestionClientes() throws FileNotFoundException {
+	private void gestionClientes() {
 		center.removeAll();
 		ComidaYBebida.setEnabled(true);
 		Empleados.setEnabled(true);
 		Almacen.setEnabled(true);
 		Coci.setEnabled(true);
 		Clientes.setEnabled(false);
-		tablaCli = new GuiCliente();
+		try {
+			tablaCli = new GuiCliente();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		center.add(tablaCli);
 		tablaCli.open();
 		
 	}
 	/**
-	 * Inicia la GUIComidaYBebida
-	 * @throws FileNotFoundException 
+	 * Muestra la tabla de ComidaYBebida
 	 */
-	private void gestionComidaYBebida() throws FileNotFoundException {
+	private void gestionComidaYBebida() {
 		center.removeAll();
-		
 		Empleados.setEnabled(true);
 		Almacen.setEnabled(true);
 		Clientes.setEnabled(true);
 		Coci.setEnabled(true);
 		ComidaYBebida.setEnabled(false);
-		
-		tablaCYB = new GuiComidaYBebida(status);
+		try {
+			tablaCYB = new GuiComidaYBebida(status);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		center.add(tablaCYB);
 		tablaCYB.open();
 	}
 	/**
-	 * Inicia la GUIEmpleados
-	 * @throws FileNotFoundException 
+	 * Muestra la tabla de Empleados
 	 */
-	private void gestionEmpleados() throws FileNotFoundException {
+	private void gestionEmpleados() {
 		center.removeAll();
 		ComidaYBebida.setEnabled(true);
 		Empleados.setEnabled(false);
 		Almacen.setEnabled(true);
 		Clientes.setEnabled(true);
 		Coci.setEnabled(true);
-		tablaEmpl = new GuiEmpleado(status);
+		try {
+			tablaEmpl = new GuiEmpleado(status);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		center.add(tablaEmpl);
 		tablaEmpl.open();
 		
 	}
 	/**
-	 * Inicia la GUIAlmacen
-	 * @throws FileNotFoundException 
+	 * Muestra la tabla de Almacen
 	 */
-	private void gestionAlmacen() throws FileNotFoundException {
+	private void gestionAlmacen() {
 		center.removeAll();
 		ComidaYBebida.setEnabled(true);
 		Empleados.setEnabled(true);
 		Almacen.setEnabled(false);
 		Clientes.setEnabled(true);
 		Coci.setEnabled(true);
-		tablaAlm = new GuiAlmacen();
+		try {
+			tablaAlm = new GuiAlmacen();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		center.add(tablaAlm);
 		tablaAlm.open();
 	}

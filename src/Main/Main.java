@@ -13,7 +13,11 @@ import restaurante.view.MainGui;
 
 
 public class Main {
-
+	/**
+	 * Inicia el MainGui
+	 * @param args
+	 * @throws Exception
+	 */
 	private static void start(String[] args) throws Exception {
 		SwingUtilities.invokeAndWait(new Runnable() {
 			@Override
@@ -26,6 +30,10 @@ public class Main {
 			}
 		});
 	}
+	/**
+	 * Inicia el programa
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			start(args);

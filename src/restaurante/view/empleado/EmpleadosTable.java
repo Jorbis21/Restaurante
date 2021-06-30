@@ -103,6 +103,10 @@ public class EmpleadosTable {
 	public String getFechaPago() {
 		return FechaPago;
 	}
+	/**
+	 * Convierte un EmpleadosTable en un Empleado
+	 * @return
+	 */
 	public Empleado convert() {
 		return new Empleado(Nombre, Integer.parseInt(id), Double.parseDouble(Salario), FechaPago,dni);
 	}

@@ -1,3 +1,6 @@
+/**
+ * Implementacion del DAOAlmacen
+ */
 package restaurante.dao.almacen;
 
 import java.io.File;
@@ -20,7 +23,6 @@ import restaurante.factories.Factory;
 import restaurante.model.Almacen;
 
 public class DAOAlmacenImpl implements DAOAlmacen {
-	
 	@Override
 	public boolean eliminarAlm(int a) throws FileNotFoundException {
 		ArrayList<Almacen> ListAlmacen = iniList();
@@ -28,7 +30,6 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		guardar(ListAlmacen);
 		return true;
 	}
-	
 	@Override
 	public boolean aniadirAlm(Almacen a) throws FileNotFoundException {
 		
@@ -38,7 +39,6 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		return true;
 		
 	}
-
 	@Override
 	public boolean modificarAlm(Almacen a, int x) throws FileNotFoundException {
 		ArrayList<Almacen> ListAlmacen = iniList();
@@ -48,21 +48,28 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		guardar(ListAlmacen);
 		return true;
 	}
-
 	@Override
 	public Almacen buscarAlm(Almacen a) throws FileNotFoundException {
 		ArrayList<Almacen> ListAlmacen = iniList();
-		for(Almacen x: ListAlmacen) {
-			if(x.equals(a)) {
+		for(Almacen x: ListAlmacen) 
+			if(x.equals(a)) 
 				return x;
-			}
-		}
 		return null;
 	}
 	@Override
 	public ArrayList<Almacen> lista() throws FileNotFoundException {
 		return iniList();
 	}
+	
+	//--------------------
+	//Metodos auxiliares
+	//--------------------
+	
+	/**
+	 * Devuelve una lista con los almacenes cargados desde la BBDD
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private ArrayList<Almacen> iniList() throws FileNotFoundException {
 		Factory<Almacen> factoryAlm;
 		ArrayList<Builder<Almacen>> AlmacenBuilder = new ArrayList<>();
@@ -86,12 +93,22 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		}
 		return ListAlmacen;
 	}
+	/**
+	 * Guarda la lista de almacenes modificada en la BBDD
+	 * @param ListAlmacen
+	 * @throws FileNotFoundException
+	 */
 	private void guardar(ArrayList<Almacen> ListAlmacen) throws FileNotFoundException {
 		OutputStream os = new FileOutputStream(new File("resources/Almacen.json"));
 		@SuppressWarnings("resource")
 		PrintStream p = new PrintStream(os);
 		p.println(chargeAlmacen(ListAlmacen));
 	}
+	/**
+	 * Transforma lista de almacenes en un JSONArray para guardarlo en la BBDD
+	 * @param ListAlmacen
+	 * @return
+	 */
 	private JSONObject chargeAlmacen(ArrayList<Almacen> ListAlmacen) {
 		JSONObject j = new JSONObject();
 		JSONObject x = new JSONObject();
@@ -105,7 +122,5 @@ public class DAOAlmacenImpl implements DAOAlmacen {
 		j.put("Almacen", array);
 		return j;
 	}
-
-	
 
 }

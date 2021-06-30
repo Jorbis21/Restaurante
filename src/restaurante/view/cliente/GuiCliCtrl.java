@@ -8,7 +8,18 @@ import restaurante.model.ResObserver;
 import restaurante.sa.AbstractFactorySA;
 
 public class GuiCliCtrl {
+	//---------------------------
+	//Atributos
+	//---------------------------
 	private ResObserver ObsCli;
+	/**
+	 * Ejecuta la funcion correspondiente y actualiza la tabla
+	 * @param a
+	 * @param e
+	 * @param z
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	public boolean eventoCli(Cliente a, int e, int z) throws FileNotFoundException {
 		boolean x = false;
 		switch(e) {
@@ -30,6 +41,11 @@ public class GuiCliCtrl {
 		ObsCli.ObsCli(ListCliente);
 		return x;
 	}
+	/**
+	 * Inicia el observer
+	 * @param a
+	 * @throws FileNotFoundException
+	 */
 	public void iniciarObs(ResObserver c) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = AbstractFactorySA.getInstance().createSACli().lista();
 		ObsCli = c;

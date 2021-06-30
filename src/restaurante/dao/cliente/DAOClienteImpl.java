@@ -1,3 +1,6 @@
+/**
+ * Implementacion del DAOCliente
+ */
 package restaurante.dao.cliente;
 
 import java.io.File;
@@ -20,7 +23,6 @@ import restaurante.factories.Factory;
 import restaurante.model.Cliente;
 
 public class DAOClienteImpl implements DAOCliente{
-
 	@Override
 	public boolean aniadirCli(Cliente a) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
@@ -28,7 +30,6 @@ public class DAOClienteImpl implements DAOCliente{
 		guardar(ListCliente);
 		return false;
 	}
-
 	@Override
 	public boolean modificarCli(Cliente a, int x) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
@@ -38,18 +39,14 @@ public class DAOClienteImpl implements DAOCliente{
 		guardar(ListCliente);
 		return true;
 	}
-
 	@Override
 	public Cliente buscarCli(Cliente a) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
-		for(Cliente c: ListCliente) {
-			if(c.equals(a)) {
+		for(Cliente c: ListCliente) 
+			if(c.equals(a)) 
 				return c;
-			}
-		}
 		return null;
 	}
-
 	@Override
 	public boolean eliminarCli(int a) throws FileNotFoundException {
 		ArrayList<Cliente> ListCliente = iniList();
@@ -57,6 +54,20 @@ public class DAOClienteImpl implements DAOCliente{
 		guardar(ListCliente);
 		return false;
 	}
+	@Override
+	public ArrayList<Cliente> lista() throws FileNotFoundException {
+		return iniList();
+	}
+	
+	//--------------------
+	//Metodos auxiliares
+	//--------------------
+	
+	/**
+	 * Devuelve una lista con los clientes cargados desde la BBDD
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private ArrayList<Cliente> iniList() throws FileNotFoundException {
 		Factory<Cliente> factoryCli;
 		ArrayList<Builder<Cliente>> ClienteBuilder = new ArrayList<>();
@@ -65,9 +76,9 @@ public class DAOClienteImpl implements DAOCliente{
 		return loadClientes(new FileInputStream(new File("resources/Clientes.json")),factoryCli);
 	}
 	/**
-	 * Guarda los datos en un fichero
-	 * @param a
-	 * @throws FileNotFoundException 
+	 * Guarda la lista de clientes modificada en la BBDD
+	 * @param ListCliente
+	 * @throws FileNotFoundException
 	 */
 	private void guardar(ArrayList<Cliente> ListCliente) throws FileNotFoundException {
 		OutputStream os = new FileOutputStream(new File("resources/Clientes.json"));
@@ -76,8 +87,10 @@ public class DAOClienteImpl implements DAOCliente{
 		p.println(chargeClientes(ListCliente));
 	}
 	/**
-	 * Carga clientes desde fichero
+	 * Carga los datos del cliente desde el archivo
 	 * @param in
+	 * @param factoryCli
+	 * @return
 	 */
 	private ArrayList<Cliente> loadClientes(InputStream in,Factory<Cliente> factoryCli) {
 		ArrayList<Cliente> ListCliente = new ArrayList<Cliente>();
@@ -92,7 +105,8 @@ public class DAOClienteImpl implements DAOCliente{
 		return ListCliente;
 	}
 	/**
-	 * Carga los objetos para guardarlos en un archivo
+	 * Transforma lista de clientes en un JSONArray para guardarlo en la BBDD
+	 * @param ListCliente
 	 * @return
 	 */
 	public JSONObject chargeClientes(ArrayList<Cliente> ListCliente) {
@@ -109,8 +123,5 @@ public class DAOClienteImpl implements DAOCliente{
 		return j;
 	}
 
-	@Override
-	public ArrayList<Cliente> lista() throws FileNotFoundException {
-		return iniList();
-	}
+	
 }

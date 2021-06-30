@@ -161,7 +161,9 @@ public class AlmTableModel extends AbstractTableModel implements ResObserver{
 		});
 		
 	}
-	
+	//-------------------
+	//Observers
+	//-------------------
 	@Override
 	public void ObsAlm(List<Almacen> alm) {
 		act(alm);

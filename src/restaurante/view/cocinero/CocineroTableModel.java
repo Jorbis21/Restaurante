@@ -227,6 +227,10 @@ public class CocineroTableModel extends AbstractTableModel implements ResObserve
 		
 	}
 	
+	//-------------------
+	//Observers
+	//-------------------
+	
 	@Override
 	public void ObsAlm(List<Almacen> alm) {}
 	@Override

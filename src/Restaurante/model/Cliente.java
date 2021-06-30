@@ -82,6 +82,11 @@ public class Cliente {
 			data.put("Pay", "Metalico");
 		return data;
 	}
+	/**
+	 * Conmprueba si son iguales
+	 * @param a
+	 * @return
+	 */
 	public boolean equals(Cliente a) {
 		if(Nombre.equals(a.getNombre()) && Cuenta == a.getCuenta() && MetodoPago == a.getMetodoPago()) {
 			return true;
@@ -89,6 +94,9 @@ public class Cliente {
 		return false;
 		
 	}
+	/**
+	 * Objeto a String
+	 */
 	public String toString() {
 		return getData().toString();
 	}

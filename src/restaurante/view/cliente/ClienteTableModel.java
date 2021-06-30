@@ -169,6 +169,11 @@ public class ClienteTableModel extends AbstractTableModel implements ResObserver
 		});
 		
 	}
+	
+	//-------------------
+	//Observers
+	//-------------------
+	
 	@Override
 	public void ObsAlm(List<Almacen> alm) {	}
 	@Override

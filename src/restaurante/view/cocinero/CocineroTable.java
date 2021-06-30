@@ -64,6 +64,10 @@ public class CocineroTable extends EmpleadosTable{
 	public void setEspecialidad(String e) {
 		Especialidad = e;
 	}
+	/**
+	 * Convierte un CocineroTable en un Cocinero
+	 * @return
+	 */
 	public Cocinero convert() {
 		return new Cocinero(Nombre, Integer.parseInt(id), Double.parseDouble(Salario), FechaPago, Tipo, Especialidad, dni);
 	}

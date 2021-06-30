@@ -86,6 +86,9 @@ public class Encargado extends Empleado{
 		data.put("ListE", EJSONArray());
 		return data;
 	}
+	/**
+	 * Objeto a String
+	 */
 	public String toString() {
 		return getData().toString();
 	}

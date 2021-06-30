@@ -99,6 +99,10 @@ public class CYBTable {
 	public String getPrecio() {
 		return Precio;
 	}
+	/**
+	 * Convierte un CYBTable en un ComidaYBebida
+	 * @return
+	 */
 	public ComidaYBebida convert() {
 		boolean x = false;
 		if(Comida.equals("Comida"))

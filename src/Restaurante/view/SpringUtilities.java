@@ -1,3 +1,6 @@
+/**
+ * Clase necesario para el uso de SpringLayout en el inicio de sesion
+ */
 package restaurante.view;
 
 import java.awt.Component;

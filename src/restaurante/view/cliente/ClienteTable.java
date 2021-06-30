@@ -74,6 +74,10 @@ public class ClienteTable {
 	public String getMetodoPago() {
 		return MetodoPago;
 	}
+	/**
+	 * Convierte un ClienteTable en un cliente
+	 * @return
+	 */
 	public Cliente convert(){
 		boolean a = false;
 		if(MetodoPago.equals("Tarjeta")) 

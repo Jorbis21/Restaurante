@@ -20,7 +20,6 @@ import restaurante.factories.Factory;
 import restaurante.model.ComidaYBebida;
 
 public class DAOCybImpl implements DAOCyb {
-
 	@Override
 	public boolean aniadirCyb(ComidaYBebida a) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
@@ -28,7 +27,6 @@ public class DAOCybImpl implements DAOCyb {
 		guardar(ListCYB);
 		return true;
 	}
-
 	@Override
 	public boolean modificarCyb(ComidaYBebida a, int x) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
@@ -37,20 +35,17 @@ public class DAOCybImpl implements DAOCyb {
 		ListCYB.get(x).setComida(a.getComida());
 		ListCYB.get(x).setDesc(a.getDesc());
 		ListCYB.get(x).setPrecio(a.getPrecio());
+		guardar(ListCYB);
 		return true;
 	}
-
 	@Override
 	public ComidaYBebida buscarCyb(ComidaYBebida a) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
-		for(ComidaYBebida x: ListCYB) {
-			if(x.equals(a)) {
+		for(ComidaYBebida x: ListCYB) 
+			if(x.equals(a)) 
 				return x;
-			}
-		}
 		return null;
 	}
-
 	@Override
 	public boolean eliminarCyb(int a) throws FileNotFoundException {
 		ArrayList<ComidaYBebida> ListCYB = iniList();
@@ -58,9 +53,18 @@ public class DAOCybImpl implements DAOCyb {
 		guardar(ListCYB);
 		return true;
 	}
+	@Override
+	public ArrayList<ComidaYBebida> lista() throws FileNotFoundException {
+		return iniList();
+	}
+
+	//--------------------
+	//Metodos auxiliares
+	//--------------------
+	
 	/**
-	 * Carga los datos del objeto para guardarlo
-	 * en un fichero
+	 * Transforma lista de ComidaYBebida en un JSONArray para guardarlo en la BBDD
+	 * @param ListCYB
 	 * @return
 	 */
 	private JSONObject chargeCYB(ArrayList<ComidaYBebida> ListCYB) {
@@ -76,6 +80,11 @@ public class DAOCybImpl implements DAOCyb {
 		j.put("CYB", array);
 		return j;
 	}
+	/**
+	 * Devuelve una lista con los ComidaYBebida cargados desde la BBDD
+	 * @return
+	 * @throws FileNotFoundException
+	 */
 	private ArrayList<ComidaYBebida> iniList() throws FileNotFoundException{
 		Factory<ComidaYBebida> factoryCYB;
 		ArrayList<Builder<ComidaYBebida>> CYBBuilder = new ArrayList<>();
@@ -84,8 +93,10 @@ public class DAOCybImpl implements DAOCyb {
 		return loadCYB(new FileInputStream(new File("resources/Carta.json")),factoryCYB);
 	}
 	/**
-	 * Carga los datos del almacen desde el fichero
+	 * Carga los datos del ComidaYBebida desde el archivo
 	 * @param in
+	 * @param factoryCYB
+	 * @return
 	 */
 	private ArrayList<ComidaYBebida> loadCYB(InputStream in,Factory<ComidaYBebida> factoryCYB) {
 		ArrayList<ComidaYBebida> ListCYB = new ArrayList<ComidaYBebida>();
@@ -100,9 +111,9 @@ public class DAOCybImpl implements DAOCyb {
 		return ListCYB;
 	}
 	/**
-	 * Guarda los datos de la lista en un archivo
-	 * @param a
-	 * @throws FileNotFoundException 
+	 * Guarda la lista de ComidaYBebida modificada en la BBDD
+	 * @param ListCYB
+	 * @throws FileNotFoundException
 	 */
 	private void guardar(ArrayList<ComidaYBebida> ListCYB) throws FileNotFoundException {
 		OutputStream os = new FileOutputStream(new File("resources/Carta.json"));
@@ -111,8 +122,5 @@ public class DAOCybImpl implements DAOCyb {
 		p.println(chargeCYB(ListCYB));
 	}
 
-	@Override
-	public ArrayList<ComidaYBebida> lista() throws FileNotFoundException {
-		return iniList();
-	}
+	
 }

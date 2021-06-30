@@ -94,7 +94,7 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 			break;
 			case 1:
 			try {
-				if(coci.buscId(Integer.parseInt(o.toString()))||emp.buscId(Integer.parseInt(o.toString()))) {
+				if(coci.buscId(Integer.parseInt(o.toString())) || emp.buscId(Integer.parseInt(o.toString()))) {
 					JOptionPane.showMessageDialog(null, "Id ya en uso", "ERROR", JOptionPane.ERROR_MESSAGE, null);
 				}
 				else {
@@ -214,9 +214,11 @@ public class EmplTableModel extends AbstractTableModel implements ResObserver{
 				}
 			});
 		}
-		
-		
 	}
+	
+	//-------------------
+	//Observers
+	//-------------------
 	
 	@Override
 	public void ObsAlm(List<Almacen> alm) {}
